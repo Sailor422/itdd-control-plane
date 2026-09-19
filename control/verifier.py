@@ -109,7 +109,7 @@ class VerifierOrchestrator:
         self.executions = VerifierExecutionStore(self.project_root); self.capabilities = CapabilityIssuer(self.project_root); self.authorizer = ControllerAuthorizer(self.project_root); self.compiler = ContextCompiler(self.project_root); self.verification = VerificationStore(self.project_root)
 
     def create_verifier(self, *, role: str, execution_id: str, capability: dict[str, Any], packet: dict[str, Any], contract: dict[str, Any], event_prefix: str, timestamp: str) -> dict[str, Any]:
-        if role not in {"SPEC_VERIFIER", "STANDARDS_REVIEWER"} or capability.get("role") != role or contract.get("role") != role: raise VerifierOrchestrationError("role axis mismatch")
+        if role not in {"SPEC_VERIFIER", "STANDARDS_REVIEWER", "INTEGRATION_VERIFIER"} or capability.get("role") != role or contract.get("role") != role: raise VerifierOrchestrationError("role axis mismatch")
         if execution_id == self.controller_execution_id or capability.get("execution_id") != execution_id: raise VerifierOrchestrationError("verifier must have distinct execution identity")
         if execution_id in self.executions.reconstruct() or self.executions._path(execution_id).exists(): raise VerifierOrchestrationError("verifier execution identity already exists")
         issued = self.capabilities.issue(capability, event_id=f"{event_prefix}-cap", timestamp=timestamp)

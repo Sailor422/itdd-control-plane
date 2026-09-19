@@ -34,10 +34,16 @@ def validate_gate(gate: dict[str, Any]) -> None:
     if set(gate) != required: raise HumanGateError("human gate fields do not match schema")
     if not _GATE_ID.fullmatch(gate["gate_id"]): raise HumanGateError("invalid gate identity")
     if gate["schema_version"] != 1 or gate["status"] not in _STATUSES: raise HumanGateError("invalid gate state")
-    if gate["gate_type"] != "VERIFIED_EU_REVIEW" or gate["required_state"] != "VERIFIED": raise HumanGateError("unsupported E6 gate")
-    if gate["subject_type"] != "EU" or gate["subject_id"] != gate["related_eu"]["eu_id"]: raise HumanGateError("gate subject mismatch")
+    if gate["gate_type"] == "VERIFIED_EU_REVIEW":
+        if gate["required_state"] != "VERIFIED" or gate["subject_type"] != "EU": raise HumanGateError("unsupported E6 gate")
+        evidence_keys = {"spec_execution_id", "standards_execution_id", "spec_result_id", "standards_result_id"}
+    elif gate["gate_type"] == "INTEGRATION_APPROVAL":
+        if gate["required_state"] != "INTEGRATION_VERIFIED" or gate["subject_type"] != "INTEGRATION": raise HumanGateError("unsupported integration gate")
+        evidence_keys = {"integration_execution_id", "integration_result_id"}
+    else: raise HumanGateError("unsupported E6 gate")
+    if gate["subject_id"] != gate["related_eu"]["eu_id"]: raise HumanGateError("gate subject mismatch")
     if not re.fullmatch(r"[0-9a-f]{40,64}", gate["related_candidate"].get("candidate_sha", "")): raise HumanGateError("invalid candidate binding")
-    if set(gate["evidence"]) != {"spec_execution_id", "standards_execution_id", "spec_result_id", "standards_result_id"}: raise HumanGateError("invalid evidence binding")
+    if set(gate["evidence"]) != evidence_keys: raise HumanGateError("invalid evidence binding")
 
 
 class HumanGateStore:
@@ -69,7 +75,8 @@ class HumanGateStore:
             if self.read(gate_id) != gate: raise EventLogIntegrityError("human gate diverges from event history")
 
     def _append(self, *, event_id: str, event_type: str, timestamp: str, gate: dict[str, Any], actor_type: str, actor_id: str, payload: dict[str, Any]) -> None:
-        event = self.events.new_event(event_id=event_id, event_type=event_type, timestamp=timestamp, project_id=gate["project_id"], actor_type=actor_type, actor_id=actor_id, execution_id=gate["evidence"]["spec_execution_id"], payload=payload); self.events.append(event)
+        execution_id = gate["evidence"].get("spec_execution_id") or gate["evidence"].get("integration_execution_id") or "EXEC-CONTROLLER-001"
+        event = self.events.new_event(event_id=event_id, event_type=event_type, timestamp=timestamp, project_id=gate["project_id"], actor_type=actor_type, actor_id=actor_id, execution_id=execution_id, payload=payload); self.events.append(event)
 
     def create(self, gate: dict[str, Any], *, event_id: str, timestamp: str) -> dict[str, Any]:
         validate_gate(gate)
@@ -106,6 +113,13 @@ class HumanGateController:
         gate = {"gate_id":gate_id,"schema_version":1,"project_id":project_id,"gate_type":"VERIFIED_EU_REVIEW","subject_type":"EU","subject_id":eu_id,"required_state":"VERIFIED","created_at":timestamp,"status":"WAITING","decision_event_id":None,"related_intent":intent,"related_graph":graph,"related_eu":eu or {"eu_id":eu_id},"related_candidate":{"candidate_sha":candidate_sha,"baseline_sha":spec["baseline_sha"]},"evidence":{"spec_execution_id":spec_execution_id,"standards_execution_id":standards_execution_id,"spec_result_id":spec_result_id,"standards_result_id":standards_result_id},"approval_capability_id":cap["capability_id"]}
         return self.store.create(gate, event_id=f"{event_prefix}-created", timestamp=timestamp)
 
+    def create_integration_approval(self, *, gate_id: str, integration: dict[str, Any], verifier_execution_id: str, verifier_result_id: str, timestamp: str, event_prefix: str) -> dict[str, Any]:
+        if integration.get("status") != "INTEGRATION_VERIFIED": raise HumanGateError("integration is not verified")
+        number = re.sub(r"\D", "", gate_id) or "1"; cap_id = f"CAP-{int(number):03d}"
+        cap = self.capabilities.issue({"capability_id":cap_id,"schema_version":1,"project_id":integration["project_id"],"role":"CONTROLLER","execution_id":self.execution_id,"issued_at":timestamp,"baseline_sha":integration["integration_baseline"],"allowed_reads":[".idd"],"allowed_writes":[".idd/human_gates"],"allowed_executes":[],"allowed_operations":["HUMAN_GATE_APPROVAL"],"forbidden_operations":["PROMOTE"],"allowed_request_types":[],"scope_bindings":{"intent_id":integration["intent_id"],"intent_version":integration["intent_version"],"graph_id":integration["graph_id"],"graph_version":integration["graph_version"]},"version":1,"issued_by":"controller"}, event_id=f"{event_prefix}-cap", timestamp=timestamp)
+        gate = {"gate_id":gate_id,"schema_version":1,"project_id":integration["project_id"],"gate_type":"INTEGRATION_APPROVAL","subject_type":"INTEGRATION","subject_id":integration["integration_id"],"required_state":"INTEGRATION_VERIFIED","created_at":timestamp,"status":"WAITING","decision_event_id":None,"related_intent":{"intent_id":integration["intent_id"],"version":integration["intent_version"]},"related_graph":{"graph_id":integration["graph_id"],"version":integration["graph_version"]},"related_eu":{"eu_id":integration["integration_id"]},"related_candidate":{"candidate_sha":integration["result_commit"],"integration_id":integration["integration_id"],"baseline_sha":integration["integration_baseline"]},"evidence":{"integration_execution_id":verifier_execution_id,"integration_result_id":verifier_result_id},"approval_capability_id":cap["capability_id"]}
+        return self.store.create(gate, event_id=f"{event_prefix}-created", timestamp=timestamp)
+
     def decide(self, gate_id: str, *, decision: str, actor_type: str, actor_id: str, binding: dict[str, Any], event_prefix: str, timestamp: str) -> dict[str, Any]:
         if decision not in {"APPROVED", "REJECTED"}: raise HumanGateError("unsupported human decision")
         gate = self.store.read(gate_id); current = {"project_root":str(self.project_root),"project_id":gate["project_id"],"execution_id":self.execution_id,"baseline_sha":gate["related_candidate"]["baseline_sha"],"role":"CONTROLLER"}
@@ -139,12 +153,19 @@ class HumanViewGenerator:
         source = hashlib.sha256(canonical_json({"head":head,"gates":gates,"version":self.VERSION}).encode()).hexdigest(); now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
         def page(title: str, body: str) -> str: return f"# {title}\n\n<!-- ITDD-DERIVED project={project_id} generated={now} source={source} generator={self.VERSION}; DO NOT EDIT FOR AUTHORITY -->\n\n{body.strip()}\n"
         waiting = [g for g in gates.values() if g["status"] == "WAITING"]; approved = [g for g in gates.values() if g["status"] == "APPROVED"]; rejected = [g for g in gates.values() if g["status"] == "REJECTED"]
-        dashboard = page("Current Project Status", f"**Human review:** {len(waiting)} waiting, {len(approved)} approved, {len(rejected)} rejected.\n\n**Needs your decision:** {', '.join(g['gate_id'] for g in waiting) or 'none'}.\n\n**Authority:** controller event state.\n\n**Known limitation:** candidate SHA is an ITDD binding; independent Git/VCS attestation is deferred to E7.\n\n**Eligible after approval:** later controlled lifecycle work only; E6 launches no integration or promotion.")
+        integrations = []
+        for path in sorted((self.project_root / ".idd/integrations").glob("*.json")) if (self.project_root / ".idd/integrations").exists() else []:
+            try:
+                item = json.loads(path.read_text(encoding="utf-8"));
+                if item.get("project_id") == project_id: integrations.append(item)
+            except (OSError, json.JSONDecodeError): pass
+        integration_summary = ", ".join(f"{item['integration_id']}={item['status']}" for item in integrations) or "none"
+        dashboard = page("Current Project Status", f"**Human review:** {len(waiting)} waiting, {len(approved)} approved, {len(rejected)} rejected.\n\n**Needs your decision:** {', '.join(g['gate_id'] for g in waiting) or 'none'}.\n\n**Integration:** {integration_summary}.\n\n**Authority:** controller event state.\n\n**Known limitation:** candidate SHA is an ITDD binding; independent Git/VCS attestation is now required for E7 candidates.\n\n**Eligible after approval:** later controlled lifecycle work only; E7 launches no promotion.")
         kanban = page("Kanban", "\n".join(["## HUMAN REVIEW", *[f"- {g['gate_id']} · {g['subject_id']} · WAITING" for g in waiting], "\n## APPROVED", *[f"- {g['gate_id']} · {g['subject_id']} · HUMAN APPROVED" for g in approved], "\n## REJECTED", *[f"- {g['gate_id']} · {g['subject_id']} · REJECTED" for g in rejected]]) or "- no supported state")
-        human = page("Current Human Gates", "\n".join([f"- **{g['gate_id']}** · `{g['status']}` · subject `{g['subject_id']}` · candidate `{g['related_candidate']['candidate_sha']}`\n  - Evidence: Spec `{g['evidence']['spec_result_id']}`, Standards `{g['evidence']['standards_result_id']}`.\n  - Action: approve or reject this exact gate; Markdown is advisory." for g in gates.values()]) or "- no gates")
-        verification = page("Verification Status", "\n".join([f"## {g['subject_id']} · `{g['related_candidate']['candidate_sha']}`\n- Spec Verification: PASS (`{g['evidence']['spec_result_id']}`)\n- Standards Review: PASS (`{g['evidence']['standards_result_id']}`)\n- Overall: VERIFIED\n- Human gate: {g['status']}" for g in gates.values()]) or "- no verified candidate gates")
+        human = page("Current Human Gates", "\n".join([f"- **{g['gate_id']}** · `{g['status']}` · subject `{g['subject_id']}` · candidate `{g['related_candidate']['candidate_sha']}`\n  - Evidence: " + (f"Spec `{g['evidence']['spec_result_id']}`, Standards `{g['evidence']['standards_result_id']}`." if g['gate_type'] == 'VERIFIED_EU_REVIEW' else f"Integration `{g['evidence']['integration_result_id']}`.") + "\n  - Action: approve or reject this exact gate; Markdown is advisory." for g in gates.values()]) or "- no gates")
+        verification = page("Verification Status", "\n".join([f"## {g['subject_id']} · `{g['related_candidate']['candidate_sha']}`\n- Spec Verification: PASS (`{g['evidence']['spec_result_id']}`)\n- Standards Review: PASS (`{g['evidence']['standards_result_id']}`)\n- Overall: VERIFIED\n- Human gate: {g['status']}" if g['gate_type'] == 'VERIFIED_EU_REVIEW' else f"## {g['subject_id']} · `{g['related_candidate']['candidate_sha']}`\n- Integration Verifier: PASS (`{g['evidence']['integration_result_id']}`)\n- Overall: INTEGRATION VERIFIED\n- Human gate: {g['status']}" for g in gates.values()]) or "- no verified candidate gates")
         state = StageCStore(self.project_root).reconstruct(); intent = state.get("approved_intent"); graph = state.get("active_graph")
-        outputs = {"dashboard.md":dashboard,"kanban.md":kanban,"human-gates.md":human,"verification.md":verification,"intent.md":page("Intent", f"- approved intent: `{intent['intent_id']} v{intent['version']}`" if intent else "- UNKNOWN"),"graph.md":page("Execution Graph", "\n".join(f"- `{n['eu_id']}` requirements: {', '.join(n['requirement_ids'])}" for n in (graph or {}).get("nodes", [])) or "- UNKNOWN"),"timeline.md":page("Timeline / Audit Summary", "\n".join(f"- {e['timestamp']} · `{e['event_type']}` · {e['actor_type']}:{e['actor_id']}" for e in records if e["event_type"].startswith(("intent.","graph.","verifier.execution.","human.gate."))) or "- no events")}
+        outputs = {"dashboard.md":dashboard,"kanban.md":kanban,"human-gates.md":human,"verification.md":verification,"integration.md":page("Integration Status", "\n".join(f"- `{x['integration_id']}` · `{x['status']}` · result `{x.get('result_commit') or 'NONE'}` · inputs {', '.join(x['input_candidates'])}" for x in integrations) or "- no integration candidates"),"intent.md":page("Intent", f"- approved intent: `{intent['intent_id']} v{intent['version']}`" if intent else "- UNKNOWN"),"graph.md":page("Execution Graph", "\n".join(f"- `{n['eu_id']}` requirements: {', '.join(n['requirement_ids'])}" for n in (graph or {}).get("nodes", [])) or "- UNKNOWN"),"timeline.md":page("Timeline / Audit Summary", "\n".join(f"- {e['timestamp']} · `{e['event_type']}` · {e['actor_type']}:{e['actor_id']}" for e in records if e["event_type"].startswith(("intent.","graph.","verifier.execution.","human.gate.","candidate.git.","integration."))) or "- no events")}
         self.view_dir.mkdir(parents=True, exist_ok=True)
         for name, content in outputs.items(): (self.view_dir / name).write_text(content, encoding="utf-8")
         return outputs
