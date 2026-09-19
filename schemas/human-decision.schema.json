@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://itdd-control-plane.dev/schemas/human-decision.schema.json","title":"ITDD human decision event payload","type":"object","additionalProperties":false,"required":["gate_id","decision","binding"],"properties":{"gate_id":{"type":"string"},"decision":{"enum":["APPROVED","REJECTED"]},"binding":{"type":"object"}}}
