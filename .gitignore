@@ -8,6 +8,8 @@
 .idd/knowledge/*
 .idd/project_map/*
 !.idd/**/.gitkeep
+!.idd/evidence/
+!.idd/evidence/*.md
 *.swp
 *.tmp
 __pycache__/

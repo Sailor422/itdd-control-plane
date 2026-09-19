@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itdd-control-plane.dev/schemas/event.schema.json",
+  "title": "ITDD Control Plane Stage B Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "event_type", "timestamp", "project_id", "actor_type", "actor_id", "previous_event_id", "previous_event_hash", "payload", "schema_version", "event_hash"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]*$"},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "project_id": {"type": "string", "minLength": 1},
+    "actor_type": {"type": "string", "minLength": 1},
+    "actor_id": {"type": "string", "minLength": 1},
+    "previous_event_id": {"type": ["string", "null"]},
+    "previous_event_hash": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "payload": {},
+    "schema_version": {"const": 1},
+    "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "intent_version": {"type": "string"},
+    "graph_version": {"type": "string"},
+    "execution_id": {"type": "string"},
+    "git_sha": {"type": "string"}
+  }
+}
+
