@@ -2,7 +2,7 @@
   {"role":"CONVERSATIONAL","description":"Human-facing conversation; no project mutation.","potential_operations":["REQUEST_CLARIFICATION"]},
   {"role":"PLANNER","description":"Proposes planning artifacts.","potential_operations":["CREATE_ARTIFACT","REQUEST_REPLAN"]},
   {"role":"GRAPH_EVALUATOR","description":"Evaluates execution graphs.","potential_operations":["CREATE_ARTIFACT"]},
-  {"role":"SCOUT","description":"Searches and reads project material.","potential_operations":["READ","REQUEST_CONTEXT"]},
+  {"role":"SCOUT","description":"Searches and reads project material.","potential_operations":["READ","RESOLVE_CONTEXT","CREATE_ARTIFACT"]},
   {"role":"CONTEXT_COMPILER","description":"Constructs context artifacts.","potential_operations":["READ","CREATE_ARTIFACT","REQUEST_CONTEXT"]},
   {"role":"BUILDER","description":"Performs narrowly scoped implementation work.","potential_operations":["READ","WRITE","EXECUTE","CREATE_ARTIFACT"]},
   {"role":"SPEC_VERIFIER","description":"Tests against the approved specification.","potential_operations":["READ","EXECUTE","CREATE_ARTIFACT"]},

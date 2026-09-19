@@ -40,13 +40,17 @@ def authorize(capability_envelope: dict[str, Any], requested_action: dict[str, A
     if operation not in capability_envelope["allowed_operations"]: return _deny("DENY_OPERATION_NOT_GRANTED", capability_id, request_id)
     path = requested_action.get("path")
     if path is not None:
-        field = {"READ": "allowed_reads", "WRITE": "allowed_writes", "CREATE_ARTIFACT": "allowed_writes", "EXECUTE": "allowed_executes"}.get(operation)
+        field = {"READ": "allowed_reads", "WRITE": "allowed_writes", "CREATE_ARTIFACT": "allowed_writes", "EXECUTE": "allowed_executes", "RESOLVE_CONTEXT": "allowed_reads"}.get(operation)
         if field is None: return _deny("DENY_PATH_NOT_GRANTED", capability_id, request_id)
         try:
             target = resolve_project_path(current_state["project_root"], path)
             grants = [resolve_project_path(current_state["project_root"], item) for item in capability_envelope[field]]
         except (AuthorityError, KeyError): return _deny("DENY_SCOPE_ESCAPE", capability_id, request_id)
-        if not any(target == grant for grant in grants): return _deny("DENY_PATH_NOT_GRANTED", capability_id, request_id)
+        def within(grant):
+            if target == grant: return True
+            try: return grant.is_dir() and target.is_relative_to(grant)
+            except AttributeError: return False
+        if not any(within(grant) for grant in grants): return _deny("DENY_PATH_NOT_GRANTED", capability_id, request_id)
     binding = capability_envelope["scope_bindings"]
     for key in ("intent_id", "intent_version", "graph_id", "graph_version", "eu_id"):
         if key in binding and requested_action.get(key) != binding[key]: return _deny("DENY_SCOPE_ESCAPE", capability_id, request_id)

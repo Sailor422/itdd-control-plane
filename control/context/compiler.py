@@ -29,7 +29,7 @@ _ID = re.compile(r"^CP-[0-9]{3,}$")
 _REQUEST_ID = re.compile(r"^CR-[0-9]{3,}$")
 _ROLES = {"CONVERSATIONAL", "PLANNER", "GRAPH_EVALUATOR", "SCOUT", "CONTEXT_COMPILER", "BUILDER", "SPEC_VERIFIER", "STANDARDS_REVIEWER", "INTEGRATOR", "INTEGRATION_VERIFIER", "PROMOTER", "CONTROLLER"}
 _REQUEST_TYPES = {"MISSING_RESOURCE", "MISSING_INTERFACE", "CLARIFICATION"}
-_REQUEST_STATUSES = {"REQUESTED", "GRANTED", "DENIED", "SUPERSEDED"}
+_REQUEST_STATUSES = {"REQUESTED", "RESOLVING", "RESOLVED", "GRANTED", "DENIED", "SUPERSEDED"}
 
 
 def _without_hash(document: dict[str, Any]) -> dict[str, Any]:
@@ -57,7 +57,7 @@ def validate_context_packet(packet: dict[str, Any], *, verify_hash: bool = True)
     required = {"context_packet_id", "schema_version", "project_id", "execution_id", "role", "baseline_sha", "intent_binding", "graph_binding", "eu_binding", "capability_id", "created_at", "authority_context", "working_context", "knowledge_context", "evidence_context", "context_budget", "packet_hash"}
     missing = required - set(packet)
     if missing: raise ContextCompilationError(f"packet is missing fields: {sorted(missing)}")
-    if set(packet) - required - {"version", "supersedes_packet_id"}: raise ContextCompilationError("packet has unknown fields")
+    if set(packet) - required - {"version", "supersedes_packet_id", "resolution_binding"}: raise ContextCompilationError("packet has unknown fields")
     if not _ID.fullmatch(packet["context_packet_id"]): raise ContextCompilationError("invalid context_packet_id")
     if packet["schema_version"] != 1 or packet.get("version", 1) < 1: raise ContextCompilationError("unsupported packet version")
     if packet["role"] not in _ROLES: raise ContextCompilationError("invalid packet role")
@@ -66,6 +66,7 @@ def validate_context_packet(packet: dict[str, Any], *, verify_hash: bool = True)
     _iso(packet["created_at"], "created_at")
     for key in ("intent_binding", "graph_binding", "eu_binding", "authority_context", "context_budget"):
         if not isinstance(packet[key], dict): raise ContextCompilationError(f"{key} must be an object")
+    if "resolution_binding" in packet and not isinstance(packet["resolution_binding"], dict): raise ContextCompilationError("resolution_binding must be an object")
     for key in ("working_context", "knowledge_context", "evidence_context"):
         if not isinstance(packet[key], list): raise ContextCompilationError(f"{key} must be a list")
         for resource in packet[key]: _validate_resource(resource)
@@ -83,6 +84,7 @@ def validate_context_request(request: dict[str, Any]) -> None:
         if not isinstance(request[key], str) or not request[key]: raise ContextRequestError(f"{key} must be non-empty")
     if request["role"] not in _ROLES: raise ContextRequestError("invalid request role")
     _iso(request["created_at"], "created_at")
+    if "baseline_sha" in request and (not isinstance(request["baseline_sha"], str) or not request["baseline_sha"]): raise ContextRequestError("baseline_sha must be non-empty")
 
 
 class ContextStore:
@@ -108,17 +110,24 @@ class ContextStore:
         request = json.loads(path.read_text(encoding="utf-8")); validate_context_request(request); return request
 
     def reconstruct(self) -> dict[str, dict[str, Any]]:
-        packets: dict[str, dict[str, Any]] = {}; requests: dict[str, dict[str, Any]] = {}
+        packets: dict[str, dict[str, Any]] = {}; requests: dict[str, dict[str, Any]] = {}; resolutions: dict[str, dict[str, Any]] = {}
         for event in self.event_log.verify():
             if event["event_type"] == "context.packet.created":
                 packet = event["payload"]["packet"]; validate_context_packet(packet)
                 if packet.get("source_event_id", event["event_id"]) != event["event_id"]: raise EventLogIntegrityError("packet source event mismatch")
                 packets[packet["context_packet_id"]] = packet
-            elif event["event_type"] == "context.request.created":
+            elif event["event_type"] in {"context.request.created", "context.request.status"}:
                 request = event["payload"]["request"]; validate_context_request(request)
-                if request["source_event_id"] != event["event_id"]: raise EventLogIntegrityError("request source event mismatch")
+                if event["event_type"] == "context.request.created" and request["source_event_id"] != event["event_id"]: raise EventLogIntegrityError("request source event mismatch")
                 requests[request["context_request_id"]] = request
-        return {"packets": packets, "requests": requests}
+            elif event["event_type"] == "context.resolution.completed":
+                resolution = event["payload"]["resolution"]
+                from .resolution import validate_resolution
+                validate_resolution(resolution)
+                if resolution["source_event_id"] != event["event_id"]: raise EventLogIntegrityError("resolution source event mismatch")
+                if resolution["resolution_id"] in resolutions: raise EventLogIntegrityError("resolution history overwrite")
+                resolutions[resolution["resolution_id"]] = resolution
+        return {"packets": packets, "requests": requests, "resolutions": resolutions}
 
     def verify_materialized(self) -> None:
         state = self.reconstruct()
@@ -126,6 +135,27 @@ class ContextStore:
             if self.read_packet(packet["context_packet_id"], packet.get("version", 1)) != packet: raise EventLogIntegrityError("packet diverges from event history")
         for request in state["requests"].values():
             if self.read_request(request["context_request_id"]) != request: raise EventLogIntegrityError("request diverges from event history")
+        for resolution in state["resolutions"].values():
+            actual = self.read_resolution(resolution["resolution_id"], resolution.get("version", 1))
+            if actual != resolution: raise EventLogIntegrityError("resolution diverges from event history")
+
+    def read_resolution(self, resolution_id: str, version: int = 1) -> dict[str, Any]:
+        path = resolve_project_path(self.project_root, f".idd/context/resolutions/{resolution_id}/v{version}.json")
+        if not path.exists(): raise ContextCompilationError("context resolution does not exist")
+        resolution = json.loads(path.read_text(encoding="utf-8"))
+        from .resolution import validate_resolution
+        validate_resolution(resolution)
+        return resolution
+
+    def update_request_status(self, request_id: str, status: str, *, event_id: str, timestamp: str) -> dict[str, Any]:
+        request = self.read_request(request_id)
+        if status not in {"RESOLVING", "RESOLVED", "GRANTED", "DENIED", "SUPERSEDED"}: raise ContextRequestError("invalid request transition")
+        if request["status"] not in {"REQUESTED", "RESOLVING"}: raise ContextRequestError("request is not open")
+        updated = deepcopy(request); updated["status"] = status
+        path = self._request_path(request_id); path.write_text(canonical_json(updated) + "\n", encoding="utf-8")
+        event = self.event_log.new_event(event_id=event_id, event_type="context.request.status", timestamp=timestamp, project_id=updated["project_id"], actor_type="controller", actor_id="context-compiler", execution_id=updated["execution_id"], payload={"request": updated})
+        self.event_log.append(event)
+        return updated
 
     def load_for_execution(self, packet_id: str, state: dict[str, Any]) -> dict[str, Any]:
         """Load only a packet whose durable bindings match the current execution."""
@@ -183,6 +213,25 @@ class ContextCompiler:
         self.store.event_log.append(event)
         return candidate
 
+    def compile_from_resolution(self, packet: dict[str, Any], *, resolution_id: str, capability_id: str, state: dict[str, Any], event_id: str, timestamp: str, grant_event_id: str) -> dict[str, Any]:
+        from .resolution import ResolutionError
+        resolution = self.store.read_resolution(resolution_id)
+        if resolution["status"] != "RESOLVED": raise ContextCompilationError("only a uniquely resolved result may be granted")
+        if resolution["execution_id"] != state.get("execution_id") or resolution["project_id"] != state.get("project_id") or resolution["baseline_sha"] != state.get("baseline_sha"): raise ContextCompilationError("resolution binding mismatch")
+        request = self.store.reconstruct()["requests"].get(resolution["context_request_id"])
+        if request is None or request["status"] not in {"REQUESTED", "RESOLVED"}: raise ContextCompilationError("context request is not eligible")
+        candidate = deepcopy(packet)
+        candidate["resolution_binding"] = {"resolution_id": resolution_id, "context_request_id": resolution["context_request_id"]}
+        for finding in resolution["selected_findings"]:
+            resource = {"resource_id": finding.get("resource_id", f"RES-{resolution_id[3:]}"), "path": finding["path"], "purpose": request["expected_use"], "authority": "READ", "reason_included": finding["why_relevant"], "source": f"resolution:{resolution_id}", "freshness_or_version": finding.get("content_hash_or_version", "resolution")}
+            candidate.setdefault("working_context", []).append(resource)
+        try:
+            compiled = self.compile(candidate, capability_id=capability_id, state=state, event_id=event_id, timestamp=timestamp)
+        except (ContextCompilationError, ResolutionError):
+            raise
+        self.store.update_request_status(resolution["context_request_id"], "GRANTED", event_id=grant_event_id, timestamp=timestamp)
+        return compiled
+
     def request_context(self, request: dict[str, Any], *, capability_id: str, state: dict[str, Any], event_id: str, timestamp: str) -> dict[str, Any]:
         try:
             capability = self._capability(capability_id, state)
@@ -191,7 +240,7 @@ class ContextCompiler:
         action = {"request_id": request["context_request_id"], "project_id": state["project_id"], "execution_id": state["execution_id"], "baseline_sha": state["baseline_sha"], "role": state.get("role", capability["role"]), "operation": "REQUEST_CONTEXT", **capability["scope_bindings"]}
         decision = self.authorizer.authorize(capability_id, action, {**state, "project_root": str(self.project_root)})
         if decision.decision != "ALLOW": raise ContextRequestError(f"context request denied: {decision.reason}")
-        candidate = deepcopy(request); candidate.update({"capability_id": capability_id, "project_id": capability["project_id"], "execution_id": capability["execution_id"], "role": capability["role"], "created_at": timestamp, "status": "REQUESTED", "schema_version": 1, "source_event_id": event_id})
+        candidate = deepcopy(request); candidate.update({"capability_id": capability_id, "project_id": capability["project_id"], "execution_id": capability["execution_id"], "role": capability["role"], "baseline_sha": capability["baseline_sha"], "created_at": timestamp, "status": "REQUESTED", "schema_version": 1, "source_event_id": event_id})
         validate_context_request(candidate)
         path = self.store._request_path(candidate["context_request_id"])
         if path.exists(): raise ContextRequestError("context request is immutable")
