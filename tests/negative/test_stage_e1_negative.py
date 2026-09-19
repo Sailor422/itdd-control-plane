@@ -23,6 +23,10 @@ def test_wrong_binding_budget_symlink_and_legacy_path_rejected(tmp_path: Path):
     compiler.compile(packet(), capability_id="CAP-101", state=state(tmp_path), event_id="evt-packet", timestamp="2026-09-19T21:00:01Z")
     with pytest.raises(ContextCompilationError, match="binding"):
         compiler.load_for_execution("CP-101", {**state(tmp_path), "execution_id":"EXEC-OTHER"})
+    with pytest.raises(ContextCompilationError, match="binding"):
+        compiler.load_for_execution("CP-101", {**state(tmp_path), "project_id":"other-project"})
+    with pytest.raises(ContextCompilationError, match="binding"):
+        compiler.load_for_execution("CP-101", {**state(tmp_path), "baseline_sha":"d" * 40})
     with pytest.raises(ContextCompilationError, match="REQUIRED_CONTEXT_EXCEEDS_BUDGET"):
         compiler.compile(packet(max_bytes=50), capability_id="CAP-101", state=state(tmp_path), event_id="evt-budget", timestamp="2026-09-19T21:00:02Z")
     outside = tmp_path.parent / "outside-e1"; outside.mkdir(); (tmp_path / "link").symlink_to(outside, target_is_directory=True)
