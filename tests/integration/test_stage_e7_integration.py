@@ -58,6 +58,7 @@ def test_git_attestation_and_isolated_integration_with_fresh_verifier_and_gate(t
     assert integration.authorize_integrator_write("IN-701", ".idd/integration_workspaces/IN-701") == "ALLOW"
     assert integration.authorize_integrator_write("IN-701", ".idd/intent/I-001/v1.json") == "DENY"
     verifier = integration.create_integration_verifier("IN-701", command=f"python3 -m pytest -q {completed['integration_workspace']}/tests/fixtures/e5_candidate_test.py", timestamp="2026-09-20T03:02:02Z", event_prefix="e7-integration-verifier")
+    assert integration.verifiers.authorize_write(verifier["execution_id"], "src/a.py") == "DENY"
     result = integration.verifiers.launch(verifier["execution_id"], adapter=SubprocessVerifierAdapter(), event_prefix="e7-integration-run", timestamp="2026-09-20T03:02:03Z")["result"]
     verified = integration.mark_verified("IN-701", verifier_execution_id=verifier["execution_id"], result_id=result["result_id"], timestamp="2026-09-20T03:02:04Z", event_prefix="e7-integrated"); assert verified["status"] == "INTEGRATION_VERIFIED"
     gate = human.create_integration_approval(gate_id="HG-703", integration=verified, verifier_execution_id=verifier["execution_id"], verifier_result_id=result["result_id"], timestamp="2026-09-20T03:02:05Z", event_prefix="e7-human-integration")
@@ -76,3 +77,15 @@ def test_semantic_and_interrupted_integration_never_produce_candidate(tmp_path: 
     baseline, candidate_a, candidate_b, _, _ = prepare(tmp_path); attest = CandidateAttestationStore(tmp_path); attest.attest(attestation_id="AT-901", project_id="e4", baseline_commit=baseline, candidate_commit=candidate_a, created_at="2026-09-20T03:04:00Z"); attest.attest(attestation_id="AT-902", project_id="e4", baseline_commit=baseline, candidate_commit=candidate_b, created_at="2026-09-20T03:04:01Z")
     controller = IntegrationController(tmp_path, controller_execution_id="EXEC-CONTROLLER-701"); item = controller.create(integration_id="IN-901", project_id="e4", attestation_ids=["AT-901", "AT-902"], intent_id="I-001", intent_version=1, graph_id="G-001", graph_version=1, timestamp="2026-09-20T03:04:02Z", require_human=False, event_prefix="e7-failure")
     assert controller.run("IN-901", timestamp="2026-09-20T03:04:03Z", event_prefix="e7-semantic", semantic_conflict=True)["status"] == "REPLAN_REQUIRED"
+    interrupted = controller.create(integration_id="IN-902", project_id="e4", attestation_ids=["AT-901", "AT-902"], intent_id="I-001", intent_version=1, graph_id="G-001", graph_version=1, timestamp="2026-09-20T03:04:04Z", require_human=False, event_prefix="e7-interrupted")
+    assert controller.run(interrupted["integration_id"], timestamp="2026-09-20T03:04:05Z", event_prefix="e7-interrupted-run", interrupted=True)["status"] == "INTERRUPTED"
+
+
+def test_verified_evidence_cannot_be_reused_for_a_new_commit(tmp_path: Path):
+    baseline, candidate_a, candidate_b, orchestrator, _ = prepare(tmp_path); attest = CandidateAttestationStore(tmp_path)
+    original = attest.attest(attestation_id="AT-951", project_id="e4", baseline_commit=baseline, candidate_commit=candidate_a, created_at="2026-09-20T03:05:00Z")
+    run_git(tmp_path, "checkout", "candidate-a"); (tmp_path / "src/a.py").write_text("class A: pass\n# changed after verification\n"); run_git(tmp_path, "add", "src/a.py"); run_git(tmp_path, "commit", "-m", "candidate A changed"); changed = run_git(tmp_path, "rev-parse", "HEAD")
+    attest.attest(attestation_id="AT-952", project_id="e4", baseline_commit=baseline, candidate_commit=changed, created_at="2026-09-20T03:05:00Z")
+    assert original["candidate_commit"] != changed and orchestrator.derive_candidate_status(changed) == "NOT_VERIFIED"
+    with pytest.raises(IntegrationError, match="independently"):
+        IntegrationController(tmp_path, controller_execution_id="EXEC-CONTROLLER-701").create(integration_id="IN-951", project_id="e4", attestation_ids=["AT-951", "AT-952"], intent_id="I-001", intent_version=1, graph_id="G-001", graph_version=1, timestamp="2026-09-20T03:05:01Z", require_human=False, event_prefix="e7-stale")
