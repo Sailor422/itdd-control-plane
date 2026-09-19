@@ -1,0 +1,17 @@
+.DS_Store
+.audit-private/
+.idd/telemetry/*
+.idd/audit/*
+.idd/recovery/*
+.idd/state/*
+.idd/context/*
+.idd/knowledge/*
+.idd/project_map/*
+!.idd/**/.gitkeep
+*.swp
+*.tmp
+__pycache__/
+.pytest_cache/
+intent_driven_control_architecture_thesis.docx
+intent_driven_control_architecture_thesis.pdf
+itdd-first-design-idea.md

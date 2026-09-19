@@ -1,0 +1,16 @@
+# Roadmap
+
+The staged order is deliberate. Each stage requires a written plan, exact baseline, implementation, positive and negative tests, independent verification, preserved evidence, human review where required, and a known-good Git state.
+
+1. Bootstrap and Stage A Codex contamination audit — current.
+2. Stage B: project isolation foundations and durable append-only state/audit.
+3. Intent and versioned mutable graph representations.
+4. Role definitions, capability envelopes, and controller authorization.
+5. Context Compiler v1, Scout, context requests, and Project Map v1.
+6. Human views, spec/standards verification, evidence binding, and false-pass resistance.
+7. Reliable single-EU end-to-end execution.
+8. Recovery, integration, replanning/amendments, local knowledge, maintenance, and break-glass.
+9. Only after the single-EU path is reliable: parallel execution and earned autonomy.
+
+No item after bootstrap is authorized by this baseline.
+
