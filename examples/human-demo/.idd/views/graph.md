@@ -1,0 +1,6 @@
+# Execution Graph
+
+<!-- ITDD-DERIVED project=human-demo generated=2026-09-19T20:40:56.147973Z source=ba16d76852a5aaa053cab38cf7a812f0e58c04f9fe83c8d1716d2274942051db generator=e6-v1; DO NOT EDIT FOR AUTHORITY -->
+
+- `EU-001` requirements: REQ-001
+- `EU-002` requirements: REQ-002
