@@ -5,7 +5,7 @@ The staged order is deliberate. Each stage requires a written plan, exact baseli
 1. Bootstrap and Stage A Codex contamination audit — accepted.
 2. Stage B: project isolation foundations and durable append-only state/audit — accepted.
 3. Intent and versioned mutable graph representations — accepted.
-4. Role definitions, capability envelopes, and controller authorization — proposed Stage D.
+4. Role definitions, capability envelopes, and controller authorization — accepted Stage D.
 5. Context Compiler v1, Scout, context requests, and Project Map v1.
 6. Human views, spec/standards verification, evidence binding, and false-pass resistance.
 7. Reliable single-EU end-to-end execution.

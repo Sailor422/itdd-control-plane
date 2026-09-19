@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","title":"ITDD authorization decision","type":"object","required":["decision","reason","capability_id","request_id"],"properties":{"decision":{"enum":["ALLOW","DENY"]},"reason":{"type":"string"},"capability_id":{"type":"string"},"request_id":{"type":"string"}},"additionalProperties":false}
