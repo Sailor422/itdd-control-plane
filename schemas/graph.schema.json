@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itdd-control-plane.dev/schemas/graph.schema.json",
+  "title": "ITDD Control Plane Stage C Execution Graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["graph_id", "version", "project_id", "intent_id", "intent_version", "status", "created_at", "created_by", "nodes", "edges", "reason", "source_event_id", "schema_version"],
+  "properties": {
+    "graph_id": {"type": "string", "pattern": "^G-[0-9]+$"},
+    "version": {"type": "integer", "minimum": 1},
+    "project_id": {"type": "string", "minLength": 1},
+    "intent_id": {"type": "string", "pattern": "^I-[0-9]+$"},
+    "intent_version": {"type": "integer", "minimum": 1},
+    "status": {"const": "ACTIVE"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "created_by": {"type": "string", "minLength": 1},
+    "nodes": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["eu_id", "requirement_ids"], "properties": {"eu_id": {"type": "string", "pattern": "^EU-[0-9]+$"}, "requirement_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^REQ-[0-9]+$"}}}}},
+    "edges": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["from", "to"], "properties": {"from": {"type": "string", "pattern": "^EU-[0-9]+$"}, "to": {"type": "string", "pattern": "^EU-[0-9]+$"}}}},
+    "reason": {"type": "string", "minLength": 1},
+    "source_event_id": {"type": "string", "minLength": 1},
+    "schema_version": {"const": 1},
+    "previous_version": {"type": ["integer", "null"], "minimum": 1}
+  }
+}
+
