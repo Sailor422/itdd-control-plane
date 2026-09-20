@@ -1,10 +1,15 @@
 import hashlib
+import json
+import os
 from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 
 from control.authorization.capabilities import CapabilityIssuer
 from control.events.format import canonical_json
+from control.events import EventLogIntegrityError
 from control.skills import ClarificationProposalStore, SkillContractError, create_clarification_proposal
 
 
@@ -140,3 +145,40 @@ def test_capability_expansion_fails_closed(tmp_path: Path):
     with pytest.raises(SkillContractError):
         create_clarification_proposal(tmp_path, request=_request(), capability=capability,
             actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+
+
+def test_fresh_process_reconstructs_proposal_and_event_state(tmp_path: Path):
+    proposal = create_clarification_proposal(tmp_path, request=_request(), capability=_capability(tmp_path),
+        actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+    code = """import json, sys
+from control.skills import ClarificationProposalStore
+print(json.dumps(ClarificationProposalStore(sys.argv[1]).reconstruct(), sort_keys=True))
+"""
+    environment = dict(os.environ)
+    environment["PYTHONPATH"] = str(Path(__file__).parents[2])
+    result = subprocess.run([sys.executable, "-c", code, str(tmp_path)], check=True, capture_output=True, text=True, env=environment)
+    assert json.loads(result.stdout)[proposal["proposal_id"]] == proposal
+
+
+def test_tampered_proposal_artifact_is_rejected(tmp_path: Path):
+    proposal = create_clarification_proposal(tmp_path, request=_request(), capability=_capability(tmp_path),
+        actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+    path = ClarificationProposalStore(tmp_path)._path(proposal["proposal_id"], 1)
+    tampered = json.loads(path.read_text())
+    tampered["status"] = "APPROVED"
+    path.write_text(json.dumps(tampered))
+    with pytest.raises((SkillContractError, EventLogIntegrityError)):
+        ClarificationProposalStore(tmp_path).reconstruct()
+
+
+def test_tampered_event_history_is_rejected(tmp_path: Path):
+    create_clarification_proposal(tmp_path, request=_request(), capability=_capability(tmp_path),
+        actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+    event_path = ClarificationProposalStore(tmp_path).event_log.events_path
+    lines = event_path.read_text().splitlines()
+    tampered = json.loads(lines[-1])
+    tampered["actor_id"] = "attacker"
+    lines[-1] = json.dumps(tampered)
+    event_path.write_text("\n".join(lines) + "\n")
+    with pytest.raises(EventLogIntegrityError):
+        ClarificationProposalStore(tmp_path).reconstruct()

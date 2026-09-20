@@ -10,7 +10,7 @@ from typing import Any
 
 from control.authority.paths import resolve_project_path, resolve_project_root
 from control.authorization.controller import ControllerAuthorizer
-from control.events import EventLog
+from control.events import EventLog, EventLogIntegrityError
 from control.events.format import canonical_json
 
 
@@ -44,6 +44,28 @@ class ClarificationProposalStore:
             return
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(serialized, encoding="utf-8")
+
+    def reconstruct(self) -> dict[str, dict[str, Any]]:
+        proposals: dict[str, dict[str, Any]] = {}
+        for event in self.event_log.verify():
+            if event["event_type"] != "skill.clarification.proposed":
+                continue
+            payload = event["payload"]
+            if not isinstance(payload, dict) or set(payload) != {"proposal"}:
+                raise EventLogIntegrityError("clarification event payload is malformed")
+            proposal = payload["proposal"]
+            validate_clarification_proposal(proposal)
+            if proposal["source_event_id"] != event["event_id"]:
+                raise EventLogIntegrityError("proposal source event identity mismatch")
+            if proposal["project_id"] != event["project_id"] or proposal["execution_id"] != event.get("execution_id"):
+                raise EventLogIntegrityError("proposal event binding mismatch")
+            if proposal["proposal_id"] in proposals:
+                raise EventLogIntegrityError("duplicate clarification proposal")
+            materialized = self.read(proposal["proposal_id"], proposal["version"])
+            if materialized != proposal:
+                raise EventLogIntegrityError("proposal diverges from event history")
+            proposals[proposal["proposal_id"]] = proposal
+        return proposals
 
 
 def validate_clarification_proposal(proposal: dict[str, Any]) -> None:
