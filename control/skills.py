@@ -97,6 +97,10 @@ def create_clarification_proposal(
         raise SkillContractError("grill-with-docs requires a human actor")
     if capability.get("role") != "CONVERSATIONAL":
         raise SkillContractError("clarification requires the CONVERSATIONAL role")
+    if not set(capability.get("allowed_operations", ())) <= {"REQUEST_CLARIFICATION", "CREATE_ARTIFACT"}:
+        raise SkillContractError("capability expands beyond clarification")
+    if not {"INTENT_APPROVAL", "STATE_TRANSITION"} <= set(capability.get("forbidden_operations", ())):
+        raise SkillContractError("capability does not preserve authority boundary")
     root = resolve_project_root(project_root)
     current_state = {"project_id": request["project_id"], "execution_id": request["execution_id"], "baseline_sha": request["baseline_sha"], "project_root": str(root)}
     decision = ControllerAuthorizer(root).authorize(

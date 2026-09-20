@@ -1,9 +1,11 @@
 import hashlib
 from pathlib import Path
 
+import pytest
+
 from control.authorization.capabilities import CapabilityIssuer
 from control.events.format import canonical_json
-from control.skills import ClarificationProposalStore, create_clarification_proposal
+from control.skills import ClarificationProposalStore, SkillContractError, create_clarification_proposal
 
 
 def _capability(root: Path) -> dict:
@@ -91,3 +93,50 @@ def test_proposal_identity_is_deterministic_for_same_inputs(tmp_path: Path):
         "intent_version": 1, "baseline_sha": "a" * 40, "source_inputs": ["CONTEXT.md"],
         "skill_source": "grill-with-docs", "capability_id": "CAP-001", "version": 1,
     }).encode()).hexdigest()[:20]
+
+
+def _request(**overrides):
+    request = {
+        "project_id": "project-1", "execution_id": "EXEC-1", "intent_id": "I-001",
+        "intent_version": 1, "baseline_sha": "a" * 40, "source_inputs": ["CONTEXT.md"],
+        "terms": [], "assumptions": [], "open_questions": [],
+    }
+    request.update(overrides)
+    return request
+
+
+@pytest.mark.parametrize("actor_type", ["agent", "controller"])
+def test_non_human_invocation_is_rejected(tmp_path: Path, actor_type: str):
+    with pytest.raises(SkillContractError, match="human actor"):
+        create_clarification_proposal(tmp_path, request=_request(), capability=_capability(tmp_path),
+            actor_type=actor_type, actor_id="actor-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+
+
+@pytest.mark.parametrize("override", [
+    {"project_id": "other-project"}, {"execution_id": "EXEC-2"}, {"baseline_sha": "b" * 40},
+    {"intent_id": "I-002"}, {"intent_version": 2},
+])
+def test_mismatched_bindings_fail_closed(tmp_path: Path, override: dict):
+    with pytest.raises(SkillContractError):
+        create_clarification_proposal(tmp_path, request=_request(**override), capability=_capability(tmp_path),
+            actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+
+
+def test_missing_or_extra_input_fails_closed(tmp_path: Path):
+    missing = _request()
+    del missing["terms"]
+    extra = _request(unexpected="not accepted")
+    for index, request in enumerate((missing, extra)):
+        case_root = tmp_path / str(index)
+        case_root.mkdir()
+        with pytest.raises(SkillContractError):
+            create_clarification_proposal(case_root, request=request, capability=_capability(case_root),
+                actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
+
+
+def test_capability_expansion_fails_closed(tmp_path: Path):
+    capability = _capability(tmp_path)
+    capability["allowed_operations"].append("STATE_TRANSITION")
+    with pytest.raises(SkillContractError):
+        create_clarification_proposal(tmp_path, request=_request(), capability=capability,
+            actor_type="human", actor_id="operator-1", timestamp="2026-09-20T10:01:00Z", event_id="evt-proposal-001")
