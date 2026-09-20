@@ -9,6 +9,7 @@ from control.context import ContextCompiler
 from control.events.format import canonical_json
 from control.models.store import StageCStore
 from control.verification import EvidenceEvaluator, VerificationError, VerificationStore
+from control.verifier import VerifierExecutionStore
 
 
 BASELINE = "d" * 40
@@ -26,6 +27,7 @@ def setup(root: Path):
     state = {"project_root":str(root),"project_id":"e4","execution_id":"EXEC-VERIFIER-401","baseline_sha":BASELINE,"role":"SPEC_VERIFIER"}
     created_packet = ContextCompiler(root).compile(packet, capability_id="CAP-904", state=state, event_id="evt-packet", timestamp="2026-09-20T00:00:04Z")
     artifact = root / "artifacts/report.txt"; artifact.parent.mkdir(); artifact.write_text("verification report\n")
+    VerifierExecutionStore(root).create({"execution_id":"EXEC-VERIFIER-401","role":"SPEC_VERIFIER","parent_execution_id":"EXEC-CONTROLLER-401","project_id":"e4","baseline_sha":BASELINE,"candidate_sha":CANDIDATE,"capability_id":"CAP-904","context_packet_id":"CP-001","context_packet_hash":created_packet["packet_hash"],"verification_contract_id":"VC-001","verification_contract_hash":"pending","status":"CREATED","created_at":"2026-09-20T00:00:04Z","updated_at":"2026-09-20T00:00:04Z"}, event_id="evt-verifier-execution", timestamp="2026-09-20T00:00:04Z")
     return created_packet, artifact
 
 
@@ -34,7 +36,7 @@ def contract(packet, artifact: Path):
 
 
 def evidence(contract, artifact: Path, *, evidence_id="EV-001", **overrides):
-    item = {"evidence_id":evidence_id,"verification_contract_id":contract["verification_contract_id"],"project_id":contract["project_id"],"execution_id":contract["execution_id"],"role":contract["role"],"intent_id":contract["intent_id"],"intent_version":contract["intent_version"],"graph_id":contract["graph_id"],"graph_version":contract["graph_version"],"eu_id":contract["eu_id"],"baseline_sha":contract["baseline_sha"],"candidate_sha":contract["candidate_sha"],"context_packet_id":contract["context_packet_id"],"context_packet_hash":contract["context_packet_hash"],"check_results":[{"check_id":"REQCHECK-001","command":"python -m pytest tests/e4 -q","exit_code":0,"observed_test_count":3,"passed":3,"failed":0,"skipped":0,"stdout_digest":"a"*64,"started_at":"2026-09-20T00:01:00Z","finished_at":"2026-09-20T00:01:01Z"}],"artifact_hashes":{"artifacts/report.txt":hashlib.sha256(artifact.read_bytes()).hexdigest()},"observed_changed_paths":["artifacts/report.txt"],"created_at":"2026-09-20T00:01:02Z","created_by":"verifier-execution-401"}
+    item = {"evidence_id":evidence_id,"verification_contract_id":contract["verification_contract_id"],"project_id":contract["project_id"],"execution_id":contract["execution_id"],"role":contract["role"],"intent_id":contract["intent_id"],"intent_version":contract["intent_version"],"graph_id":contract["graph_id"],"graph_version":contract["graph_version"],"eu_id":contract["eu_id"],"baseline_sha":contract["baseline_sha"],"candidate_sha":contract["candidate_sha"],"context_packet_id":contract["context_packet_id"],"context_packet_hash":contract["context_packet_hash"],"check_results":[{"check_id":"REQCHECK-001","command":"python -m pytest tests/e4 -q","exit_code":0,"observed_test_count":3,"passed":3,"failed":0,"skipped":0,"stdout_digest":"a"*64,"started_at":"2026-09-20T00:01:00Z","finished_at":"2026-09-20T00:01:01Z"}],"artifact_hashes":{"artifacts/report.txt":hashlib.sha256(artifact.read_bytes()).hexdigest()},"observed_changed_paths":["artifacts/report.txt"],"created_at":"2026-09-20T00:01:02Z","created_by":"EXEC-VERIFIER-401"}
     item.update(overrides); return item
 
 

@@ -20,6 +20,9 @@ class VerificationError(ValueError):
     pass
 
 
+CERTIFICATION_ROLES = frozenset({"SPEC_VERIFIER", "STANDARDS_REVIEWER", "INTEGRATION_VERIFIER"})
+
+
 class VerificationStore:
     def __init__(self, project_root: str | Path) -> None:
         self.project_root = resolve_project_root(project_root)
@@ -27,6 +30,9 @@ class VerificationStore:
 
     def _path(self, kind: str, identity: str) -> Path:
         return resolve_project_path(self.project_root, f".idd/evidence/{kind}/{identity}.json")
+
+    def _builder_path(self, identity: str) -> Path:
+        return resolve_project_path(self.project_root, f".idd/evidence/build-records/{identity}.json")
 
     @staticmethod
     def _hash(document: dict[str, Any], field: str) -> str:
@@ -53,9 +59,52 @@ class VerificationStore:
         validate_evidence(candidate)
         contract = self.read_contract(candidate["verification_contract_id"])
         _assert_binding(contract, candidate)
+        self._validate_certification_provenance(contract, candidate)
         self._write_immutable(self._path("records", candidate["evidence_id"]), candidate)
         event = self.event_log.new_event(event_id=event_id, event_type="verification.evidence.recorded", timestamp=timestamp, project_id=candidate["project_id"], actor_type="verifier", actor_id=candidate["created_by"], execution_id=candidate["execution_id"], payload={"evidence": candidate})
         self.event_log.append(event); return candidate
+
+    def record_builder_evidence(self, evidence: dict[str, Any], *, event_id: str, timestamp: str) -> dict[str, Any]:
+        """Persist Builder-scoped observations without entering certification state."""
+        candidate = deepcopy(evidence); candidate.setdefault("schema_version", 1); candidate.setdefault("version", 1)
+        required = {"evidence_id", "schema_version", "version", "project_id", "execution_id", "role", "baseline_sha", "candidate_sha", "check_results", "artifact_hashes", "observed_changed_paths", "created_at", "created_by", "evidence_hash"}
+        candidate["evidence_hash"] = self._hash(candidate, "evidence_hash")
+        if set(candidate) != required or not re.fullmatch(r"BE-[0-9]+", candidate.get("evidence_id", "")):
+            raise VerificationError("INVALID_BUILDER_EXECUTION_EVIDENCE")
+        if candidate.get("role") != "BUILDER" or candidate.get("created_by") != candidate.get("execution_id"):
+            raise VerificationError("DENY_BUILDER_PROVENANCE_MISMATCH")
+        if not isinstance(candidate.get("check_results"), list) or not isinstance(candidate.get("artifact_hashes"), dict) or not isinstance(candidate.get("observed_changed_paths"), list):
+            raise VerificationError("INVALID_BUILDER_EXECUTION_EVIDENCE")
+        if not re.fullmatch(r"[0-9a-f]{40,64}", candidate["baseline_sha"]) or not re.fullmatch(r"[0-9a-f]{40,64}", candidate["candidate_sha"]):
+            raise VerificationError("INVALID_BUILDER_EXECUTION_EVIDENCE")
+        self._write_immutable(self._builder_path(candidate["evidence_id"]), candidate)
+        event = self.event_log.new_event(event_id=event_id, event_type="builder.evidence.recorded", timestamp=timestamp, project_id=candidate["project_id"], actor_type="builder", actor_id=candidate["created_by"], execution_id=candidate["execution_id"], payload={"evidence": candidate})
+        self.event_log.append(event); return candidate
+
+    def _validate_certification_provenance(self, contract: dict[str, Any], evidence: dict[str, Any]) -> None:
+        if contract.get("role") == "BUILDER":
+            raise VerificationError("DENY_BUILDER_CERTIFICATION: Builder execution cannot record certification evidence")
+        if contract.get("role") not in CERTIFICATION_ROLES:
+            raise VerificationError("DENY_UNAUTHORIZED_CERTIFICATION_ROLE")
+        if evidence.get("created_by") != evidence.get("execution_id"):
+            raise VerificationError("DENY_CERTIFICATION_PROVENANCE_MISMATCH: creator is not the execution")
+        execution = None
+        for event in self.event_log.verify():
+            if event["event_type"] != "verifier.execution.created":
+                continue
+            item = event["payload"].get("execution", {})
+            if item.get("execution_id") == evidence.get("execution_id"):
+                execution = item
+                break
+        if execution is None:
+            raise VerificationError("DENY_UNAUTHORIZED_VERIFIER_EXECUTION: durable verifier execution is required")
+        for key in ("execution_id", "role", "project_id", "baseline_sha", "candidate_sha", "verification_contract_id"):
+            if execution.get(key) != evidence.get(key) and key != "verification_contract_id":
+                raise VerificationError(f"DENY_CERTIFICATION_PROVENANCE_MISMATCH: {key}")
+        if execution.get("verification_contract_id") != contract.get("verification_contract_id"):
+            raise VerificationError("DENY_CERTIFICATION_PROVENANCE_MISMATCH: verification_contract_id")
+        if execution.get("role") not in CERTIFICATION_ROLES:
+            raise VerificationError("DENY_UNAUTHORIZED_CERTIFICATION_ROLE")
 
     def read_contract(self, contract_id: str) -> dict[str, Any]:
         path = self._path("contracts", contract_id)
