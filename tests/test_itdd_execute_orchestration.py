@@ -3,6 +3,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
 from tools.itdd_execute import (
     create_controller_candidate,
     controller_assign_execution,
@@ -10,8 +12,20 @@ from tools.itdd_execute import (
     harmless_isolation_proof,
     invoke,
     reported_pass,
+    allowed_test_command_for,
+    validate_test_command,
     verify_gate_decision,
 )
+
+
+def test_test_command_allowlist_rejects_excluded_black_box_nodes(tmp_path: Path):
+    candidate = tmp_path / "candidate"
+    allowed = allowed_test_command_for(candidate)
+    validate_test_command(allowed, candidate)
+    with pytest.raises(ValueError, match="outside CODEX-RUNTIME-ROLES-V1 scope"):
+        validate_test_command(f"{allowed}::test_full_single_eu_path_and_reconstruction", candidate)
+    with pytest.raises(ValueError, match="outside CODEX-RUNTIME-ROLES-V1 scope"):
+        validate_test_command("python3 scripts/verify_single_eu_operational_v1.py", candidate)
 
 
 def test_test_prompt_forbids_excluded_black_box_scripts(tmp_path: Path):

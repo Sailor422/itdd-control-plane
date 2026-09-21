@@ -27,6 +27,16 @@ ALLOWED_PATHS = {"tools/itdd_execute.py", "tests/test_itdd_execute_orchestration
 CONTROLLER_ASSIGNMENTS: dict[str, dict[str, object]] = {}
 
 
+def allowed_test_command_for(test_dir: Path) -> str:
+    return f"cd {test_dir} && PYTHONPATH={test_dir} PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_itdd_execute_orchestration.py -p no:cacheprovider --basetemp=$TMPDIR/pytest"
+
+
+def validate_test_command(command: str, test_dir: Path) -> None:
+    """Enforce the machine-readable TEST scope before launching Codex."""
+    if command != allowed_test_command_for(test_dir):
+        raise ValueError("TEST command is outside CODEX-RUNTIME-ROLES-V1 scope")
+
+
 def execution_id(role: str) -> str:
     return f"ITDD-{role}-{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}-{uuid.uuid4().hex[:10]}"
 
@@ -151,7 +161,7 @@ def invoke(*, role: str, candidate: Path, prompt: str, scratch: Path, writable: 
         extra = scratch
         sandbox_mode = "workspace-write"
         candidate_access_mode = "read-only-outside-workspace"
-    command = command_override or ["codex", "exec", "--model", "gpt-5.5", "--json", "--sandbox", sandbox_mode, "--add-dir", str(extra), "-C", str(launch_root), "-o", str(output), "-"]
+    command = command_override or ["codex", "exec", "--model", "gpt-5.5", "--json", "--sandbox", sandbox_mode, "--add-dir", str(extra), "--skip-git-repo-check", "-C", str(launch_root), "-o", str(output), "-"]
     if timeout_seconds is None and role == "TEST":
         timeout_seconds = float(os.environ.get("ITDD_TEST_TIMEOUT_SECONDS", "600"))
     before = tree_digest(candidate)
@@ -325,7 +335,7 @@ def build_test_prompt(*, test_dir: Path, scratch: Path, identity: dict[str, str]
 The controller-bound identity is baseline_sha={identity['baseline_sha']}, candidate_commit_sha={identity['candidate_commit_sha']}, candidate_tree_sha={identity['candidate_tree_sha']}. Resolve all three with Git yourself before testing.
 The ONLY repository test command authorized in this execution is exactly:
 {test_command}
-Do not run any other test command or verification script. In particular, do NOT run scripts/verify_*.py, scripts/verify_single_eu_operational_v1.py, black-box single-EU acceptance, recovery/resume, multi-EU, parallel, replanning, amendment, retrieval, maintenance, break-glass, or /idd UI work. Do not invoke excluded scripts even to inspect their behavior.
+Do not run any other test command or verification script, including focused selections. In particular, do NOT run scripts/verify_*.py, scripts/verify_single_eu_operational_v1.py, black-box single-EU acceptance, recovery/resume, multi-EU, parallel, replanning, amendment, retrieval, maintenance, break-glass, or /idd UI work. Do not invoke excluded scripts even to inspect their behavior.
 Execute only the required hostile probes for different candidate, tree mismatch, baseline mismatch, missing/ambiguous digest, stale evidence, candidate write/commit, and fake/placeholder acceptance evidence. Prove candidate SHA/tree before and after are unchanged, scratch remains writable, and rejected operations do not advance authoritative state. Return JSON status PASS/FAIL with fields baseline_sha, candidate_commit_sha, candidate_tree_sha, exact_test_command, executed_commands (which must contain only the exact command above), hostile_probes, and candidate_immutability. Do not edit candidate, evidence, or act as VERIFY."""
 
 
@@ -358,7 +368,8 @@ Run implementation-local checks. Do not commit, certify, promote, or act as TEST
     verify_dir = evidence / "verify-candidate"
     for checkout in (test_dir, verify_dir):
         clone_at(build_dir, checkout, identity["candidate_commit_sha"])
-    test_command = f"cd {test_dir} && PYTHONPATH={test_dir} PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_itdd_execute_orchestration.py -p no:cacheprovider --basetemp=$TMPDIR/pytest"
+    test_command = allowed_test_command_for(test_dir)
+    validate_test_command(test_command, test_dir)
     test_prompt = build_test_prompt(test_dir=test_dir, scratch=scratch / "test", identity=identity, test_command=test_command)
     test = invoke(role="TEST", candidate=test_dir, prompt=test_prompt, scratch=scratch / "test", writable=False, identity=identity, required_test_command=test_command, primary=scratch / "test", additional=test_dir)
     test_gate = verify_gate_decision(test, identity)
