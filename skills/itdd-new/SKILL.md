@@ -60,13 +60,19 @@ prime-agent
 - `docs/adr/` - architectural decision records directory
 - `src/` - source code directory
 - `tests/` - test directory
-- `skills/manifest.json` - project-local ITDD skills manifest (empty)
+- `control/` - project-local ITDD runtime/control-plane
+- `skills/` - copied local skills bundle
+- `skills/manifest.json` - populated project-local ITDD skills manifest
 - `.gitignore` - excludes `__pycache__/`, `.idd/build_workspaces/`, etc.
 
 ### Git Initialization
 
 - Initializes git repository if not present
 - Creates initial commit: "ITDD infrastructure initialized"
+
+## Bundle behavior
+
+The command copies the runtime and skills bundle from the installed `itdd-control-plane` package. It never overwrites existing files. It fails before initialization when the bundle is unavailable, and refuses to replace an existing invalid or empty manifest.
 
 ## Constraints
 

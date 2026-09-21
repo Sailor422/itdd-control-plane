@@ -2,7 +2,100 @@
 import subprocess
 import sys
 import os
+import json
+import shutil
 from pathlib import Path
+
+
+def _bundle_root() -> Path:
+    """Return the installed repository root containing the ITDD payload."""
+    # In an editable checkout this is the repository root.  In a wheel, the
+    # package-data configuration keeps ``control`` and ``skills`` beside this
+    # module, so the same lookup works.
+    return Path(__file__).resolve().parents[2]
+
+
+def _validate_bundle(bundle: Path) -> tuple[bool, list[str]]:
+    """Validate the payload before changing the destination project."""
+    missing = [name for name in ("control", "skills")
+               if not (bundle / name).is_dir()]
+    for required in (
+        "control/__init__.py",
+        "schemas",
+        "skills/runtime.py",
+        "skills/grill_with_docs/skill.json",
+        "skills/grill-with-docs/SKILL.md",
+    ):
+        path = bundle / required
+        if not path.exists():
+            missing.append(required)
+    return not missing, missing
+
+
+def _copy_missing(source: Path, destination: Path) -> list[str]:
+    """Copy a bundle without replacing any user-owned file."""
+    created = []
+    if source.is_dir():
+        destination.mkdir(parents=True, exist_ok=True)
+        for child in source.iterdir():
+            created.extend(_copy_missing(child, destination / child.name))
+    elif not destination.exists():
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination)
+        created.append(str(destination))
+    return created
+
+
+def install_itdd_bundle(root: Path, result: dict) -> bool:
+    """Install the control-plane and skills payload into *root*."""
+    bundle = _bundle_root()
+    valid, missing = _validate_bundle(bundle)
+    if not valid:
+        result["errors"].append(
+            "ITDD runtime/control-plane bundle is unavailable at "
+            f"{bundle}: missing {', '.join(missing)}. Reinstall itdd-control-plane."
+        )
+        return False
+
+    skill_root = root / "skills"
+    manifest_path = skill_root / "manifest.json"
+    if manifest_path.exists():
+        try:
+            existing = json.loads(manifest_path.read_text())
+        except (OSError, json.JSONDecodeError):
+            existing = None
+        if not isinstance(existing, dict) or not existing.get("skills"):
+            result["errors"].append("Existing skills/manifest.json is invalid or empty; refusing to overwrite it.")
+            return False
+
+    # The runtime is deliberately copied to the conventional import path.
+    _copy_missing(bundle / "control", root / "control")
+    # Do not copy the source repository's development manifest: the new
+    # project's manifest is generated below from the actual skill documents.
+    for child in (bundle / "skills").iterdir():
+        if child.name not in {"manifest.json", "__pycache__"}:
+            _copy_missing(child, skill_root / child.name)
+    schemas_root = root / "schemas"
+    if (bundle / "schemas").is_dir():
+        _copy_missing(bundle / "schemas", schemas_root)
+    # This is the canonical contract shipped by the control plane. Keep the
+    # manifest shape aligned with SkillRuntime.discover().
+    manifest = {
+        "manifest_version": "1.0",
+        "project_local_only": True,
+        "skills": [{
+            "id": "itdd.grill-with-docs",
+            "contract": "grill_with_docs/skill.json",
+            "disposition": "ADOPT",
+            "source_rationale": "bundled ITDD contract",
+        }],
+    }
+    if not manifest_path.exists():
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
+        result["created"].append("skills/manifest.json")
+    result["created"].append("ITDD runtime/control-plane and local skills bundle")
+    return True
+
 
 def check_pocock_setup(root: Path) -> tuple[bool, list[str]]:
     """Check if Matt Pocock skills setup has been run.
@@ -72,6 +165,15 @@ def initialize_itdd_project(root: Path) -> dict:
     # Check if .idd already exists
     if (root / '.idd').exists():
         result["errors"].append(".idd/ already exists. This project is already ITDD-initialized.")
+        return result
+
+    # Validate the installed payload before creating any project files.
+    bundle_ok, bundle_missing = _validate_bundle(_bundle_root())
+    if not bundle_ok:
+        result["errors"].append(
+            "ITDD runtime/control-plane bundle is unavailable at "
+            f"{_bundle_root()}: missing {', '.join(bundle_missing)}. Reinstall itdd-control-plane."
+        )
         return result
     
     # Initialize git if needed (use user's existing identity, don't set fake identity)
@@ -147,17 +249,9 @@ def initialize_itdd_project(root: Path) -> dict:
 """)
         result["created"].append("CONTEXT.md")
     
-    # Create skills manifest
-    skills_dir = root / 'skills'
-    skills_dir.mkdir(exist_ok=True)
-    import json
-    manifest = {
-        "manifest_version": "1.0",
-        "project_local_only": True,
-        "skills": []
-    }
-    (skills_dir / 'manifest.json').write_text(json.dumps(manifest, indent=2))
-    result["created"].append("skills/manifest.json")
+    # Install the self-contained runtime before writing the manifest.
+    if not install_itdd_bundle(root, result):
+        return result
     
     # Create .gitignore
     gitignore = root / '.gitignore'
