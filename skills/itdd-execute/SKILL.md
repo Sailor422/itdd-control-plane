@@ -1,6 +1,6 @@
 ---
 name: itdd-execute
-description: "Orchestrate a bounded ITDD implementation milestone through three genuinely separate fresh Codex executions: BUILD, TEST, then independent VERIFY. Use when a spec, ticket, or approved milestone is ready to implement and the user requires strict separation between implementation, testing, and verification, with preserved evidence, fail-fast behavior, and no self-certification."
+description: "Orchestrate a bounded ITDD implementation milestone through three genuinely separate fresh agent executions: BUILD, TEST, then independent VERIFY. Use when a spec, ticket, or approved milestone is ready to implement and the user requires strict separation between implementation, testing, and verification, with preserved evidence, fail-fast behavior, and no self-certification."
 ---
 
 # ITDD Execute
@@ -11,13 +11,13 @@ Use this skill only after the work is bounded by an approved spec, ticket, or mi
 
 Run exactly three acceptance roles in order:
 
-1. **BUILD** — fresh Codex execution implements the bounded change.
-2. **TEST** — a different fresh Codex execution tests the Builder output and executes required positive and negative probes.
-3. **VERIFY** — a third fresh Codex execution independently attempts to disprove both the implementation and the Tester's evidence.
+1. **BUILD** — fresh agent execution implements the bounded change.
+2. **TEST** — a different fresh agent execution tests the Builder output and executes required positive and negative probes.
+3. **VERIFY** — a third fresh agent execution independently attempts to disprove both the implementation and the Tester's evidence.
 
-Never collapse these roles into one execution. Different labels, subroutines, callbacks, or prompts inside one Codex session do not satisfy separation.
+Never collapse these roles into one execution. Different labels, subroutines, callbacks, or prompts inside one agent session do not satisfy separation.
 
-The controlling system retains lifecycle authority. A skill invocation, Codex worker, Builder, Tester, or Verifier never grants itself authority to advance state.
+The controlling system retains lifecycle authority. A skill invocation, agent worker, Builder, Tester, or Verifier never grants itself authority to advance state.
 
 ## Before BUILD
 
@@ -39,7 +39,7 @@ Preserve the exact baseline before any implementation begins.
 
 ## Phase 1 — BUILD
 
-Launch a **fresh Codex execution** dedicated only to BUILD.
+Launch a **fresh agent execution** dedicated only to BUILD.
 
 Prefer the installed upstream implementation/TDD skills when they fit the work, such as the current `implement` and `tdd` skills. Discover their exact installed names rather than guessing.
 
@@ -61,11 +61,11 @@ Builder prohibitions:
 - do not rewrite the spec to fit the implementation
 - do not fabricate probe results
 
-Record durable BUILD provenance, including the actual Codex invocation/session/process identity where available.
+Record durable BUILD provenance, including the actual agent invocation/session/process identity where available.
 
 ## Phase 2 — TEST
 
-After BUILD completes, launch a **different fresh Codex execution** dedicated only to TEST.
+After BUILD completes, launch a **different fresh agent execution** dedicated only to TEST.
 
 The Tester must not inherit the Builder's reasoning as proof. Give it the bounded contract, the exact candidate, and the tests/probes it must execute.
 
@@ -92,7 +92,7 @@ At the first material TEST failure, preserve evidence and stop this acceptance a
 
 ## Phase 3 — VERIFY
 
-Only after TEST passes, launch a **third fresh Codex execution** dedicated only to independent VERIFY.
+Only after TEST passes, launch a **third fresh agent execution** dedicated only to independent VERIFY.
 
 Prefer the installed upstream review/debugging skills when useful, such as the current code-review or diagnosing-bugs skills. Discover exact names rather than assuming them.
 
@@ -100,9 +100,9 @@ The Verifier must actively attempt to disprove both BUILD and TEST.
 
 At minimum, verify:
 
-- the Builder was a real separate Codex execution
-- the Tester was a real separate Codex execution
-- the Verifier itself is a distinct fresh Codex execution
+- the Builder was a real separate agent execution
+- the Tester was a real separate agent execution
+- the Verifier itself is a distinct fresh agent execution
 - baseline and candidate identities are exact
 - required tests actually ran
 - hostile probes actually executed
@@ -138,7 +138,7 @@ For each BUILD / TEST / VERIFY execution record at least:
 
 - execution ID
 - role
-- actual Codex runtime provenance
+- actual agent runtime provenance
 - baseline SHA
 - candidate SHA where applicable
 - context/spec/ticket identity
