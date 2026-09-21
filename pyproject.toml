@@ -57,6 +57,10 @@ control = ["**/*"]
 schemas = ["**/*"]
 skills = ["**/*"]
 
+[tool.setuptools.exclude-package-data]
+# Build artifacts are never part of a self-contained bootstrap payload.
+"*" = ["**/__pycache__/*", "**/*.pyc"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"

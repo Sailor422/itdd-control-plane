@@ -32,54 +32,95 @@ def _validate_bundle(bundle: Path) -> tuple[bool, list[str]]:
     return not missing, missing
 
 
-def _copy_missing(source: Path, destination: Path) -> list[str]:
-    """Copy a bundle without replacing any user-owned file."""
+def _copy_missing(source: Path, destination: Path, source_root: Path, destination_root: Path) -> list[str]:
+    """Copy bundle content without replacing files or following symlinks."""
+    source_root = source_root.resolve()
+    destination_root = destination_root.resolve()
+    if source.is_symlink() or destination.is_symlink():
+        raise ValueError(f"refusing symlink during bundle copy: {source} -> {destination}")
+    try:
+        source.resolve().relative_to(source_root)
+        destination.resolve().relative_to(destination_root)
+    except ValueError as exc:
+        raise ValueError(f"bundle copy escapes its root: {source} -> {destination}") from exc
+
     created = []
     if source.is_dir():
         destination.mkdir(parents=True, exist_ok=True)
         for child in source.iterdir():
-            created.extend(_copy_missing(child, destination / child.name))
-    elif not destination.exists():
+            if child.name == "__pycache__" or child.suffix == ".pyc":
+                continue
+            created.extend(_copy_missing(child, destination / child.name, source_root, destination_root))
+    elif source.is_file() and not destination.exists():
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, destination)
         created.append(str(destination))
     return created
 
 
-def install_itdd_bundle(root: Path, result: dict) -> bool:
-    """Install the control-plane and skills payload into *root*."""
+def _manifest_contracts(bundle: Path, manifest_path: Path) -> tuple[bool, str]:
+    """Check an existing manifest without changing the destination."""
+    if manifest_path.is_symlink():
+        return False, "Existing skills/manifest.json is a symlink; refusing to follow it."
+    try:
+        existing = json.loads(manifest_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return False, "Existing skills/manifest.json is invalid or empty; refusing to overwrite it."
+    entries = existing.get("skills") if isinstance(existing, dict) else None
+    if not isinstance(entries, list) or not entries:
+        return False, "Existing skills/manifest.json is invalid or empty; refusing to overwrite it."
+    for entry in entries:
+        if not isinstance(entry, dict) or not isinstance(entry.get("id"), str) or not isinstance(entry.get("contract"), str):
+            return False, "Existing skills/manifest.json contains an invalid skill entry; refusing to overwrite it."
+        contract = Path(entry["contract"])
+        if contract.is_absolute() or ".." in contract.parts:
+            return False, "Existing skills/manifest.json contains an unsafe contract path; refusing to overwrite it."
+        bundled = bundle / "skills" / contract
+        if not bundled.is_file() or bundled.is_symlink():
+            return False, f"Existing skills/manifest.json references an unrelated or missing contract: {entry['contract']}"
+    return True, ""
+
+
+def _preflight_install(root: Path) -> tuple[bool, str]:
+    """Validate every install refusal condition before any destination mutation."""
     bundle = _bundle_root()
     valid, missing = _validate_bundle(bundle)
     if not valid:
-        result["errors"].append(
-            "ITDD runtime/control-plane bundle is unavailable at "
-            f"{bundle}: missing {', '.join(missing)}. Reinstall itdd-control-plane."
-        )
+        return False, ("ITDD runtime/control-plane bundle is unavailable at "
+                       f"{bundle}: missing {', '.join(missing)}. Reinstall itdd-control-plane.")
+    manifest_path = root / "skills" / "manifest.json"
+    if manifest_path.exists() or manifest_path.is_symlink():
+        ok, error = _manifest_contracts(bundle, manifest_path)
+        if not ok:
+            return False, error
+    # Existing destination directories must not be symlinks, since copy_missing
+    # intentionally never follows them.
+    for name in ("control", "skills", "schemas"):
+        path = root / name
+        if path.is_symlink():
+            return False, f"Refusing to copy through symlinked destination: {path}"
+    for payload in (bundle / "control", bundle / "skills", bundle / "schemas"):
+        for path in payload.rglob("*"):
+            if path.is_symlink():
+                return False, f"Refusing symlink in bundled payload: {path}"
+    return True, ""
+
+
+def install_itdd_bundle(root: Path, result: dict) -> bool:
+    """Install the control-plane and skills payload into *root*."""
+    bundle = _bundle_root()
+    ok, error = _preflight_install(root)
+    if not ok:
+        result["errors"].append(error)
         return False
 
-    skill_root = root / "skills"
-    manifest_path = skill_root / "manifest.json"
-    if manifest_path.exists():
-        try:
-            existing = json.loads(manifest_path.read_text())
-        except (OSError, json.JSONDecodeError):
-            existing = None
-        if not isinstance(existing, dict) or not existing.get("skills"):
-            result["errors"].append("Existing skills/manifest.json is invalid or empty; refusing to overwrite it.")
-            return False
-
-    # The runtime is deliberately copied to the conventional import path.
-    _copy_missing(bundle / "control", root / "control")
-    # Do not copy the source repository's development manifest: the new
-    # project's manifest is generated below from the actual skill documents.
+    _copy_missing(bundle / "control", root / "control", bundle, root)
     for child in (bundle / "skills").iterdir():
         if child.name not in {"manifest.json", "__pycache__"}:
-            _copy_missing(child, skill_root / child.name)
-    schemas_root = root / "schemas"
+            _copy_missing(child, root / "skills" / child.name, bundle / "skills", root / "skills")
     if (bundle / "schemas").is_dir():
-        _copy_missing(bundle / "schemas", schemas_root)
-    # This is the canonical contract shipped by the control plane. Keep the
-    # manifest shape aligned with SkillRuntime.discover().
+        _copy_missing(bundle / "schemas", root / "schemas", bundle, root)
+    manifest_path = root / "skills" / "manifest.json"
     manifest = {
         "manifest_version": "1.0",
         "project_local_only": True,
@@ -95,7 +136,6 @@ def install_itdd_bundle(root: Path, result: dict) -> bool:
         result["created"].append("skills/manifest.json")
     result["created"].append("ITDD runtime/control-plane and local skills bundle")
     return True
-
 
 def check_pocock_setup(root: Path) -> tuple[bool, list[str]]:
     """Check if Matt Pocock skills setup has been run.
@@ -167,13 +207,11 @@ def initialize_itdd_project(root: Path) -> dict:
         result["errors"].append(".idd/ already exists. This project is already ITDD-initialized.")
         return result
 
-    # Validate the installed payload before creating any project files.
-    bundle_ok, bundle_missing = _validate_bundle(_bundle_root())
-    if not bundle_ok:
-        result["errors"].append(
-            "ITDD runtime/control-plane bundle is unavailable at "
-            f"{_bundle_root()}: missing {', '.join(bundle_missing)}. Reinstall itdd-control-plane."
-        )
+    # Preflight all bundle and manifest refusal conditions before git init or
+    # any other destination mutation.
+    install_ok, install_error = _preflight_install(root)
+    if not install_ok:
+        result["errors"].append(install_error)
         return result
     
     # Initialize git if needed (use user's existing identity, don't set fake identity)

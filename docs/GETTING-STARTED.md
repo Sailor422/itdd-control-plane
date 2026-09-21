@@ -111,6 +111,7 @@ After Pocock setup completes:
 **Note:** `/itdd-new` will fail if Pocock setup is not detected.
 
 This creates:
+- A self-contained local runtime and bundled contracts in `control/`, `schemas/`, and `skills/`
 - `.idd/` directory structure (ITDD authoritative state)
 - `CONTEXT.md` (domain glossary template)
 - `src/` and `tests/` directories
@@ -118,6 +119,12 @@ This creates:
 - `skills/manifest.json` (project-local ITDD skills)
 - `.gitignore`
 - Initial git commit: "ITDD infrastructure initialized"
+
+### Bootstrap safety
+
+The bootstrap performs a read-only preflight before Git initialization or file creation. It refuses an invalid or empty existing `skills/manifest.json`, and refuses manifests that reference contracts not shipped in the local bundle. A valid manifest is retained after its contracts are verified against the bundle. Symlinked bundle content or destination roots is rejected to prevent path escape. Copied payloads omit `__pycache__` directories and `.pyc` files; wheel builds omit them too.
+
+If preflight fails, the destination is unchanged. Fix or remove the existing manifest, then run `/itdd-new` again.
 
 ### Verify Setup
 

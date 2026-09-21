@@ -55,9 +55,16 @@ The setup skill configures:
 - `AGENTS.md` or `CLAUDE.md` with agent skills block
 
 Then `/itdd-new` creates:
+- A self-contained local runtime and bundled skill contract under `control/`, `schemas/`, and `skills/`
 - Complete ITDD infrastructure (`.idd/`)
 - Project scaffolding (`src/`, `tests/`, `CONTEXT.md`, `docs/adr/`)
 - Initial git commit
+
+### Bootstrap safety and packaged payload
+
+`/itdd-new` validates the bundled runtime and any existing `skills/manifest.json` before it changes the project. An invalid, empty, or unrelated manifest is rejected without creating `.idd/`, initializing Git, or copying files. Existing manifests are accepted only when every listed contract is a safe relative path to a contract bundled by this package. The installer never follows symlinks, and skips `__pycache__` and `.pyc` files. Wheel package data applies the same artifact exclusions.
+
+The generated manifest points to the local `grill_with_docs/skill.json` contract, so runtime discovery does not depend on the source checkout or network after installation.
 
 This creates:
 - Complete ITDD infrastructure (`.idd/`)

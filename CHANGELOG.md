@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0 - 2026-09-21
+
+- Hardened `/itdd-new` bootstrap preflight: invalid, empty, or unrelated manifests fail before mutation.
+- Added symlink containment checks and omitted Python build artifacts from copied and packaged bundles.
+- Documented the self-contained runtime and local manifest contract.
+
 ## 0.1.0 - 2026-09-19
 
 - Created the canonical repository baseline.

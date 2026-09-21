@@ -51,3 +51,49 @@ def test_bootstrap_runtime_discovers_contract(tmp_path):
     assert (tmp_path / "schemas").is_dir()
     assert (tmp_path / "skills" / "grill_with_docs" / "skill.json").exists()
     assert (tmp_path / "skills" / "grill-with-docs" / "SKILL.md").exists()
+
+
+def test_invalid_existing_manifest_refuses_without_mutation(tmp_path):
+    project(tmp_path)
+    skills = tmp_path / "skills"; skills.mkdir()
+    (skills / "manifest.json").write_text("{}")
+    before = sorted(str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*"))
+    result = itdd_new.initialize_itdd_project(tmp_path)
+    after = sorted(str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*"))
+    assert not result["success"]
+    assert "invalid or empty" in result["errors"][0]
+    assert before == after
+
+
+def test_unrelated_existing_manifest_refuses_without_mutation(tmp_path):
+    project(tmp_path)
+    skills = tmp_path / "skills"; skills.mkdir()
+    (skills / "manifest.json").write_text(json.dumps({"skills": [{"id": "other", "contract": "other/skill.json"}]}))
+    before = sorted(str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*"))
+    result = itdd_new.initialize_itdd_project(tmp_path)
+    after = sorted(str(p.relative_to(tmp_path)) for p in tmp_path.rglob("*"))
+    assert not result["success"]
+    assert "unrelated" in result["errors"][0]
+    assert before == after
+
+
+def test_bundle_symlink_refuses_without_mutation(tmp_path, monkeypatch):
+    project(tmp_path)
+    bundle = itdd_new._bundle_root()
+    link = bundle / "skills" / "_test_escape_link"
+    link.symlink_to(Path("/tmp"), target_is_directory=True)
+    try:
+        result = itdd_new.initialize_itdd_project(tmp_path)
+    finally:
+        link.unlink()
+    assert not result["success"]
+    assert "symlink" in result["errors"][0]
+    assert not (tmp_path / ".idd").exists()
+
+
+def test_bootstrap_skips_build_artifacts(tmp_path):
+    project(tmp_path)
+    result = itdd_new.initialize_itdd_project(tmp_path)
+    assert result["success"]
+    assert not list((tmp_path / "skills").rglob("__pycache__"))
+    assert not list(tmp_path.rglob("*.pyc"))
