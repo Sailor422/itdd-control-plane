@@ -1,8 +1,24 @@
 # ITDD Control Plane
 
+> **⚠️ Work in Progress — Research Prototype**
+> 
+> This is an active research implementation focused on Prime Agent integration.
+> The architecture is stable for experimentation, but APIs and workflows may change.
+> Use for learning, evaluation, and contribution — not for production systems.
+
 **Intent-Driven Development with Independent Verification**
 
-ITDD Control Plane is a production-ready architecture for reliable AI-assisted software engineering. It enforces role separation between human authority, agent reasoning, and controller-owned lifecycle operations.
+ITDD Control Plane implements an architecture for reliable AI-assisted software engineering. It enforces role separation between human authority, agent reasoning, and controller-owned lifecycle operations.
+
+## Attribution
+
+This project implements:
+
+- **Prof Matt Pocock's AI-Assisted Engineering methodology** — Engineering skills, issue tracking workflow, and domain documentation patterns. See [`@total-typescript`](https://github.com/total-typescript) and his AI engineering talks.
+
+- **Intent-Driven Development (IDD) research** — Human-intent-first development with AI execution, controller-owned lifecycle, and independent verification.
+
+- **Prime Agent** — Current implementation is tightly integrated with Prime Agent as the execution harness. The architecture is designed to be harness-neutral, but Prime is the only supported backend at this time.
 
 ## Quick Start
 
