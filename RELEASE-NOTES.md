@@ -135,7 +135,7 @@ itdd-control-plane/
 
 ```bash
 # From source (development)
-git clone https://github.com/itdd-control-plane/itdd-control-plane.git
+git clone https://github.com/Sailor422/itdd-control-plane.git
 cd itdd-control-plane
 pip install -e ".[dev]"
 
@@ -192,8 +192,8 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ## Contact
 
-- **Issues**: https://github.com/itdd-control-plane/itdd-control-plane/issues
-- **Discussions**: https://github.com/itdd-control-plane/itdd-control-plane/discussions
+- **Issues**: https://github.com/Sailor422/itdd-control-plane/issues
+- **Discussions**: https://github.com/Sailor422/itdd-control-plane/discussions
 - **Security**: See [SECURITY.md](SECURITY.md)
 
 ---

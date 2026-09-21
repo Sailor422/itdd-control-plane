@@ -142,9 +142,8 @@ def initialize_itdd_project(root: Path) -> dict:
 
 ## Authority Boundaries
 
-- **Human decisions**: intent approval, material new authority requests
-- **Controller authority**: graph activation, EU execution, verification, integration (deterministic lifecycle)
-- **Agent/Planner authority**: clarification proposals, implementation within approved EU scope
+- **Human decisions**: intent approval, graph approval, promotion
+- **Agent authority**: clarification proposals, implementation within EU scope
 """)
         result["created"].append("CONTEXT.md")
     

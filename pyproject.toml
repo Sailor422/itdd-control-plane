@@ -42,10 +42,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/itdd-control-plane/itdd-control-plane"
-Documentation = "https://github.com/itdd-control-plane/itdd-control-plane/blob/main/docs/agents/itdd-in-prime-usage.md"
-Repository = "https://github.com/itdd-control-plane/itdd-control-plane"
-Issues = "https://github.com/itdd-control-plane/itdd-control-plane/issues"
+Homepage = "https://github.com/Sailor422/itdd-control-plane"
+Documentation = "https://github.com/Sailor422/itdd-control-plane/blob/main/docs/agents/itdd-in-prime-usage.md"
+Repository = "https://github.com/Sailor422/itdd-control-plane"
+Issues = "https://github.com/Sailor422/itdd-control-plane/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
