@@ -113,10 +113,16 @@ def invoke(*, role: str, candidate: Path, prompt: str, scratch: Path, writable: 
     output = scratch / f"{eid}.last-message.json"
     events = scratch / f"{eid}.events.jsonl"
     env = os.environ.copy()
+    runtime_home = scratch / "codex-home"
+    if not writable:
+        runtime_home.mkdir(parents=True, exist_ok=True)
     env.update({"TMPDIR": str(scratch), "TMP": str(scratch), "TEMP": str(scratch), "ITDD_OUTPUT": str(output), "ITDD_EXECUTION_ID": eid})
+    if not writable:
+        env["CODEX_HOME"] = str(runtime_home)
     launch_root = primary or candidate
     extra = additional or scratch
-    command = command_override or ["codex", "exec", "--model", "gpt-5.5", "--json", "--sandbox", "workspace-write" if writable else "read-only", "--add-dir", str(extra), "-C", str(launch_root), "-o", str(output), "-"]
+    sandbox_mode = "workspace-write" if writable else "read-only"
+    command = command_override or ["codex", "exec", "--model", "gpt-5.5", "--json", "--sandbox", sandbox_mode, "--add-dir", str(extra), "-C", str(launch_root), "-o", str(output), "-"]
     if timeout_seconds is None and role == "TEST":
         timeout_seconds = float(os.environ.get("ITDD_TEST_TIMEOUT_SECONDS", "600"))
     before = tree_digest(candidate)
@@ -180,7 +186,7 @@ def invoke(*, role: str, candidate: Path, prompt: str, scratch: Path, writable: 
     after = tree_digest(candidate)
     git_after = candidate_git_state(candidate) if (candidate / ".git").exists() else None
     stderr_text = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.exists() else ""
-    record: dict[str, object] = {"execution_id": eid, "role": role, "controller_assigned_role": role, "candidate_worktree": str(candidate), "candidate_digest_before": before, "candidate_digest_after": after, "candidate_unchanged": before == after, "candidate_git_before": git_before, "candidate_git_after": git_after, "candidate_git_clean": bool(git_after and git_after["clean"]), "scratch": str(scratch), "temp_env": {key: env[key] for key in ("TMPDIR", "TMP", "TEMP")}, "argv": command, "pid": process.pid, "returncode": process.returncode, "started_at": started, "finished_at": time.time(), "stdout_file": str(stdout_path), "stderr_file": str(stderr_path), "stderr": stderr_text, "heartbeat_file": str(heartbeat_path), "stdout_bytes": stdout_bytes[0], "stderr_bytes": stderr_bytes[0], "terminal_state": terminal_state, "terminal_reason": stop_reason, "timeout_seconds": timeout_seconds, "output_file": str(output), "output_exists": output.exists()}
+    record: dict[str, object] = {"execution_id": eid, "role": role, "controller_assigned_role": role, "candidate_worktree": str(candidate), "candidate_digest_before": before, "candidate_digest_after": after, "candidate_unchanged": before == after, "candidate_git_before": git_before, "candidate_git_after": git_after, "candidate_git_clean": bool(git_after and git_after["clean"]), "scratch": str(scratch), "temp_env": {key: env[key] for key in ("TMPDIR", "TMP", "TEMP")}, "codex_home": env.get("CODEX_HOME"), "sandbox_mode": sandbox_mode, "argv": command, "pid": process.pid, "returncode": process.returncode, "started_at": started, "finished_at": time.time(), "stdout_file": str(stdout_path), "stderr_file": str(stderr_path), "stderr": stderr_text, "heartbeat_file": str(heartbeat_path), "stdout_bytes": stdout_bytes[0], "stderr_bytes": stderr_bytes[0], "terminal_state": terminal_state, "terminal_reason": stop_reason, "timeout_seconds": timeout_seconds, "output_file": str(output), "output_exists": output.exists()}
     if identity:
         record.update(identity)
     if required_test_command:
@@ -314,11 +320,10 @@ Run implementation-local checks. Do not commit, certify, promote, or act as TEST
     verify_dir = evidence / "verify-candidate"
     for checkout in (test_dir, verify_dir):
         clone_at(build_dir, checkout, identity["candidate_commit_sha"])
-        make_candidate_read_only(checkout)
     test_command = f"cd {test_dir} && PYTHONPATH={test_dir} PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_itdd_execute_orchestration.py -p no:cacheprovider --basetemp=$TMPDIR/pytest"
     test_prompt = f"""You are a fresh TEST execution. Work read-only in exact candidate checkout {test_dir}; scratch is {scratch / 'test'}.
 The controller-bound identity is baseline_sha={identity['baseline_sha']}, candidate_commit_sha={identity['candidate_commit_sha']}, candidate_tree_sha={identity['candidate_tree_sha']}. Resolve all three with Git yourself before testing. Run {test_command}. Execute real hostile probes for different candidate, tree mismatch, baseline mismatch, missing/ambiguous digest, stale evidence, candidate write/commit, and fake/placeholder acceptance evidence. Prove candidate SHA/tree before and after are unchanged, scratch remains writable, and rejected operations do not advance authoritative state. Return JSON status PASS/FAIL with fields baseline_sha, candidate_commit_sha, candidate_tree_sha, exact_test_command, hostile_probes, and candidate_immutability. Do not edit candidate, evidence, or act as VERIFY."""
-    test = invoke(role="TEST", candidate=test_dir, prompt=test_prompt, scratch=scratch / "test", writable=True, identity=identity, required_test_command=test_command, primary=scratch / "test", additional=test_dir)
+    test = invoke(role="TEST", candidate=test_dir, prompt=test_prompt, scratch=scratch / "test", writable=False, identity=identity, required_test_command=test_command, primary=scratch / "test", additional=test_dir)
     test_gate = verify_gate_decision(test, identity)
     if test["returncode"] != 0 or not test["output_exists"] or not test_gate["allowed"]:
         result = {"status": "FAIL", "failed_at": "TEST", "baseline_sha": baseline, "candidate": identity, "build": build, "test": test, "test_gate": test_gate, "evidence": str(evidence)}
@@ -326,7 +331,7 @@ The controller-bound identity is baseline_sha={identity['baseline_sha']}, candid
         return result
     verify_prompt = f"""You are the fresh independent VERIFY execution. Inspect read-only candidate checkout {verify_dir} and TEST raw evidence {test['output_file']}.
 Independently resolve Git baseline_sha={identity['baseline_sha']}, candidate_commit_sha={identity['candidate_commit_sha']}, candidate_tree_sha={identity['candidate_tree_sha']}; do not trust acceptance JSON. Prove the commit exists, tree matches, TEST used that exact commit/tree, BUILD points to it, and SHA/tree are unchanged before/after VERIFY. Re-run critical positive and hostile checks with {test_command}. Challenge mismatched candidate/tree/baseline, ambiguous digest substitution, stale evidence, candidate mutation, and role spoofing. Return JSON status PASS/FAIL with an independently_observed_candidate object containing all three Git identities, hostile_probes, and candidate_immutability. Do not modify source or candidate state and do not repair."""
-    verify = invoke(role="VERIFY", candidate=verify_dir, prompt=verify_prompt, scratch=scratch / "verify", writable=True, identity=identity, primary=scratch / "verify", additional=verify_dir)
+    verify = invoke(role="VERIFY", candidate=verify_dir, prompt=verify_prompt, scratch=scratch / "verify", writable=False, identity=identity, primary=scratch / "verify", additional=verify_dir)
     status = "PASS" if verify["returncode"] == 0 and verify["output_exists"] and verify["candidate_unchanged"] and verify["candidate_git_clean"] and reported_pass(verify, "VERIFY", identity) else "FAIL"
     result = {"status": status, "baseline_sha": baseline, "candidate": identity, "build": build, "test": test, "verify": verify, "evidence": str(evidence), "previous_failure_preserved": True}
     (evidence / "acceptance.json").write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

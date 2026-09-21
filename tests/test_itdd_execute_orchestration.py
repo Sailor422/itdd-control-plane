@@ -21,6 +21,16 @@ def test_test_role_gets_writable_temp_without_candidate_write_access():
     assert result["scratch_files"]
 
 
+def test_live_read_only_role_uses_scratch_codex_home_and_read_only_sandbox(tmp_path: Path):
+    candidate, scratch = command_fixture(tmp_path)
+    source = "import json, os; open(os.environ['ITDD_OUTPUT'], 'w').write(json.dumps({'status':'PASS'}))"
+    record = invoke(role="TEST", candidate=candidate, prompt="", scratch=scratch, writable=False, command_override=python_process(source), timeout_seconds=2)
+    assert record["candidate_unchanged"] is True
+    assert record["temp_env"]["TMPDIR"] == str(scratch)
+    assert record["sandbox_mode"] == "read-only"
+    assert record["codex_home"] == str(scratch / "codex-home")
+
+
 def git(root: Path, *args: str) -> str:
     return subprocess.check_output(["git", *args], cwd=root, text=True).strip()
 
