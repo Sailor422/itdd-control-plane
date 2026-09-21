@@ -17,6 +17,30 @@ Prepare, but do not execute, one bounded ITDD milestone. This skill ends with a 
 - Preserve prompts, outputs, source identities, decisions, and failures as durable evidence under a preparation directory (for example `.idd/preparation/<preparation-id>/`). Never replace a failed attempt with a later success.
 - Stop if a required input, baseline SHA, path boundary, acceptance criterion, or evidence obligation is unknown. Ask the human instead of guessing.
 
+## Lazy Pocock-skill routing
+
+Consult a helper skill only when its trigger applies; do not preload or run the
+whole Pocock skill set. The router selects the smallest applicable helper and
+records that consultation in phase evidence:
+
+| Trigger | Consult | Preparation-only output |
+| --- | --- | --- |
+| Ambiguity, contested assumptions, or an unresolved decision frontier | `grilling` | Questions, recommended answers, and the human decision frontier |
+| An external or repository fact is needed | `research` | Cited facts with source revision or URL |
+| Glossary terminology conflicts, or a glossary/ADR decision is needed | `domain-modeling` | Clarification proposal for terms or an ADR decision proposal |
+| A public seam or module boundary is unclear | `codebase-design` | Interface/seam options and trade-offs |
+| Acceptance seams or positive/negative tests need shaping | `tdd` | Testable seam and acceptance-test proposal |
+| A skill or handoff contract needs clearer agent-facing wording | `writing-for-agents` | Wording/pointer proposal |
+| An independent standards/spec review is required | `code-review` | Separate standards and spec findings |
+| A reproducible failure is reported and needs diagnosis | `diagnosing-bugs` | Reproduction loop and diagnosis evidence |
+
+These skills are consulted only when their trigger applies. A fresh phase-agent identity and ITDD role separation remain mandatory even when a helper is used.
+No helper skill may approve intent, grant authority, or execute BUILD, TEST, or VERIFY; each can produce only a clarification proposal or preparation evidence.
+
+For a future Kanban/UI consumer, grilling evidence should preserve structured
+`question`, `recommendation`, `human answer`, `blocker`, `phase`, and `execution identity` fields. This is future-facing evidence guidance only; Kanban/UI work is
+out of current implementation scope.
+
 ## Phase protocol
 
 1. **DISCOVERY** — map the request to its source spec/ticket/intent, repository state, current baseline SHA, relevant paths, constraints, and open questions. No solution design or edits. If no immutable source is found, record that fact as a blocker; do not infer or invent intent.

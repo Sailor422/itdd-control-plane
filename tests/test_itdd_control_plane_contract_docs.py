@@ -22,3 +22,21 @@ def test_usage_documents_preparation_handoff_and_evidence():
         assert ".idd/build_workspaces/" in text
         assert ".idd/preparation/" in text
         assert "BUILD" in text and "TEST" in text and "VERIFY" in text
+
+
+def test_preparation_handoff_documents_lazy_helper_routing_and_boundaries():
+    text = (ROOT / "docs" / "agents" / "itdd-preparation-execution-handoff.md").read_text()
+    assert "## Lazy helper-skill routing" in text
+    assert "/itdd-prepare` is an explicit router" in text
+    for phrase in (
+        "`grilling` for", "`research` for", "`domain-modeling` only",
+        "`codebase-design` when", "`tdd` for", "`writing-for-agents` for",
+        "`code-review` for", "`diagnosing-bugs` only",
+        "fresh phase-agent", "ITDD role separation",
+        "No helper can approve intent", "execute BUILD, TEST, or VERIFY",
+        "future Kanban/UI consumer", "out of current implementation scope",
+    ):
+        assert phrase in text
+    for field in ("question", "recommendation", "human answer", "blocker", "phase", "execution identity"):
+        assert f"`{field}`" in text
+    assert "no UI is added" in text
