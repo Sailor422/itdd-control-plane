@@ -79,20 +79,45 @@ cd oak-harbor-marina
 prime-agent
 ```
 
-### Initialize with ITDD
+### Step 1: Configure Matt Pocock Skills (REQUIRED)
+
+**This step is mandatory.** The Matt Pocock engineering skills (`/triage`, `/to-spec`, `/to-tickets`, etc.) require per-repo configuration.
 
 In the Prime prompt:
+```
+/setup-matt-pocock-skills
+```
+
+This interactive skill will:
+1. **Explore** your repo (git remote, existing docs, etc.)
+2. **Ask** about your issue tracker (GitHub/GitLab/local markdown)
+3. **Ask** about triage label vocabulary (defaults recommended)
+4. **Ask** about domain docs layout (single-context vs multi-context)
+5. **Write** configuration files:
+   - `docs/agents/issue-tracker.md`
+   - `docs/agents/triage-labels.md`
+   - `docs/agents/domain.md`
+   - `AGENTS.md` or `CLAUDE.md` (agent skills block)
+
+**Do not skip this step.** The engineering skills read these config files at runtime.
+
+### Step 2: Initialize ITDD Infrastructure
+
+After Pocock setup completes:
 ```
 /itdd-new
 ```
 
+**Note:** `/itdd-new` will fail if Pocock setup is not detected.
+
 This creates:
-- `.idd/` directory structure (ITDD state)
-- `docs/agents/` (engineering skills config)
+- `.idd/` directory structure (ITDD authoritative state)
 - `CONTEXT.md` (domain glossary template)
 - `src/` and `tests/` directories
-- `skills/manifest.json` (project-local skills)
-- Initial git commit
+- `docs/adr/` (architectural decisions)
+- `skills/manifest.json` (project-local ITDD skills)
+- `.gitignore`
+- Initial git commit: "ITDD infrastructure initialized"
 
 ### Verify Setup
 
@@ -102,14 +127,24 @@ tree -L 2 -I '.git'
 # Should show:
 # .idd/
 # docs/
-#   agents/
+#   agents/        (from Pocock setup)
 #   adr/
 # src/
 # tests/
-# AGENTS.md
+# AGENTS.md        (from Pocock setup)
 # CONTEXT.md
 # skills/manifest.json
 ```
+
+### Review Generated Configuration
+
+Before proceeding, review what was created:
+
+1. **`docs/agents/issue-tracker.md`** - Verify issue tracker is correct
+2. **`docs/agents/triage-labels.md`** - Review triage label vocabulary
+3. **`docs/agents/domain.md`** - Confirm single-context layout
+4. **`AGENTS.md`** - Check agent skills block
+5. **`CONTEXT.md`** - Edit with your domain glossary**
 
 ## Your First Execution Unit
 

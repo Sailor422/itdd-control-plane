@@ -14,16 +14,34 @@ ITDD Control Plane is a production-ready architecture for reliable AI-assisted s
 
 ### Initialize a New Project
 
+**Important:** Matt Pocock engineering skills require per-repo setup. Run `/setup-matt-pocock-skills` **before** `/itdd-new`.
+
 ```bash
 # Create your project directory
 cd ~/Projects
 mkdir oak-harbor-marina
 cd oak-harbor-marina
 
-# Start Prime and initialize
+# Start Prime
 prime-agent
+
+# Step 1: Configure Matt Pocock engineering skills (REQUIRED FIRST)
+/setup-matt-pocock-skills
+
+# Step 2: Initialize ITDD infrastructure
 /itdd-new
 ```
+
+The setup skill configures:
+- Issue tracker (GitHub/GitLab/local markdown)
+- Triage label vocabulary
+- Domain docs layout
+- `AGENTS.md` or `CLAUDE.md` with agent skills block
+
+Then `/itdd-new` creates:
+- Complete ITDD infrastructure (`.idd/`)
+- Project scaffolding (`src/`, `tests/`, `CONTEXT.md`, `docs/adr/`)
+- Initial git commit
 
 This creates:
 - Complete ITDD infrastructure (`.idd/`)
@@ -33,11 +51,13 @@ This creates:
 
 ### Workflow
 
-1. **Clarify requirements**: `/grill-with-docs`
-2. **Create and approve intent**: Human decision (immutable)
-3. **Propose execution graph**: Planner agent
-4. **Run EUs**: `PrimeBuilderAdapter` with independent verification
-5. **Review and promote**: Human gate
+1. **Review generated config**: Check `docs/agents/*.md` and `AGENTS.md`
+2. **Edit CONTEXT.md**: Add your domain glossary and project identity
+3. **Clarify requirements**: `/grill-with-docs`
+4. **Create and approve intent**: Human decision (immutable)
+5. **Propose execution graph**: Planner agent
+6. **Run EUs**: `PrimeBuilderAdapter` with independent verification
+7. **Review and promote**: Human gate
 
 See [Usage Guide](docs/agents/itdd-in-prime-usage.md) for complete workflow.
 

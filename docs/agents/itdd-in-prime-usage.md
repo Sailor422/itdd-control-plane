@@ -14,13 +14,35 @@ ITDD control plane supports **arbitrary external project roots**:
 
 ## New Project Initialization
 
-### One-Step Initialization
+### Two-Step Initialization
+
+**Important:** Matt Pocock engineering skills require per-repo setup BEFORE ITDD initialization.
 
 ```bash
 cd ~/Projects/oak-harbor-marina
 prime-agent
-/itdd-new
+/setup-matt-pocock-skills   # REQUIRED FIRST - configures issue tracker, labels, domain docs
+/itdd-new                   # Creates ITDD infrastructure
 ```
+
+**Why this order?**
+- `/setup-matt-pocock-skills` is **user-invoked and interactive** (by design)
+- It inspects your repo and asks about issue tracking, labels, and docs layout
+- It writes repo-specific config under `docs/agents/` and `AGENTS.md`
+- `/itdd-new` checks for this config and **will fail** if not found
+- There is no global substitute - every repo needs its own setup
+
+**What each does:**
+1. `/setup-matt-pocock-skills`:
+   - Configures issue tracker (GitHub/GitLab/local)
+   - Sets triage label vocabulary
+   - Defines domain docs layout
+   - Creates `AGENTS.md` with agent skills block
+
+2. `/itdd-new`:
+   - Creates `.idd/` infrastructure
+   - Adds project scaffolding (`src/`, `tests/`, `CONTEXT.md`)
+   - Initializes git and creates initial commit
 
 This single command creates:
 
