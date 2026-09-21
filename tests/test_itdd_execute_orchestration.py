@@ -27,8 +27,26 @@ def test_live_read_only_role_uses_scratch_codex_home_and_read_only_sandbox(tmp_p
     record = invoke(role="TEST", candidate=candidate, prompt="", scratch=scratch, writable=False, command_override=python_process(source), timeout_seconds=2)
     assert record["candidate_unchanged"] is True
     assert record["temp_env"]["TMPDIR"] == str(scratch)
-    assert record["sandbox_mode"] == "read-only"
+    assert record["sandbox_mode"] == "workspace-write"
+    assert str(candidate) not in record["argv"]
+    assert record["candidate_access_mode"] == "read-only-outside-workspace"
     assert record["codex_home"] == str(scratch / "codex-home")
+
+
+def test_live_read_only_role_seeds_auth_into_scratch_without_using_candidate(tmp_path: Path, monkeypatch):
+    source_home = tmp_path / "source-codex-home"
+    source_home.mkdir()
+    (source_home / "auth.json").write_text('{"token":"secret"}\n')
+    (source_home / "config.toml").write_text('model = "gpt-5.5"\n')
+    monkeypatch.setenv("CODEX_HOME", str(source_home))
+    candidate, scratch = command_fixture(tmp_path)
+    source = "import json, os; open(os.environ['ITDD_OUTPUT'], 'w').write(json.dumps({'status':'PASS'}))"
+    record = invoke(role="TEST", candidate=candidate, prompt="", scratch=scratch, writable=False, command_override=python_process(source), timeout_seconds=2)
+    isolated = scratch / "codex-home"
+    assert record["codex_auth_seeded"] is True
+    assert (isolated / "auth.json").read_text() == '{"token":"secret"}\n'
+    assert (isolated / "config.toml").exists()
+    assert record["candidate_unchanged"] is True
 
 
 def git(root: Path, *args: str) -> str:

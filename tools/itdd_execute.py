@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import signal
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -107,6 +108,22 @@ def _stop_process(process: subprocess.Popen[bytes]) -> str:
         return "kill"
 
 
+def _prepare_isolated_codex_home(runtime_home: Path) -> bool:
+    """Seed writable runtime state without putting credentials in evidence."""
+    source_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex")))
+    runtime_home.mkdir(parents=True, exist_ok=True)
+    seeded = False
+    for name in ("auth.json", "config.toml"):
+        source = source_home / name
+        if source.is_file():
+            destination = runtime_home / name
+            shutil.copy2(source, destination)
+            if name == "auth.json":
+                destination.chmod(0o600)
+            seeded = True
+    return seeded
+
+
 def invoke(*, role: str, candidate: Path, prompt: str, scratch: Path, writable: bool, identity: dict[str, str] | None = None, required_test_command: str | None = None, primary: Path | None = None, additional: Path | None = None, command_override: list[str] | None = None, timeout_seconds: float | None = None, heartbeat_seconds: float = 5.0, interrupt_after_seconds: float | None = None) -> dict[str, object]:
     scratch.mkdir(parents=True, exist_ok=True)
     eid = execution_id(role)
@@ -114,14 +131,26 @@ def invoke(*, role: str, candidate: Path, prompt: str, scratch: Path, writable: 
     events = scratch / f"{eid}.events.jsonl"
     env = os.environ.copy()
     runtime_home = scratch / "codex-home"
+    auth_seeded = False
     if not writable:
-        runtime_home.mkdir(parents=True, exist_ok=True)
+        auth_seeded = _prepare_isolated_codex_home(runtime_home)
     env.update({"TMPDIR": str(scratch), "TMP": str(scratch), "TEMP": str(scratch), "ITDD_OUTPUT": str(output), "ITDD_EXECUTION_ID": eid})
     if not writable:
         env["CODEX_HOME"] = str(runtime_home)
     launch_root = primary or candidate
-    extra = additional or scratch
-    sandbox_mode = "workspace-write" if writable else "read-only"
+    if writable:
+        extra = additional or scratch
+        sandbox_mode = "workspace-write"
+        candidate_access_mode = "writable-workspace"
+    else:
+        # Pytest and Python's tempfile need process-level writes. Keep those
+        # writes in scratch, and leave the candidate outside Codex's writable
+        # workspace; controller snapshots remain the authoritative mutation
+        # guard.
+        launch_root = primary or scratch
+        extra = scratch
+        sandbox_mode = "workspace-write"
+        candidate_access_mode = "read-only-outside-workspace"
     command = command_override or ["codex", "exec", "--model", "gpt-5.5", "--json", "--sandbox", sandbox_mode, "--add-dir", str(extra), "-C", str(launch_root), "-o", str(output), "-"]
     if timeout_seconds is None and role == "TEST":
         timeout_seconds = float(os.environ.get("ITDD_TEST_TIMEOUT_SECONDS", "600"))
@@ -186,7 +215,7 @@ def invoke(*, role: str, candidate: Path, prompt: str, scratch: Path, writable: 
     after = tree_digest(candidate)
     git_after = candidate_git_state(candidate) if (candidate / ".git").exists() else None
     stderr_text = stderr_path.read_text(encoding="utf-8", errors="replace") if stderr_path.exists() else ""
-    record: dict[str, object] = {"execution_id": eid, "role": role, "controller_assigned_role": role, "candidate_worktree": str(candidate), "candidate_digest_before": before, "candidate_digest_after": after, "candidate_unchanged": before == after, "candidate_git_before": git_before, "candidate_git_after": git_after, "candidate_git_clean": bool(git_after and git_after["clean"]), "scratch": str(scratch), "temp_env": {key: env[key] for key in ("TMPDIR", "TMP", "TEMP")}, "codex_home": env.get("CODEX_HOME"), "sandbox_mode": sandbox_mode, "argv": command, "pid": process.pid, "returncode": process.returncode, "started_at": started, "finished_at": time.time(), "stdout_file": str(stdout_path), "stderr_file": str(stderr_path), "stderr": stderr_text, "heartbeat_file": str(heartbeat_path), "stdout_bytes": stdout_bytes[0], "stderr_bytes": stderr_bytes[0], "terminal_state": terminal_state, "terminal_reason": stop_reason, "timeout_seconds": timeout_seconds, "output_file": str(output), "output_exists": output.exists()}
+    record: dict[str, object] = {"execution_id": eid, "role": role, "controller_assigned_role": role, "candidate_worktree": str(candidate), "candidate_digest_before": before, "candidate_digest_after": after, "candidate_unchanged": before == after, "candidate_git_before": git_before, "candidate_git_after": git_after, "candidate_git_clean": bool(git_after and git_after["clean"]), "scratch": str(scratch), "temp_env": {key: env[key] for key in ("TMPDIR", "TMP", "TEMP")}, "codex_home": env.get("CODEX_HOME"), "codex_auth_seeded": auth_seeded, "sandbox_mode": sandbox_mode, "candidate_access_mode": candidate_access_mode, "argv": command, "pid": process.pid, "returncode": process.returncode, "started_at": started, "finished_at": time.time(), "stdout_file": str(stdout_path), "stderr_file": str(stderr_path), "stderr": stderr_text, "heartbeat_file": str(heartbeat_path), "stdout_bytes": stdout_bytes[0], "stderr_bytes": stderr_bytes[0], "terminal_state": terminal_state, "terminal_reason": stop_reason, "timeout_seconds": timeout_seconds, "output_file": str(output), "output_exists": output.exists()}
     if identity:
         record.update(identity)
     if required_test_command:
