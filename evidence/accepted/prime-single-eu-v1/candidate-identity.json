@@ -1,0 +1,17 @@
+{
+  "baseline_commit": "3a9595e479bd0291735611223ad103d939b68d50",
+  "candidate_checkout": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001",
+  "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+  "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+  "controller_commit_operation": {
+    "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+    "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+    "execution_id": "EXEC-BUILDER-000011",
+    "operation": "controller.git.commit",
+    "operation_id": "OP-PRIME-CLEAN",
+    "paths": [
+      "src/feature.py"
+    ]
+  },
+  "source_repo": "/Users/herbertfields/itdd-control-plane"
+}

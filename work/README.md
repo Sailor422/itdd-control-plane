@@ -4,7 +4,8 @@ This directory contains development artifacts, experimental proofs, and temporar
 
 ## Preserved Evidence
 
-- `proofs/prime-single-eu-20260921T034058Z-clean4/` - **The clean single-EU Prime proof** (PASS)
+- **Canonical public proof**: `evidence/accepted/prime-single-eu-v1/` (committed to repo)
+- **Working proof artifacts**: `proofs/prime-single-eu-20260921T034058Z-clean4/` (local, not committed)
 
 This proof demonstrates:
 - Real prime-agent binary execution via PrimeBuilderAdapter

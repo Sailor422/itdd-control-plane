@@ -57,3 +57,6 @@ Thumbs.db
 # Temporary
 *.tmp
 *.bak
+
+# EXCEPT: canonical accepted proofs (these ARE committed)
+!evidence/accepted/

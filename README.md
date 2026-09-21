@@ -142,7 +142,7 @@ See [Operational Lifecycle](docs/architecture/operational-lifecycle.md) for deta
 The single-EU lifecycle is **proven** with immutable evidence:
 
 ```bash
-work/proofs/prime-single-eu-20260921T034058Z-clean4/
+evidence/accepted/prime-single-eu-v1/
 ├── PASS.md                      # All checks passed
 ├── candidate-identity.json      # Controller-owned commit
 ├── controller-result.json       # Status: VERIFIED

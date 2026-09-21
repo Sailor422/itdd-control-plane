@@ -1,0 +1,1485 @@
+[
+  {
+    "actor_id": "human",
+    "actor_type": "human",
+    "event_hash": "ed0aedc40ca79b63b388451fc71b1460d3c1d48b5f3e3a10f6bdb63ad1ab20a9",
+    "event_id": "intent-created",
+    "event_type": "intent.draft.created",
+    "payload": {
+      "intent": {
+        "acceptance_summary": "feature value is 42",
+        "constraints": [],
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "human",
+        "intent_id": "I-001",
+        "project_id": "prime-demo-clean",
+        "purpose": "controlled Prime proof",
+        "requirements": [
+          {
+            "requirement_id": "REQ-001",
+            "text": "Create src/feature.py exposing VALUE = 42."
+          }
+        ],
+        "schema_version": 1,
+        "source_event_id": "intent-created",
+        "status": "DRAFT",
+        "title": "Expose feature value",
+        "version": 1
+      }
+    },
+    "previous_event_hash": null,
+    "previous_event_id": null,
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "human",
+    "actor_type": "human",
+    "event_hash": "218e7ef9d7d00003881bc01fc46089913ad7ab0ba1010db9cc4eb5b8dbcc6d8a",
+    "event_id": "intent-approved",
+    "event_type": "intent.approved",
+    "payload": {
+      "intent": {
+        "acceptance_summary": "feature value is 42",
+        "approval_event_id": "intent-approved",
+        "approved_at": "2026-09-21T04:00:00Z",
+        "approved_by": "human",
+        "constraints": [],
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "human",
+        "intent_id": "I-001",
+        "project_id": "prime-demo-clean",
+        "purpose": "controlled Prime proof",
+        "requirements": [
+          {
+            "requirement_id": "REQ-001",
+            "text": "Create src/feature.py exposing VALUE = 42."
+          }
+        ],
+        "schema_version": 1,
+        "source_event_id": "intent-created",
+        "status": "APPROVED",
+        "title": "Expose feature value",
+        "version": 1
+      }
+    },
+    "previous_event_hash": "ed0aedc40ca79b63b388451fc71b1460d3c1d48b5f3e3a10f6bdb63ad1ab20a9",
+    "previous_event_id": "intent-created",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "planner",
+    "actor_type": "agent",
+    "event_hash": "52592198a17477664baa43d70b306befb1c87a59d9515b1b3651f7502f649119",
+    "event_id": "graph-created",
+    "event_type": "graph.created",
+    "payload": {
+      "graph": {
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "planner",
+        "edges": [],
+        "graph_id": "G-001",
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "nodes": [
+          {
+            "eu_id": "EU-001",
+            "requirement_ids": [
+              "REQ-001"
+            ]
+          }
+        ],
+        "project_id": "prime-demo-clean",
+        "reason": "one vertical EU",
+        "schema_version": 1,
+        "source_event_id": "graph-created",
+        "status": "ACTIVE",
+        "version": 1
+      }
+    },
+    "previous_event_hash": "218e7ef9d7d00003881bc01fc46089913ad7ab0ba1010db9cc4eb5b8dbcc6d8a",
+    "previous_event_id": "intent-approved",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "1c185004a721ed802418fcd645833d33a17f815ab9ff02f7b94bed694b11916b",
+    "event_id": "prime-proposed",
+    "event_type": "plan.proposed",
+    "execution_id": "EXEC-CONTROLLER-CLEAN",
+    "payload": {
+      "operation": {
+        "branch": null,
+        "candidate_sha": null,
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_paths": {
+          "EU-001": [
+            "src/feature.py"
+          ]
+        },
+        "execution_id": "EXEC-CONTROLLER-CLEAN",
+        "gate_id": null,
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "operation_id": "OP-PRIME-CLEAN",
+        "project_id": "prime-demo-clean",
+        "schema_version": 1,
+        "status": "PLANNER_PROPOSED",
+        "worktree": null
+      }
+    },
+    "previous_event_hash": "52592198a17477664baa43d70b306befb1c87a59d9515b1b3651f7502f649119",
+    "previous_event_id": "graph-created",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "human",
+    "event_hash": "b614f1f64b506867faa6f44ebdc18710f8f1e503f5680abf57c4f47b86b8bf05",
+    "event_id": "prime-graph-evaluator-cap",
+    "event_type": "capability.issued",
+    "execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+    "payload": {
+      "capability": {
+        "allowed_executes": [],
+        "allowed_operations": [
+          "READ",
+          "CREATE_ARTIFACT"
+        ],
+        "allowed_reads": [
+          ".idd/intent/I-001/v1.json",
+          ".idd/graph/G-001/v1.json"
+        ],
+        "allowed_request_types": [],
+        "allowed_writes": [],
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-101",
+        "execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "forbidden_operations": [
+          "WRITE",
+          "PROMOTE",
+          "HUMAN_GATE_APPROVAL"
+        ],
+        "integrity_hash": "6a6014179f34375392e4b6ff503981ae276cf723b90572de6740b23ddc0ebdb1",
+        "issued_at": "2026-09-21T04:00:00Z",
+        "issued_by": "controller",
+        "project_id": "prime-demo-clean",
+        "role": "GRAPH_EVALUATOR",
+        "schema_version": 1,
+        "scope_bindings": {
+          "eu_id": "GRAPH",
+          "graph_id": "G-001",
+          "graph_version": 1,
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "version": 1
+      }
+    },
+    "previous_event_hash": "1c185004a721ed802418fcd645833d33a17f815ab9ff02f7b94bed694b11916b",
+    "previous_event_id": "prime-proposed",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "context-compiler",
+    "actor_type": "controller",
+    "event_hash": "bdfea6bee93319830947bfb4dd568b8f5fc392866e77353ee3bdc69bb1013584",
+    "event_id": "prime-graph-evaluator-packet",
+    "event_type": "context.packet.created",
+    "execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+    "payload": {
+      "packet": {
+        "authority_context": {
+          "acceptance_requirements": [
+            "valid graph bindings"
+          ],
+          "allowed_operations": [
+            "READ",
+            "CREATE_ARTIFACT"
+          ]
+        },
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-101",
+        "context_budget": {
+          "max_bytes": 100000
+        },
+        "context_packet_id": "CP-101",
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_binding": {
+          "eu_id": "GRAPH"
+        },
+        "evidence_context": [],
+        "execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "graph_binding": {
+          "graph_id": "G-001",
+          "graph_version": 1
+        },
+        "intent_binding": {
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "knowledge_context": [],
+        "packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+        "project_id": "prime-demo-clean",
+        "role": "GRAPH_EVALUATOR",
+        "schema_version": 1,
+        "version": 1,
+        "working_context": []
+      },
+      "packet_bytes": 733,
+      "resource_count": 0
+    },
+    "previous_event_hash": "b614f1f64b506867faa6f44ebdc18710f8f1e503f5680abf57c4f47b86b8bf05",
+    "previous_event_id": "prime-graph-evaluator-cap",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "e1cc74356b02af9e7d282e1818f512dc0c5130a222ba9b93e315c79ae229293d",
+    "event_id": "prime-graph-evaluated",
+    "event_type": "graph.evaluated",
+    "execution_id": "EXEC-CONTROLLER-CLEAN",
+    "payload": {
+      "operation": {
+        "branch": null,
+        "candidate_sha": null,
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_paths": {
+          "EU-001": [
+            "src/feature.py"
+          ]
+        },
+        "execution_id": "EXEC-CONTROLLER-CLEAN",
+        "gate_id": null,
+        "graph_evaluator_capability_id": "CAP-101",
+        "graph_evaluator_context_packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+        "graph_evaluator_context_packet_id": "CP-101",
+        "graph_evaluator_execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "graph_evaluator_result": "PASS",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "operation_id": "OP-PRIME-CLEAN",
+        "planner_execution_id": "EXEC-PLANNER-000001",
+        "project_id": "prime-demo-clean",
+        "schema_version": 1,
+        "status": "ACTIVE",
+        "worktree": null
+      }
+    },
+    "previous_event_hash": "bdfea6bee93319830947bfb4dd568b8f5fc392866e77353ee3bdc69bb1013584",
+    "previous_event_id": "prime-graph-evaluator-packet",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "human",
+    "event_hash": "101c6248b13875feae560cd7907a2c5b7a7d4514a8ac85e985428b7f6535a5a1",
+    "event_id": "prime-cap",
+    "event_type": "capability.issued",
+    "execution_id": "EXEC-BUILDER-000011",
+    "payload": {
+      "capability": {
+        "allowed_executes": [
+          "git",
+          "python3"
+        ],
+        "allowed_operations": [
+          "READ",
+          "WRITE",
+          "EXECUTE",
+          "CREATE_ARTIFACT"
+        ],
+        "allowed_reads": [
+          "src/feature.py"
+        ],
+        "allowed_request_types": [
+          "MISSING_RESOURCE",
+          "CLARIFICATION"
+        ],
+        "allowed_writes": [
+          "src/feature.py"
+        ],
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-011",
+        "execution_id": "EXEC-BUILDER-000011",
+        "forbidden_operations": [
+          "PROMOTE",
+          "INTENT_APPROVAL",
+          "GRAPH_APPROVAL"
+        ],
+        "integrity_hash": "b7d5cdd4e990aed86e72ba9629d99ceaff75adb1277a6dc552f3ce0e1bbb4da3",
+        "issued_at": "2026-09-21T04:00:00Z",
+        "issued_by": "controller",
+        "project_id": "prime-demo-clean",
+        "role": "BUILDER",
+        "schema_version": 1,
+        "scope_bindings": {
+          "eu_id": "EU-001",
+          "graph_id": "G-001",
+          "graph_version": 1,
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "version": 1
+      }
+    },
+    "previous_event_hash": "e1cc74356b02af9e7d282e1818f512dc0c5130a222ba9b93e315c79ae229293d",
+    "previous_event_id": "prime-graph-evaluated",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "context-compiler",
+    "actor_type": "controller",
+    "event_hash": "1332807973d1369ab722bf6f830707bbf60864322a86deb2f68a8f57bdc05ef1",
+    "event_id": "prime-packet",
+    "event_type": "context.packet.created",
+    "execution_id": "EXEC-BUILDER-000011",
+    "payload": {
+      "packet": {
+        "authority_context": {
+          "acceptance_requirements": [
+            "Create src/feature.py exposing VALUE = 42."
+          ],
+          "allowed_operations": [
+            "READ",
+            "WRITE",
+            "EXECUTE"
+          ]
+        },
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-011",
+        "context_budget": {
+          "max_bytes": 250000
+        },
+        "context_packet_id": "CP-011",
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_binding": {
+          "eu_id": "EU-001"
+        },
+        "evidence_context": [],
+        "execution_id": "EXEC-BUILDER-000011",
+        "graph_binding": {
+          "graph_id": "G-001",
+          "graph_version": 1
+        },
+        "intent_binding": {
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "knowledge_context": [],
+        "packet_hash": "3002b0ed1b2c22cd96d3f9eb84350a1d242ed0355b570a20fc2d77ec6138012b",
+        "project_id": "prime-demo-clean",
+        "role": "BUILDER",
+        "schema_version": 1,
+        "version": 1,
+        "working_context": [
+          {
+            "authority": "WRITE",
+            "freshness_or_version": "3a9595e479bd0291735611223ad103d939b68d50",
+            "path": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/src/feature.py",
+            "purpose": "approved EU EU-001 implementation context",
+            "reason_included": "explicit path scope from approved plan",
+            "resource_id": "RES-011-01",
+            "source": "approved graph"
+          }
+        ]
+      },
+      "packet_bytes": 1118,
+      "resource_count": 1
+    },
+    "previous_event_hash": "101c6248b13875feae560cd7907a2c5b7a7d4514a8ac85e985428b7f6535a5a1",
+    "previous_event_id": "prime-cap",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "341b653b19182f4d95a21333c028d5db795cbbac35063c82b6b49bdd2e970ff5",
+    "event_id": "prime-building",
+    "event_type": "eu.building",
+    "execution_id": "EXEC-BUILDER-000011",
+    "payload": {
+      "operation": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "branch": "itdd/build/OP-PRIME-CLEAN/EU-001",
+        "candidate_sha": null,
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_paths": {
+          "EU-001": [
+            "src/feature.py"
+          ]
+        },
+        "execution_id": "EXEC-BUILDER-000011",
+        "gate_id": null,
+        "graph_evaluator_capability_id": "CAP-101",
+        "graph_evaluator_context_packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+        "graph_evaluator_context_packet_id": "CP-101",
+        "graph_evaluator_execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "graph_evaluator_result": "PASS",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "operation_id": "OP-PRIME-CLEAN",
+        "planner_execution_id": "EXEC-PLANNER-000001",
+        "project_id": "prime-demo-clean",
+        "schema_version": 1,
+        "status": "BUILDING",
+        "worktree": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001"
+      }
+    },
+    "previous_event_hash": "1332807973d1369ab722bf6f830707bbf60864322a86deb2f68a8f57bdc05ef1",
+    "previous_event_id": "prime-packet",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "4634bfe616bef7cac92d8e9c3af87f199e93fa05592ce1bf49f1159cf01e86ff",
+    "event_id": "prime-worker-completed",
+    "event_type": "worker.execution.completed",
+    "execution_id": "EXEC-BUILDER-000011",
+    "payload": {
+      "operation": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "branch": "itdd/build/OP-PRIME-CLEAN/EU-001",
+        "builder_capability_id": "CAP-011",
+        "builder_context_packet_hash": "3002b0ed1b2c22cd96d3f9eb84350a1d242ed0355b570a20fc2d77ec6138012b",
+        "builder_context_packet_id": "CP-011",
+        "builder_runtime_provenance": {
+          "command": [
+            "/opt/homebrew/bin/prime-agent",
+            "--print",
+            "--mode",
+            "json",
+            "--cwd",
+            "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001",
+            "--offline",
+            "--no-session",
+            "--no-context-files",
+            "--no-skills",
+            "--no-extensions",
+            "--no-prompt-templates",
+            "--no-themes",
+            "--",
+            "<controller-supplied-prompt>"
+          ],
+          "execution_id": "EXEC-BUILDER-000011",
+          "exit_code": 0,
+          "prompt_sha256": "ce974997449eafa627d01a3f12872e147f81986ccef109b78d3c7b8549ec3590",
+          "runtime": "prime-agent",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "b0baf4577c1ca985eb7db20343eb88e958e3dd9de79c8b62f8906999b3ff6126"
+        },
+        "candidate_sha": null,
+        "controller_commit_operation": {
+          "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+          "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+          "execution_id": "EXEC-BUILDER-000011",
+          "operation": "controller.git.commit",
+          "operation_id": "OP-PRIME-CLEAN",
+          "paths": [
+            "src/feature.py"
+          ]
+        },
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_paths": {
+          "EU-001": [
+            "src/feature.py"
+          ]
+        },
+        "execution_id": "EXEC-BUILDER-000011",
+        "gate_id": null,
+        "graph_evaluator_capability_id": "CAP-101",
+        "graph_evaluator_context_packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+        "graph_evaluator_context_packet_id": "CP-101",
+        "graph_evaluator_execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "graph_evaluator_result": "PASS",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "observed_changed_paths": [
+          "src/feature.py"
+        ],
+        "operation_id": "OP-PRIME-CLEAN",
+        "planner_execution_id": "EXEC-PLANNER-000001",
+        "project_id": "prime-demo-clean",
+        "schema_version": 1,
+        "status": "BUILDING",
+        "worktree": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001"
+      }
+    },
+    "previous_event_hash": "341b653b19182f4d95a21333c028d5db795cbbac35063c82b6b49bdd2e970ff5",
+    "previous_event_id": "prime-building",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "c47d1c4c736bed500f4c4e0a6f0cecf778580f2c15da9c0ca84e3ada70edfd94",
+    "event_id": "AT-011-event",
+    "event_type": "candidate.git.attested",
+    "payload": {
+      "attestation": {
+        "attestation_hash": "7500a2d25d7b1e83e321ef9281670b936638feabcec29e51d04ee0ee81b41717",
+        "attestation_id": "AT-011",
+        "baseline_commit": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "controller",
+        "observed_changed_paths": [
+          "src/feature.py"
+        ],
+        "project_id": "prime-demo-clean",
+        "repository_identity": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project",
+        "schema_version": 1
+      }
+    },
+    "previous_event_hash": "4634bfe616bef7cac92d8e9c3af87f199e93fa05592ce1bf49f1159cf01e86ff",
+    "previous_event_id": "prime-worker-completed",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "3e979b87a1ff18dc0b14f1ca03337989203ee4c986a6c8f1296db0c943403df1",
+    "event_id": "prime-built",
+    "event_type": "eu.built",
+    "execution_id": "EXEC-BUILDER-000011",
+    "payload": {
+      "operation": {
+        "attestation_id": "AT-011",
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "branch": "itdd/build/OP-PRIME-CLEAN/EU-001",
+        "builder_capability_id": "CAP-011",
+        "builder_context_packet_hash": "3002b0ed1b2c22cd96d3f9eb84350a1d242ed0355b570a20fc2d77ec6138012b",
+        "builder_context_packet_id": "CP-011",
+        "builder_runtime_provenance": {
+          "command": [
+            "/opt/homebrew/bin/prime-agent",
+            "--print",
+            "--mode",
+            "json",
+            "--cwd",
+            "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001",
+            "--offline",
+            "--no-session",
+            "--no-context-files",
+            "--no-skills",
+            "--no-extensions",
+            "--no-prompt-templates",
+            "--no-themes",
+            "--",
+            "<controller-supplied-prompt>"
+          ],
+          "execution_id": "EXEC-BUILDER-000011",
+          "exit_code": 0,
+          "prompt_sha256": "ce974997449eafa627d01a3f12872e147f81986ccef109b78d3c7b8549ec3590",
+          "runtime": "prime-agent",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "b0baf4577c1ca985eb7db20343eb88e958e3dd9de79c8b62f8906999b3ff6126"
+        },
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "controller_commit_operation": {
+          "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+          "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+          "execution_id": "EXEC-BUILDER-000011",
+          "operation": "controller.git.commit",
+          "operation_id": "OP-PRIME-CLEAN",
+          "paths": [
+            "src/feature.py"
+          ]
+        },
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_paths": {
+          "EU-001": [
+            "src/feature.py"
+          ]
+        },
+        "execution_id": "EXEC-BUILDER-000011",
+        "gate_id": null,
+        "graph_evaluator_capability_id": "CAP-101",
+        "graph_evaluator_context_packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+        "graph_evaluator_context_packet_id": "CP-101",
+        "graph_evaluator_execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "graph_evaluator_result": "PASS",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "observed_changed_paths": [
+          "src/feature.py"
+        ],
+        "operation_id": "OP-PRIME-CLEAN",
+        "planner_execution_id": "EXEC-PLANNER-000001",
+        "project_id": "prime-demo-clean",
+        "schema_version": 1,
+        "status": "BUILT",
+        "worktree": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001"
+      }
+    },
+    "previous_event_hash": "c47d1c4c736bed500f4c4e0a6f0cecf778580f2c15da9c0ca84e3ada70edfd94",
+    "previous_event_id": "AT-011-event",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "human",
+    "event_hash": "0b4c443c8ed6f91f19578573715daf0812d09fd2bf741bc73f3f98564a02e079",
+    "event_id": "prime-spec_verifier-cap",
+    "event_type": "capability.issued",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "capability": {
+        "allowed_executes": [
+          "python3"
+        ],
+        "allowed_operations": [
+          "READ",
+          "EXECUTE",
+          "CREATE_ARTIFACT"
+        ],
+        "allowed_reads": [
+          "src/feature.py"
+        ],
+        "allowed_request_types": [],
+        "allowed_writes": [],
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-112",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "forbidden_operations": [
+          "WRITE",
+          "PROMOTE"
+        ],
+        "integrity_hash": "9be1b64482856389eccd18874945707866f81e1573920a0ae9a3ff6edfff179b",
+        "issued_at": "2026-09-21T04:00:00Z",
+        "issued_by": "controller",
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "schema_version": 1,
+        "scope_bindings": {
+          "eu_id": "EU-001",
+          "graph_id": "G-001",
+          "graph_version": 1,
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "version": 1
+      }
+    },
+    "previous_event_hash": "3e979b87a1ff18dc0b14f1ca03337989203ee4c986a6c8f1296db0c943403df1",
+    "previous_event_id": "prime-built",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "context-compiler",
+    "actor_type": "controller",
+    "event_hash": "4fcc711506cbc945041a600f4d75e8228bce54531d9af45b7623dbf7e0f18234",
+    "event_id": "prime-spec_verifier-packet",
+    "event_type": "context.packet.created",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "packet": {
+        "authority_context": {
+          "acceptance_requirements": [
+            "EU-001"
+          ],
+          "allowed_operations": [
+            "READ",
+            "EXECUTE"
+          ]
+        },
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-112",
+        "context_budget": {
+          "max_bytes": 250000
+        },
+        "context_packet_id": "CP-112",
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_binding": {
+          "eu_id": "EU-001"
+        },
+        "evidence_context": [],
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "graph_binding": {
+          "graph_id": "G-001",
+          "graph_version": 1
+        },
+        "intent_binding": {
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "knowledge_context": [],
+        "packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "schema_version": 1,
+        "version": 1,
+        "working_context": [
+          {
+            "authority": "READ",
+            "freshness_or_version": "212aa900823f9bf49f5db52c406a5d156f649c79",
+            "path": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/src/feature.py",
+            "purpose": "fresh spec_verifier context",
+            "reason_included": "exact candidate path",
+            "resource_id": "RES-112",
+            "source": "approved graph"
+          }
+        ]
+      },
+      "packet_bytes": 1050,
+      "resource_count": 1
+    },
+    "previous_event_hash": "0b4c443c8ed6f91f19578573715daf0812d09fd2bf741bc73f3f98564a02e079",
+    "previous_event_id": "prime-spec_verifier-cap",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "c1f61ddaf9366b386e400a2feef3b6c52ea1945954c4a9beda8522454c3bf3b1",
+    "event_id": "prime-spec_verifier-contract",
+    "event_type": "verification.contract.created",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "contract": {
+        "allowed_changed_paths": [
+          "src/feature.py"
+        ],
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "context_packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "context_packet_id": "CP-112",
+        "contract_hash": "8e82862f436ab142e1396f63315f422f9141dab63472abd599fe294c123ba98b",
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "controller",
+        "eu_id": "EU-001",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "project_id": "prime-demo-clean",
+        "required_artifacts": [],
+        "required_checks": [
+          {
+            "check_id": "REQCHECK-112",
+            "command": "python3 -m pytest -q tests/test_feature.py",
+            "kind": "TEST_COMMAND",
+            "required_exit_code": 0
+          }
+        ],
+        "role": "SPEC_VERIFIER",
+        "schema_version": 1,
+        "verification_contract_id": "VC-112",
+        "version": 1
+      }
+    },
+    "previous_event_hash": "4fcc711506cbc945041a600f4d75e8228bce54531d9af45b7623dbf7e0f18234",
+    "previous_event_id": "prime-spec_verifier-packet",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "f6c1039d0fb9efeb340df3b53b69487e86801fced69f0722d48825e07e261633",
+    "event_id": "prime-spec_verifier-execution",
+    "event_type": "verifier.execution.created",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-112",
+        "context_packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "context_packet_id": "CP-112",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "status": "CREATED",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "8e82862f436ab142e1396f63315f422f9141dab63472abd599fe294c123ba98b",
+        "verification_contract_id": "VC-112"
+      }
+    },
+    "previous_event_hash": "c1f61ddaf9366b386e400a2feef3b6c52ea1945954c4a9beda8522454c3bf3b1",
+    "previous_event_id": "prime-spec_verifier-contract",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "e38d0b91492bc189615649c1a160c7dc55901f71fe350223853171c9b0332289",
+    "event_id": "prime-spec_verifier-run-launched",
+    "event_type": "verifier.execution.launched",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-112",
+        "context_packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "context_packet_id": "CP-112",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "launched_at": "2026-09-21T04:00:00Z",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "status": "LAUNCHED",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "8e82862f436ab142e1396f63315f422f9141dab63472abd599fe294c123ba98b",
+        "verification_contract_id": "VC-112"
+      }
+    },
+    "previous_event_hash": "f6c1039d0fb9efeb340df3b53b69487e86801fced69f0722d48825e07e261633",
+    "previous_event_id": "prime-spec_verifier-execution",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "5669f849fc86621e9e42078c5fc0970725bb76b13f8d4b58222ba1358b0c26b2",
+    "event_id": "prime-spec_verifier-run-active",
+    "event_type": "verifier.execution.active",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-112",
+        "context_packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "context_packet_id": "CP-112",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "launched_at": "2026-09-21T04:00:00Z",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "status": "ACTIVE",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "8e82862f436ab142e1396f63315f422f9141dab63472abd599fe294c123ba98b",
+        "verification_contract_id": "VC-112"
+      }
+    },
+    "previous_event_hash": "e38d0b91492bc189615649c1a160c7dc55901f71fe350223853171c9b0332289",
+    "previous_event_id": "prime-spec_verifier-run-launched",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "EXEC-SPEC_VERIFIER-000011",
+    "actor_type": "verifier",
+    "event_hash": "a95bc4d3ec973cd440ea123ed554fe0c39e233fb30a52b52a00c42accd6b7fda",
+    "event_id": "prime-spec_verifier-run-evidence",
+    "event_type": "verification.evidence.recorded",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "evidence": {
+        "artifact_hashes": {},
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "check_results": [
+          {
+            "check_id": "REQCHECK-112",
+            "command": "python3 -m pytest -q tests/test_feature.py",
+            "exit_code": 0,
+            "failed": 0,
+            "finished_at": "2026-09-21T04:00:00Z",
+            "observed_test_count": 1,
+            "passed": 1,
+            "skipped": 0,
+            "started_at": "2026-09-21T04:00:00Z",
+            "stdout_digest": "bea5a77cc68582c0c66ca0fc860c9b8f449e679bec8d6a9178605ee7b7dc69a3"
+          }
+        ],
+        "context_packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "context_packet_id": "CP-112",
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "EXEC-SPEC_VERIFIER-000011",
+        "eu_id": "EU-001",
+        "evidence_hash": "fa37ec2b3347b8653b04f3ef8aa9c903b4d5114a00f59eaf9a712351eba01129",
+        "evidence_id": "EV-444145936",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "observed_changed_paths": [],
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "schema_version": 1,
+        "verification_contract_id": "VC-112",
+        "version": 1
+      }
+    },
+    "previous_event_hash": "5669f849fc86621e9e42078c5fc0970725bb76b13f8d4b58222ba1358b0c26b2",
+    "previous_event_id": "prime-spec_verifier-run-active",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "EXEC-EVALUATOR-000011",
+    "actor_type": "evaluator",
+    "event_hash": "3a61fb08cfdc569c1c812f4d76cfca1ac48856fa4f02f0cb940e7b1d7c3f9098",
+    "event_id": "prime-spec_verifier-run-result",
+    "event_type": "verification.result.evaluated",
+    "execution_id": "EXEC-EVALUATOR-000011",
+    "payload": {
+      "detail": "",
+      "result": {
+        "evaluated_at": "2026-09-21T04:00:00Z",
+        "evaluator_execution_id": "EXEC-EVALUATOR-000011",
+        "evidence_id": "EV-444145936",
+        "reason_code": "PASS",
+        "result_hash": "ca16e58c45cd047876432c876a7c317b4c98b205d32c46ad5e563f5d15e5e2ef",
+        "result_id": "VR-444145936",
+        "schema_version": 1,
+        "status": "PASS",
+        "verification_contract_id": "VC-112"
+      }
+    },
+    "previous_event_hash": "a95bc4d3ec973cd440ea123ed554fe0c39e233fb30a52b52a00c42accd6b7fda",
+    "previous_event_id": "prime-spec_verifier-run-evidence",
+    "project_id": "verification",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "f94a6fa9d04424c8f635f11ee3a104e0dd0d4a132b0974f9b0efc8efde692843",
+    "event_id": "prime-spec_verifier-run-completed",
+    "event_type": "verifier.execution.completed",
+    "execution_id": "EXEC-SPEC_VERIFIER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-112",
+        "completed_at": "2026-09-21T04:00:00Z",
+        "context_packet_hash": "70b279ed9008a5f7cc38b7ec5fe201bee3b9f893b98846e9954ac95787d8f58f",
+        "context_packet_id": "CP-112",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "launched_at": "2026-09-21T04:00:00Z",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "SPEC_VERIFIER",
+        "status": "COMPLETED",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "8e82862f436ab142e1396f63315f422f9141dab63472abd599fe294c123ba98b",
+        "verification_contract_id": "VC-112"
+      }
+    },
+    "previous_event_hash": "3a61fb08cfdc569c1c812f4d76cfca1ac48856fa4f02f0cb940e7b1d7c3f9098",
+    "previous_event_id": "prime-spec_verifier-run-result",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "human",
+    "event_hash": "f38aadfd98c011d6c5ee07ef2997e3e23538785966842b1720c1b9eee23da5c0",
+    "event_id": "prime-standards_reviewer-cap",
+    "event_type": "capability.issued",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "capability": {
+        "allowed_executes": [
+          "python3"
+        ],
+        "allowed_operations": [
+          "READ",
+          "EXECUTE",
+          "CREATE_ARTIFACT"
+        ],
+        "allowed_reads": [
+          "src/feature.py"
+        ],
+        "allowed_request_types": [],
+        "allowed_writes": [],
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-113",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "forbidden_operations": [
+          "WRITE",
+          "PROMOTE"
+        ],
+        "integrity_hash": "af1ff1afb7c8c46bba649ac5a93bbd431fbf4be282b4705013b66a8ee2dd5c04",
+        "issued_at": "2026-09-21T04:00:00Z",
+        "issued_by": "controller",
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "schema_version": 1,
+        "scope_bindings": {
+          "eu_id": "EU-001",
+          "graph_id": "G-001",
+          "graph_version": 1,
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "version": 1
+      }
+    },
+    "previous_event_hash": "f94a6fa9d04424c8f635f11ee3a104e0dd0d4a132b0974f9b0efc8efde692843",
+    "previous_event_id": "prime-spec_verifier-run-completed",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "context-compiler",
+    "actor_type": "controller",
+    "event_hash": "88b10db87b9e94f053fe74b98d09c387ebcd9a9281450b058b63980136b6cca4",
+    "event_id": "prime-standards_reviewer-packet",
+    "event_type": "context.packet.created",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "packet": {
+        "authority_context": {
+          "acceptance_requirements": [
+            "EU-001"
+          ],
+          "allowed_operations": [
+            "READ",
+            "EXECUTE"
+          ]
+        },
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "capability_id": "CAP-113",
+        "context_budget": {
+          "max_bytes": 250000
+        },
+        "context_packet_id": "CP-113",
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_binding": {
+          "eu_id": "EU-001"
+        },
+        "evidence_context": [],
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "graph_binding": {
+          "graph_id": "G-001",
+          "graph_version": 1
+        },
+        "intent_binding": {
+          "intent_id": "I-001",
+          "intent_version": 1
+        },
+        "knowledge_context": [],
+        "packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "schema_version": 1,
+        "version": 1,
+        "working_context": [
+          {
+            "authority": "READ",
+            "freshness_or_version": "212aa900823f9bf49f5db52c406a5d156f649c79",
+            "path": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/src/feature.py",
+            "purpose": "fresh standards_reviewer context",
+            "reason_included": "exact candidate path",
+            "resource_id": "RES-113",
+            "source": "approved graph"
+          }
+        ]
+      },
+      "packet_bytes": 1065,
+      "resource_count": 1
+    },
+    "previous_event_hash": "f38aadfd98c011d6c5ee07ef2997e3e23538785966842b1720c1b9eee23da5c0",
+    "previous_event_id": "prime-standards_reviewer-cap",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "9ec37eb4ed90a84da78d252da0e364acd6d265339462f3d8d4e9e1c62f3f186a",
+    "event_id": "prime-standards_reviewer-contract",
+    "event_type": "verification.contract.created",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "contract": {
+        "allowed_changed_paths": [
+          "src/feature.py"
+        ],
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "context_packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "context_packet_id": "CP-113",
+        "contract_hash": "ab62ba89cabac079de821eee56371d2e4ab50f9b9b70057d1aaa910e0214c9ba",
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "controller",
+        "eu_id": "EU-001",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "project_id": "prime-demo-clean",
+        "required_artifacts": [],
+        "required_checks": [
+          {
+            "check_id": "REQCHECK-113",
+            "command": "python3 -m pytest -q tests/test_feature.py",
+            "kind": "TEST_COMMAND",
+            "required_exit_code": 0
+          }
+        ],
+        "role": "STANDARDS_REVIEWER",
+        "schema_version": 1,
+        "verification_contract_id": "VC-113",
+        "version": 1
+      }
+    },
+    "previous_event_hash": "88b10db87b9e94f053fe74b98d09c387ebcd9a9281450b058b63980136b6cca4",
+    "previous_event_id": "prime-standards_reviewer-packet",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "049335c4fd76bf1abb24134d7cacdfea938f921c132f055913e2084f9e195550",
+    "event_id": "prime-standards_reviewer-execution",
+    "event_type": "verifier.execution.created",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-113",
+        "context_packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "context_packet_id": "CP-113",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "status": "CREATED",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "ab62ba89cabac079de821eee56371d2e4ab50f9b9b70057d1aaa910e0214c9ba",
+        "verification_contract_id": "VC-113"
+      }
+    },
+    "previous_event_hash": "9ec37eb4ed90a84da78d252da0e364acd6d265339462f3d8d4e9e1c62f3f186a",
+    "previous_event_id": "prime-standards_reviewer-contract",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "9c204af2ecde4bfdaa76b7d74e5ebf01acdad584f5bdd6800a4649e70b1d352e",
+    "event_id": "prime-standards_reviewer-run-launched",
+    "event_type": "verifier.execution.launched",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-113",
+        "context_packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "context_packet_id": "CP-113",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "launched_at": "2026-09-21T04:00:00Z",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "status": "LAUNCHED",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "ab62ba89cabac079de821eee56371d2e4ab50f9b9b70057d1aaa910e0214c9ba",
+        "verification_contract_id": "VC-113"
+      }
+    },
+    "previous_event_hash": "049335c4fd76bf1abb24134d7cacdfea938f921c132f055913e2084f9e195550",
+    "previous_event_id": "prime-standards_reviewer-execution",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "6afb6d10b3bc7027f704d0ada274128a374fde2cb15b5ab2f20986f7ad554c2e",
+    "event_id": "prime-standards_reviewer-run-active",
+    "event_type": "verifier.execution.active",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-113",
+        "context_packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "context_packet_id": "CP-113",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "launched_at": "2026-09-21T04:00:00Z",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "status": "ACTIVE",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "ab62ba89cabac079de821eee56371d2e4ab50f9b9b70057d1aaa910e0214c9ba",
+        "verification_contract_id": "VC-113"
+      }
+    },
+    "previous_event_hash": "9c204af2ecde4bfdaa76b7d74e5ebf01acdad584f5bdd6800a4649e70b1d352e",
+    "previous_event_id": "prime-standards_reviewer-run-launched",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "actor_type": "verifier",
+    "event_hash": "21dc95aca7bccb08c71a0a2fba9243904a2041246e0d311fcb9a8d275ad282cb",
+    "event_id": "prime-standards_reviewer-run-evidence",
+    "event_type": "verification.evidence.recorded",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "evidence": {
+        "artifact_hashes": {},
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "check_results": [
+          {
+            "check_id": "REQCHECK-113",
+            "command": "python3 -m pytest -q tests/test_feature.py",
+            "exit_code": 0,
+            "failed": 0,
+            "finished_at": "2026-09-21T04:00:00Z",
+            "observed_test_count": 1,
+            "passed": 1,
+            "skipped": 0,
+            "started_at": "2026-09-21T04:00:00Z",
+            "stdout_digest": "bea5a77cc68582c0c66ca0fc860c9b8f449e679bec8d6a9178605ee7b7dc69a3"
+          }
+        ],
+        "context_packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "context_packet_id": "CP-113",
+        "created_at": "2026-09-21T04:00:00Z",
+        "created_by": "EXEC-STANDARDS_REVIEWER-000011",
+        "eu_id": "EU-001",
+        "evidence_hash": "72f0f48803a165ecdbfca272998fd0108fb26e77bfb6abbe49a5a1adcb0cfbf9",
+        "evidence_id": "EV-094633628",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "observed_changed_paths": [],
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "schema_version": 1,
+        "verification_contract_id": "VC-113",
+        "version": 1
+      }
+    },
+    "previous_event_hash": "6afb6d10b3bc7027f704d0ada274128a374fde2cb15b5ab2f20986f7ad554c2e",
+    "previous_event_id": "prime-standards_reviewer-run-active",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "EXEC-EVALUATOR-000011",
+    "actor_type": "evaluator",
+    "event_hash": "87d0b82b4e648323173e501cabe22db0752339aa31045cc33d1580b95aa99fbf",
+    "event_id": "prime-standards_reviewer-run-result",
+    "event_type": "verification.result.evaluated",
+    "execution_id": "EXEC-EVALUATOR-000011",
+    "payload": {
+      "detail": "",
+      "result": {
+        "evaluated_at": "2026-09-21T04:00:00Z",
+        "evaluator_execution_id": "EXEC-EVALUATOR-000011",
+        "evidence_id": "EV-094633628",
+        "reason_code": "PASS",
+        "result_hash": "ad9b1731b092038b1d3527816900d2fc2d2961fbafd07806c3f7906dd3e27dea",
+        "result_id": "VR-094633628",
+        "schema_version": 1,
+        "status": "PASS",
+        "verification_contract_id": "VC-113"
+      }
+    },
+    "previous_event_hash": "21dc95aca7bccb08c71a0a2fba9243904a2041246e0d311fcb9a8d275ad282cb",
+    "previous_event_id": "prime-standards_reviewer-run-evidence",
+    "project_id": "verification",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "3ccf2a128e0face35b8d425409e3b709af7d5c2f35ef91eb5da3a425bc1a471c",
+    "event_id": "prime-standards_reviewer-run-completed",
+    "event_type": "verifier.execution.completed",
+    "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+    "payload": {
+      "execution": {
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "capability_id": "CAP-113",
+        "completed_at": "2026-09-21T04:00:00Z",
+        "context_packet_hash": "bfd0b63501c01e091a3556ba29b6adb068dd99636720dd611062d7a908924758",
+        "context_packet_id": "CP-113",
+        "created_at": "2026-09-21T04:00:00Z",
+        "execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "launched_at": "2026-09-21T04:00:00Z",
+        "parent_execution_id": "EXEC-CONTROLLER-CLEAN",
+        "project_id": "prime-demo-clean",
+        "role": "STANDARDS_REVIEWER",
+        "status": "COMPLETED",
+        "updated_at": "2026-09-21T04:00:00Z",
+        "verification_contract_hash": "ab62ba89cabac079de821eee56371d2e4ab50f9b9b70057d1aaa910e0214c9ba",
+        "verification_contract_id": "VC-113"
+      }
+    },
+    "previous_event_hash": "87d0b82b4e648323173e501cabe22db0752339aa31045cc33d1580b95aa99fbf",
+    "previous_event_id": "prime-standards_reviewer-run-result",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  },
+  {
+    "actor_id": "controller",
+    "actor_type": "controller",
+    "event_hash": "8c87e4e37fca2c82d8dcc930d435e6b5fb4b51505b141c8c7917596a0514dba2",
+    "event_id": "prime-verified",
+    "event_type": "eu.verified",
+    "execution_id": "EXEC-BUILDER-000011",
+    "payload": {
+      "operation": {
+        "attestation_id": "AT-011",
+        "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+        "branch": "itdd/build/OP-PRIME-CLEAN/EU-001",
+        "builder_capability_id": "CAP-011",
+        "builder_context_packet_hash": "3002b0ed1b2c22cd96d3f9eb84350a1d242ed0355b570a20fc2d77ec6138012b",
+        "builder_context_packet_id": "CP-011",
+        "builder_runtime_provenance": {
+          "command": [
+            "/opt/homebrew/bin/prime-agent",
+            "--print",
+            "--mode",
+            "json",
+            "--cwd",
+            "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001",
+            "--offline",
+            "--no-session",
+            "--no-context-files",
+            "--no-skills",
+            "--no-extensions",
+            "--no-prompt-templates",
+            "--no-themes",
+            "--",
+            "<controller-supplied-prompt>"
+          ],
+          "execution_id": "EXEC-BUILDER-000011",
+          "exit_code": 0,
+          "prompt_sha256": "ce974997449eafa627d01a3f12872e147f81986ccef109b78d3c7b8549ec3590",
+          "runtime": "prime-agent",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "b0baf4577c1ca985eb7db20343eb88e958e3dd9de79c8b62f8906999b3ff6126"
+        },
+        "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+        "controller_commit_operation": {
+          "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+          "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+          "execution_id": "EXEC-BUILDER-000011",
+          "operation": "controller.git.commit",
+          "operation_id": "OP-PRIME-CLEAN",
+          "paths": [
+            "src/feature.py"
+          ]
+        },
+        "created_at": "2026-09-21T04:00:00Z",
+        "eu_paths": {
+          "EU-001": [
+            "src/feature.py"
+          ]
+        },
+        "execution_id": "EXEC-BUILDER-000011",
+        "gate_id": null,
+        "graph_evaluator_capability_id": "CAP-101",
+        "graph_evaluator_context_packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+        "graph_evaluator_context_packet_id": "CP-101",
+        "graph_evaluator_execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+        "graph_evaluator_result": "PASS",
+        "graph_id": "G-001",
+        "graph_version": 1,
+        "intent_id": "I-001",
+        "intent_version": 1,
+        "observed_changed_paths": [
+          "src/feature.py"
+        ],
+        "operation_id": "OP-PRIME-CLEAN",
+        "planner_execution_id": "EXEC-PLANNER-000001",
+        "project_id": "prime-demo-clean",
+        "schema_version": 1,
+        "spec_execution_id": "EXEC-SPEC_VERIFIER-000011",
+        "standards_execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+        "status": "VERIFIED",
+        "worktree": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001"
+      }
+    },
+    "previous_event_hash": "3ccf2a128e0face35b8d425409e3b709af7d5c2f35ef91eb5da3a425bc1a471c",
+    "previous_event_id": "prime-standards_reviewer-run-completed",
+    "project_id": "prime-demo-clean",
+    "schema_version": 1,
+    "timestamp": "2026-09-21T04:00:00Z"
+  }
+]

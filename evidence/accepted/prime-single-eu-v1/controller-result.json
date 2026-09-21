@@ -1,0 +1,72 @@
+{
+  "attestation_id": "AT-011",
+  "baseline_sha": "3a9595e479bd0291735611223ad103d939b68d50",
+  "branch": "itdd/build/OP-PRIME-CLEAN/EU-001",
+  "builder_capability_id": "CAP-011",
+  "builder_context_packet_hash": "3002b0ed1b2c22cd96d3f9eb84350a1d242ed0355b570a20fc2d77ec6138012b",
+  "builder_context_packet_id": "CP-011",
+  "builder_runtime_provenance": {
+    "command": [
+      "/opt/homebrew/bin/prime-agent",
+      "--print",
+      "--mode",
+      "json",
+      "--cwd",
+      "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001",
+      "--offline",
+      "--no-session",
+      "--no-context-files",
+      "--no-skills",
+      "--no-extensions",
+      "--no-prompt-templates",
+      "--no-themes",
+      "--",
+      "<controller-supplied-prompt>"
+    ],
+    "execution_id": "EXEC-BUILDER-000011",
+    "exit_code": 0,
+    "prompt_sha256": "ce974997449eafa627d01a3f12872e147f81986ccef109b78d3c7b8549ec3590",
+    "runtime": "prime-agent",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "b0baf4577c1ca985eb7db20343eb88e958e3dd9de79c8b62f8906999b3ff6126"
+  },
+  "candidate_sha": "212aa900823f9bf49f5db52c406a5d156f649c79",
+  "controller_commit_operation": {
+    "candidate_commit": "212aa900823f9bf49f5db52c406a5d156f649c79",
+    "candidate_tree": "dcc451ef6588d7465ffebb3681ea3a46a3e66862",
+    "execution_id": "EXEC-BUILDER-000011",
+    "operation": "controller.git.commit",
+    "operation_id": "OP-PRIME-CLEAN",
+    "paths": [
+      "src/feature.py"
+    ]
+  },
+  "created_at": "2026-09-21T04:00:00Z",
+  "eu_paths": {
+    "EU-001": [
+      "src/feature.py"
+    ]
+  },
+  "execution_id": "EXEC-BUILDER-000011",
+  "gate_id": null,
+  "graph_evaluator_capability_id": "CAP-101",
+  "graph_evaluator_context_packet_hash": "058bd0785f382583e2906b69bd03e5b7534400b036f74d8c7fdb819f65435b54",
+  "graph_evaluator_context_packet_id": "CP-101",
+  "graph_evaluator_execution_id": "EXEC-GRAPH-EVALUATOR-000101",
+  "graph_evaluator_result": "PASS",
+  "graph_id": "G-001",
+  "graph_version": 1,
+  "intent_id": "I-001",
+  "intent_version": 1,
+  "observed_changed_paths": [
+    "src/feature.py"
+  ],
+  "operation_id": "OP-PRIME-CLEAN",
+  "planner_execution_id": "EXEC-PLANNER-000001",
+  "project_id": "prime-demo-clean",
+  "schema_version": 1,
+  "spec_execution_id": "EXEC-SPEC_VERIFIER-000011",
+  "standards_execution_id": "EXEC-STANDARDS_REVIEWER-000011",
+  "status": "VERIFIED",
+  "worktree": "/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/prime-single-eu-clean-rlxkgcko/demo-project/.idd/build_workspaces/OP-PRIME-CLEAN/EU-001"
+}
