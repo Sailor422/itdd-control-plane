@@ -14,6 +14,8 @@ def test_prepare_skill_has_contract_and_reference_templates():
         "POSITIVE TESTS", "NEGATIVE/HOSTILE TESTS", "ARTIFACTS/EVIDENCE",
         "EXCLUSIONS", "HUMAN APPROVAL", "never implements code",
         "never invokes BUILD, TEST, or VERIFY",
+        "clarification frontier", "explicit human designation", "never self-approve intent",
+        "stop as `BLOCKED`",
     ):
         assert required in text
     assert (SKILL / "references" / "execution-contract-template.md").is_file()

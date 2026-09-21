@@ -5,7 +5,7 @@ description: "Orchestrate a bounded ITDD implementation milestone through three 
 
 # ITDD Execute
 
-Use this skill only after the work is bounded by an approved spec, ticket, or milestone. Do not use it to invent scope or replace intent development.
+Use this skill only after the work is bounded by an approved spec, ticket, or milestone. Do not use it to invent scope or replace intent development. Every BUILD, TEST, and VERIFY invocation must be entered through the `/idd` top-level directive. The three roles run in an isolated workspace below the project `.idd/build_workspaces/` boundary; never run them in the ordinary working tree or in preparation evidence directories.
 
 ## Core contract
 
@@ -46,7 +46,7 @@ Prefer the installed upstream implementation/TDD skills when they fit the work, 
 Builder responsibilities:
 
 - implement only the bounded work
-- work only in the authorized isolated branch/worktree
+- work only in the authorized isolated workspace under the project `.idd/build_workspaces/` boundary
 - follow the accepted spec and acceptance contract
 - run implementation-local checks needed to develop safely
 - produce implementation artifacts and Builder-scoped evidence

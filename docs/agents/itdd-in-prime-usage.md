@@ -81,6 +81,18 @@ This adds the engineering skills configuration without recreating ITDD infrastru
 
 ## Post-Initialization Workflow
 
+### Preparation to execution handoff
+
+Preparation and execution are separate control-plane stages:
+
+1. `/itdd-prepare` runs DISCOVERY and GRILLING first. If no immutable source exists, GRILLING forms a clarification frontier, asks the human, records the answers, and waits for the human to explicitly designate the immutable spec/ticket/intent. It stops when that designation is missing; it never self-approves intent.
+2. After research, decomposition, drafting, and independent review, the human explicitly approves the exact execution contract. Preparation evidence is retained under `.idd/preparation/<preparation-id>/`.
+3. Enter the approved contract through the `/idd` top-level directive. `/idd` starts the formal execution workflow; do not invoke BUILD, TEST, or VERIFY as an ordinary working-tree task.
+4. `/idd` runs BUILD, TEST, and VERIFY in separate fresh executions in the project `.idd/build_workspaces/` boundary. Preparation evidence is read-only input, not an execution workspace. The ordinary working tree is never used for these roles.
+5. Preserve role identities, commands, outputs, and acceptance evidence. Only the controlling workflow may advance lifecycle state after independent VERIFY passes.
+
+See [itdd-preparation-execution-handoff.md](itdd-preparation-execution-handoff.md) for the compact handoff and evidence checklist.
+
 ### 1. Domain Clarification
 
 ```bash
@@ -235,12 +247,12 @@ On failure: `FAILURE.md` is created and the attempt is preserved immutably.
 
 - Implement code within EU scope
 - Run tests and standards checks
-- Leave filesystem changes in worktree
+- Leave filesystem changes only in the assigned isolated workspace (never the ordinary working tree or preparation evidence)
 - Propose clarifications (via `/grill-with-docs`)
 
 ### What Controller Owns
 
-- Worktree creation and isolation
+- Worktree creation and isolation under the project `.idd/build_workspaces/` boundary
 - Git diff validation
 - Candidate commit creation
 - State transitions (lifecycle)
