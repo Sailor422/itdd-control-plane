@@ -6,11 +6,22 @@ from pathlib import Path
 from tools.itdd_execute import (
     create_controller_candidate,
     controller_assign_execution,
+    build_test_prompt,
     harmless_isolation_proof,
     invoke,
     reported_pass,
     verify_gate_decision,
 )
+
+
+def test_test_prompt_forbids_excluded_black_box_scripts(tmp_path: Path):
+    identity = {"baseline_sha": "a" * 40, "candidate_commit_sha": "b" * 40, "candidate_tree_sha": "c" * 40}
+    command = "cd /candidate && PYTHONPATH=/candidate pytest -q tests/test_itdd_execute_orchestration.py"
+    prompt = build_test_prompt(test_dir=tmp_path / "candidate", scratch=tmp_path / "scratch", identity=identity, test_command=command)
+    assert command in prompt
+    assert "Do not run any other test command or verification script" in prompt
+    assert "do NOT run scripts/verify_*.py" in prompt
+    assert "black-box single-EU acceptance" in prompt
 
 
 def test_test_role_gets_writable_temp_without_candidate_write_access():

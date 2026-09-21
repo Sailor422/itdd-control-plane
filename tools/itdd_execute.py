@@ -320,6 +320,15 @@ def harmless_isolation_proof() -> dict[str, object]:
         return {"returncode": result.returncode, "candidate_unchanged": unchanged, "sentinel": (candidate / "sentinel.txt").read_text(encoding="utf-8"), "scratch_files": sorted(p.name for p in scratch.iterdir()), "local_result": local_result, "proof_passed": result.returncode == 0 and unchanged and local_result == {"candidate_write_rejected": True, "temp_created": True}}
 
 
+def build_test_prompt(*, test_dir: Path, scratch: Path, identity: dict[str, str], test_command: str) -> str:
+    return f"""You are a fresh TEST execution for CODEX-RUNTIME-ROLES-V1. Work read-only in exact candidate checkout {test_dir}; scratch is {scratch}.
+The controller-bound identity is baseline_sha={identity['baseline_sha']}, candidate_commit_sha={identity['candidate_commit_sha']}, candidate_tree_sha={identity['candidate_tree_sha']}. Resolve all three with Git yourself before testing.
+The ONLY repository test command authorized in this execution is exactly:
+{test_command}
+Do not run any other test command or verification script. In particular, do NOT run scripts/verify_*.py, scripts/verify_single_eu_operational_v1.py, black-box single-EU acceptance, recovery/resume, multi-EU, parallel, replanning, amendment, retrieval, maintenance, break-glass, or /idd UI work. Do not invoke excluded scripts even to inspect their behavior.
+Execute only the required hostile probes for different candidate, tree mismatch, baseline mismatch, missing/ambiguous digest, stale evidence, candidate write/commit, and fake/placeholder acceptance evidence. Prove candidate SHA/tree before and after are unchanged, scratch remains writable, and rejected operations do not advance authoritative state. Return JSON status PASS/FAIL with fields baseline_sha, candidate_commit_sha, candidate_tree_sha, exact_test_command, executed_commands (which must contain only the exact command above), hostile_probes, and candidate_immutability. Do not edit candidate, evidence, or act as VERIFY."""
+
+
 def accept() -> dict[str, object]:
     baseline = git(ROOT, "rev-parse", "HEAD")
     evidence = ROOT / "work" / "proofs" / f"itdd-runtime-roles-acceptance-{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}"
@@ -350,8 +359,7 @@ Run implementation-local checks. Do not commit, certify, promote, or act as TEST
     for checkout in (test_dir, verify_dir):
         clone_at(build_dir, checkout, identity["candidate_commit_sha"])
     test_command = f"cd {test_dir} && PYTHONPATH={test_dir} PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_itdd_execute_orchestration.py -p no:cacheprovider --basetemp=$TMPDIR/pytest"
-    test_prompt = f"""You are a fresh TEST execution. Work read-only in exact candidate checkout {test_dir}; scratch is {scratch / 'test'}.
-The controller-bound identity is baseline_sha={identity['baseline_sha']}, candidate_commit_sha={identity['candidate_commit_sha']}, candidate_tree_sha={identity['candidate_tree_sha']}. Resolve all three with Git yourself before testing. Run {test_command}. Execute real hostile probes for different candidate, tree mismatch, baseline mismatch, missing/ambiguous digest, stale evidence, candidate write/commit, and fake/placeholder acceptance evidence. Prove candidate SHA/tree before and after are unchanged, scratch remains writable, and rejected operations do not advance authoritative state. Return JSON status PASS/FAIL with fields baseline_sha, candidate_commit_sha, candidate_tree_sha, exact_test_command, hostile_probes, and candidate_immutability. Do not edit candidate, evidence, or act as VERIFY."""
+    test_prompt = build_test_prompt(test_dir=test_dir, scratch=scratch / "test", identity=identity, test_command=test_command)
     test = invoke(role="TEST", candidate=test_dir, prompt=test_prompt, scratch=scratch / "test", writable=False, identity=identity, required_test_command=test_command, primary=scratch / "test", additional=test_dir)
     test_gate = verify_gate_decision(test, identity)
     if test["returncode"] != 0 or not test["output_exists"] or not test_gate["allowed"]:
