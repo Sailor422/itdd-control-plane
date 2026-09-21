@@ -13,6 +13,14 @@ This proof demonstrates:
 - Clean worktree (no contamination)
 - Immutable evidence preservation
 
+**Evidence files:**
+- `PASS.md` - All checks passed
+- `candidate-identity.json` - Controller-owned commit
+- `controller-result.json` - Status: VERIFIED
+- `independent-verification.json` - All probes exit 0
+- `runtime-provenance.json` - Prime CLI with SHA-256 hashes
+- `final-status.txt` - Clean candidate (empty git status)
+
 All other proofs in this directory are development artifacts and are gitignored.
 
 ## Structure

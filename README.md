@@ -65,11 +65,13 @@ See [Usage Guide](docs/agents/itdd-in-prime-usage.md) for complete workflow.
 
 ### Core Principles
 
-1. **Human authority**: Only humans approve intents, graphs, and promotions
-2. **Controller-owned lifecycle**: Agents reason; controller decides what actions are legal
+1. **Human authority**: Humans approve intents (the authoritative starting point)
+2. **Controller-owned lifecycle**: Agents reason; controller owns lifecycle operations
 3. **Independent verification**: Fresh spec/standards checks per EU (not self-certification)
 4. **Evidence-backed**: Every operation produces immutable, auditable records
 5. **Framework-neutral**: Works with Prime today; other harnesses can implement the ITDD contract
+
+**Note**: Once an intent is approved, the controller can execute graphs and EUs without requiring human approval for each step. Human gates are for intent approval and promotion decisions, not routine EU execution.
 
 ### Components
 
@@ -98,7 +100,7 @@ Human Intent Discussion
          ↓
    /grill-with-docs (clarification proposal)
          ↓
-   Human approves intent (immutable, I-001)
+   Human approves intent (immutable, I-001) [HUMAN GATE]
          ↓
    Planner proposes graph (G-001)
          ↓
@@ -114,7 +116,7 @@ Human Intent Discussion
          ↓
    Both PASS → status VERIFIED
          ↓
-   Human review → Promotion (if authorized)
+   [Optional: Human promotion gate if configured]
 ```
 
 See [Operational Lifecycle](docs/architecture/operational-lifecycle.md) for details.
