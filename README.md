@@ -76,10 +76,10 @@ This creates:
 
 1. **Review generated config**: Check `docs/agents/*.md` and `AGENTS.md`
 2. **Edit CONTEXT.md**: Add your domain glossary and project identity
-3. **Clarify requirements**: `/grill-with-docs`
+3. **Prepare a bounded contract**: `/itdd-prepare` runs six separate preparation agents and stops at a human approval gate
 4. **Create and approve intent**: Human decision (immutable)
 5. **Propose execution graph**: Planner agent
-6. **Run EUs**: `PrimeBuilderAdapter` with independent verification
+6. **Execute the approved contract**: `/itdd-execute` runs fresh BUILD, TEST, and VERIFY agents
 7. **Review and promote**: Human gate
 
 See [Usage Guide](docs/agents/itdd-in-prime-usage.md) for complete workflow.

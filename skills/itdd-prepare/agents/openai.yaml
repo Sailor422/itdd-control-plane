@@ -1,0 +1,5 @@
+interface:
+  display_name: "ITDD Prepare"
+  short_description: "Prepare a bounded contract with independent phase review"
+policy:
+  allow_implicit_invocation: false

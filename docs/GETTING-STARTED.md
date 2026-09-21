@@ -164,7 +164,13 @@ In Prime:
 
 This starts a clarification session to understand your requirements.
 
-### 2. Create Intent
+### 2. Prepare a bounded execution contract
+
+Before implementation, run `/itdd-prepare`. It uses separate fresh agents for discovery, grilling, research, decomposition, contract drafting, and independent review. It records durable evidence and returns a contract containing the spec identity, full baseline SHA, exact allowed paths, acceptance criteria, positive and negative tests, artifacts, and exclusions.
+
+Preparation never edits product code and never runs BUILD, TEST, or VERIFY. Review the exact contract and explicitly approve it before continuing.
+
+### 3. Create Intent
 
 ```python
 from control.models.store import StageCStore
@@ -202,7 +208,7 @@ store.approve_intent(
 )
 ```
 
-### 3. Propose Graph
+### 4. Propose Graph
 
 ```python
 from control.operational import OperationalController
@@ -234,7 +240,7 @@ controller.propose_plan(
 )
 ```
 
-### 4. Execute EU
+### 5. Execute EU
 
 ```python
 from control.operational import PrimeBuilderAdapter
@@ -258,7 +264,7 @@ print(f"Status: {result['status']}")
 # Expected: VERIFIED
 ```
 
-### 5. Review Evidence
+### 6. Review Evidence
 
 ```bash
 # Check the proof

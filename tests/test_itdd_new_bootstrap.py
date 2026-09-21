@@ -22,6 +22,7 @@ def test_bootstrap_copies_runtime_and_populates_manifest(tmp_path):
     assert manifest["skills"]
     assert manifest["skills"][0]["id"] == "itdd.grill-with-docs"
     assert (tmp_path / "skills" / manifest["skills"][0]["contract"]).exists()
+    assert (tmp_path / "skills" / "itdd-prepare" / "SKILL.md").exists()
 
 def test_bootstrap_fails_before_mutation_when_bundle_missing(tmp_path, monkeypatch):
     project(tmp_path)
