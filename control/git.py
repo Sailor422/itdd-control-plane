@@ -21,7 +21,10 @@ class GitAdapter:
         try: result = subprocess.run(["git", *args], cwd=cwd or self.root, text=True, capture_output=True, check=False)
         except OSError as exc: raise GitError("git unavailable") from exc
         if result.returncode: raise GitError((result.stderr or result.stdout).strip() or "git command failed")
-        return result.stdout.strip()
+        # Preserve Git porcelain's leading index/worktree status columns.  The
+        # controller's bounded diff parser relies on those columns remaining
+        # intact when validating Builder changes.
+        return result.stdout.rstrip()
     def show(self, fmt: str, ref: str, *, cwd: Path | None = None) -> str: return self.run("show", "-s", f"--format={fmt}", ref, cwd=cwd)
     def exists(self, ref: str) -> bool:
         try: self.run("cat-file", "-e", f"{ref}^{{commit}}"); return True

@@ -1,13 +1,14 @@
 # ITDD Human Demonstration
 
-This disposable Python project is driven by the normal ITDD console. Its
-durable intent has been human-approved and its proposed graph is waiting for
-graph review. Start the console from this directory:
+This disposable Python project preserves a durable ITDD checkpoint and its
+derived read-only human views. From this directory, inspect the current state:
 
 ```bash
-python3 /Users/herbertfields/itdd-control-plane/tools/itdd.py
+python3 /Users/herbertfields/itdd-control-plane/tools/itdd.py view
 ```
 
-The console presents the next legal action. It does not require knowledge of
-`.idd`, event logs, or Obsidian paths. The deliberately bad EU-001 candidate
-remains a later demonstration checkpoint; failed history must be preserved.
+The command does not approve anything, create gates, or pause lifecycle work.
+It regenerates the Markdown projection from authoritative ITDD state and opens
+the dashboard in Obsidian when available. The deliberately bad EU-001
+candidate remains a later demonstration checkpoint; failed history must be
+preserved.

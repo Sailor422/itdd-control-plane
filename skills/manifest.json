@@ -1,0 +1,12 @@
+{
+  "manifest_version": "1.0",
+  "project_local_only": true,
+  "skills": [
+    {
+      "id": "itdd.grill-with-docs",
+      "contract": "grill_with_docs/skill.json",
+      "disposition": "ADOPT",
+      "source_rationale": "docs/research/pocock-skills-analysis.md"
+    }
+  ]
+}

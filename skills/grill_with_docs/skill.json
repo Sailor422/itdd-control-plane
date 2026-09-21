@@ -1,0 +1,105 @@
+{
+  "skill_id": "itdd.grill-with-docs",
+  "name": "grill-with-docs",
+  "version": "1.0.0",
+  "purpose": "Clarify domain language, assumptions, and open questions before intent approval.",
+  "allowed_roles": [
+    "human"
+  ],
+  "required_inputs": [
+    "project_id",
+    "execution_id",
+    "draft_id",
+    "source_inputs"
+  ],
+  "input_schema": {
+    "type": "object",
+    "required": [
+      "project_id",
+      "execution_id",
+      "draft_id",
+      "source_inputs"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "project_id": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]+$"
+      },
+      "execution_id": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]+$"
+      },
+      "draft_id": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9._-]+$"
+      },
+      "source_inputs": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "source_id",
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._-]+$"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "produced_artifacts": [
+    "clarification-proposal"
+  ],
+  "required_capabilities": [
+    "project.artifact.write"
+  ],
+  "allowed_capabilities": [
+    "project.artifact.write"
+  ],
+  "forbidden_actions": [
+    "intent.approve",
+    "intent.mutate",
+    "graph.approve",
+    "execution.activate",
+    "lifecycle.advance",
+    "human-authority.create",
+    "promotion.execute",
+    "capability.grant",
+    "filesystem.escape"
+  ],
+  "deterministic_behavior": "Normalize supplied source inputs and produce a byte-stable clarification proposal; invocation event identity is excluded from proposal bytes.",
+  "agent_reasoned_behavior": "A future human-facing agent may propose interpretations, but proposals remain unapproved artifacts.",
+  "invocation": {
+    "human_invoked": true,
+    "requires_execution_binding": true,
+    "project_root_must_match": true
+  },
+  "evidence": [
+    "skill-invocation",
+    "clarification-proposal",
+    "skill-result",
+    "proposal-identity"
+  ],
+  "failure_semantics": "Reject malformed, unauthorized, stale, mismatched, escaped, or authority-bearing requests without writing an artifact.",
+  "telemetry": [
+    "invocation_started",
+    "invocation_succeeded",
+    "invocation_failed"
+  ],
+  "provenance": {
+    "research_source": "docs/research/pocock-skills-analysis.md",
+    "research_disposition": "ADOPT",
+    "authority_rule": "SKILL != AUTHORITY"
+  }
+}

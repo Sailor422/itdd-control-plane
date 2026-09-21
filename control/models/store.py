@@ -92,6 +92,13 @@ class StageCStore:
             event_id=event_id, event_type="intent.draft.created", timestamp=timestamp,
             actor_type=actor_type, actor_id=actor_id, project_id=intent["project_id"], payload={"intent": intent}
         )
+        # Reaching a draft intent creates a project-local HUMAN_ONLY review package.
+        # The import is local to keep the Stage C model independent at module load.
+        from control.human_decisions import HumanDecisionController, next_decision_id
+        HumanDecisionController(self.project_root).create_intent(
+            decision_id=next_decision_id(self.project_root), intent_id=intent["intent_id"],
+            version=intent["version"], timestamp=timestamp,
+        )
 
     def update_draft(self, intent: dict[str, Any], *, event_id: str, timestamp: str, actor_type: str, actor_id: str) -> None:
         validate_intent(intent)

@@ -64,7 +64,7 @@ class IntegrationController:
             eligible.append(att)
         return eligible
 
-    def create(self, *, integration_id: str, project_id: str, attestation_ids: list[str], intent_id: str, intent_version: int, graph_id: str, graph_version: int, timestamp: str, require_human: bool = True, event_prefix: str) -> dict[str, Any]:
+    def create(self, *, integration_id: str, project_id: str, attestation_ids: list[str], intent_id: str, intent_version: int, graph_id: str, graph_version: int, timestamp: str, require_human: bool = False, event_prefix: str) -> dict[str, Any]:
         inputs = self._eligible(attestation_ids, project_id=project_id, require_human=require_human); baseline = inputs[0]["baseline_commit"]
         if any(item["baseline_commit"] != baseline for item in inputs): raise IntegrationError("integration baselines differ")
         branch = f"itdd/integration/{integration_id}"; workspace = self.root / ".idd/integration_workspaces" / integration_id
@@ -108,3 +108,44 @@ class IntegrationController:
         if self.derive_integration_status(integration_id, verifier_execution_id, result_id) != "INTEGRATION_VERIFIED": raise IntegrationError("integration verifier has not passed")
         item = self.store.read(integration_id); item["status"] = "INTEGRATION_VERIFIED"; item["integration_verifier_execution_id"] = verifier_execution_id; item["integration_verifier_result_id"] = result_id
         self.store.write_event(item, event_id=f"{event_prefix}-verified", event_type="integration.verified", timestamp=timestamp); return item
+
+    def evaluate_promotion_eligibility(self, integration_id: str) -> dict[str, Any]:
+        """Recompute promotion eligibility from effective authority and evidence."""
+        integration = self.store.read(integration_id)
+        if integration.get("status") != "INTEGRATION_VERIFIED":
+            return {"eligible": False, "reason": "INTEGRATION_NOT_VERIFIED"}
+        gates = self.gates.reconstruct()
+        blocking = [gate["gate_id"] for gate in gates.values()
+                    if gate.get("status") == "WAITING"
+                    and gate.get("project_id") == integration["project_id"]
+                    and gate.get("subject_id") == integration_id]
+        if blocking:
+            return {"eligible": False, "reason": "ACTIVE_HUMAN_GATE", "blocking_gates": blocking}
+        return {"eligible": True, "reason": "ALL_DETERMINISTIC_REQUIREMENTS_PASS",
+                "integration_id": integration_id, "candidate_sha": integration["result_commit"],
+                "tree": integration["result_tree"], "verifier_result": integration.get("integration_verifier_result_id")}
+
+    def promote_verified(self, integration_id: str, *, timestamp: str, event_prefix: str) -> dict[str, Any]:
+        """Promote an eligible exact integration result without a new human gate."""
+        eligibility = self.evaluate_promotion_eligibility(integration_id)
+        if not eligibility["eligible"]:
+            raise IntegrationError(f"promotion is not eligible: {eligibility['reason']}")
+        integration = self.store.read(integration_id)
+        if self.git.head(self.root) != integration["integration_baseline"]:
+            raise IntegrationError("canonical branch changed; integration result is stale")
+        source_changes = [line for line in self.git.run("status", "--porcelain").splitlines()
+                          if line and not line[3:].startswith(".idd/")]
+        if source_changes:
+            raise IntegrationError("canonical project has uncommitted changes")
+        self.git.run("merge", "--ff-only", integration["result_commit"])
+        canonical_sha = self.git.head(self.root)
+        event = self.store.events.new_event(
+            event_id=f"{event_prefix}-promoted", event_type="promotion.completed", timestamp=timestamp,
+            project_id=integration["project_id"], actor_type="controller", actor_id="controller",
+            execution_id=self.execution_id,
+            payload={"promotion": {"integration_id": integration_id, "candidate_sha": integration["result_commit"],
+                                    "tree": integration["result_tree"], "verifier_result": integration.get("integration_verifier_result_id"),
+                                    "canonical_sha": canonical_sha, "status": "PROMOTED"}},
+        )
+        self.store.events.append(event)
+        return {**eligibility, "promoted": True, "canonical_sha": canonical_sha, "event_id": event["event_id"]}

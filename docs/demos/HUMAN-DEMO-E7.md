@@ -11,23 +11,24 @@ not the ITDD implementation itself.
   non-numeric input returns a non-zero status and clear error
 - Graph: `G-701 v1`, with `EU-001` mapped to REQ-001 and `EU-002` mapped to
   REQ-002
-- Current durable position: graph review required
+- Current durable position: intent approved and graph created; no graph gate is
+  introduced by the visualization
 
-## Human operation
+## Read-only inspection
 
-The normal entry point is:
+From anywhere inside the project, run:
 
 ```bash
-python3 /Users/herbertfields/itdd-control-plane/tools/itdd.py
+python3 /Users/herbertfields/itdd-control-plane/tools/itdd.py view
 ```
 
-The console presents the graph review and uses controller validation for the
-decision. It does not expose internal event paths or require Obsidian.
+The command regenerates the derived Markdown projection and opens its dashboard
+in Obsidian when available. It does not approve intent or graph, create a gate,
+pause execution, or append an authoritative event. Closing Obsidian and editing
+the generated Markdown are likewise non-authoritative.
 
 ## Demonstration status
 
 The deliberately bad EU-001 candidate, corrected candidates, Git attestations,
 integration result, and final integration human decision have not been run in
-this E8 implementation turn. No promotion has occurred. The next interactive
-acceptance phase must be performed by the human through the console, with failed
-history preserved.
+this cleanup turn. No promotion has occurred. Failed history remains preserved.

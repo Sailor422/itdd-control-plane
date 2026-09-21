@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import shutil
 
 import pytest
 
@@ -11,6 +12,7 @@ from control.authorization.capabilities import CapabilityIssuer
 from control.events.format import canonical_json
 from control.events import EventLogIntegrityError
 from control.skills import ClarificationProposalStore, SkillContractError, create_clarification_proposal
+from skills.runtime import CapabilityGrant, SkillInvocation, SkillRuntime
 
 
 def _capability(root: Path) -> dict:
@@ -182,3 +184,26 @@ def test_tampered_event_history_is_rejected(tmp_path: Path):
     event_path.write_text("\n".join(lines) + "\n")
     with pytest.raises(EventLogIntegrityError):
         ClarificationProposalStore(tmp_path).reconstruct()
+
+
+
+def test_runtime_proposal_bytes_are_stable_but_invocation_events_are_unique(tmp_path: Path):
+    # Copy only the project-local contract surface needed by the runtime.
+    shutil.copytree(Path(__file__).parents[2] / "skills", tmp_path / "skills")
+    runtime = SkillRuntime(tmp_path)
+    grant = CapabilityGrant("EXEC-1", tmp_path, frozenset({"project.artifact.write"}))
+    invocation = SkillInvocation("project-1", "EXEC-1", "DRAFT-1", "human", {
+        "project_id": "project-1", "execution_id": "EXEC-1", "draft_id": "DRAFT-1",
+        "source_inputs": [{"source_id": "CONTEXT.md", "text": "Terms and assumptions"}],
+    })
+
+    first = runtime.invoke("itdd.grill-with-docs", invocation, grant)
+    first_bytes = (tmp_path / ".idd/skills/artifacts/EXEC-1.json").read_bytes()
+    first_event = first["event_id"]
+    second = runtime.invoke("itdd.grill-with-docs", invocation, grant)
+    second_bytes = (tmp_path / ".idd/skills/artifacts/EXEC-1.json").read_bytes()
+
+    assert first["proposal_id"] == second["proposal_id"]
+    assert first_bytes == second_bytes
+    assert first_event != second["event_id"]
+    assert "event_id" not in json.loads(first_bytes)

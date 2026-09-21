@@ -1,21 +1,59 @@
-.DS_Store
-.audit-private/
-.idd/telemetry/*
-.idd/audit/*
-.idd/recovery/*
-.idd/state/*
-.idd/context/*
-.idd/knowledge/*
-.idd/project_map/*
-!.idd/**/.gitkeep
-!.idd/evidence/
-!.idd/evidence/*.md
-*.swp
-*.tmp
+# Python
 __pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Testing
 .pytest_cache/
-intent_driven_control_architecture_thesis.docx
-intent_driven_control_architecture_thesis.pdf
-itdd-first-design-idea.md
-.demo-git-history/
-examples/human-demo/.demo-git-history/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ITDD runtime
+.idd/build_workspaces/
+.idd/state/events.jsonl
+.idd/state/events.head.json
+
+# Proofs (keep the structure, ignore large artifacts)
+work/proofs/*/raw-*.json
+work/proofs/*/stdout.txt
+work/proofs/*/stderr.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary
+*.tmp
+*.bak

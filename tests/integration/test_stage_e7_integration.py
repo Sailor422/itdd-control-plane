@@ -69,8 +69,10 @@ def test_git_attestation_and_isolated_integration_with_fresh_verifier_and_gate(t
 def test_git_identity_conflict_and_missing_human_approval_fail_closed(tmp_path: Path):
     baseline, candidate_a, candidate_b, _, _ = prepare(tmp_path); attest = CandidateAttestationStore(tmp_path); attest.attest(attestation_id="AT-801", project_id="e4", baseline_commit=baseline, candidate_commit=candidate_a, created_at="2026-09-20T03:03:00Z")
     with pytest.raises(GitError): attest.attest(attestation_id="AT-802", project_id="e4", baseline_commit=baseline, candidate_commit="f" * 40, created_at="2026-09-20T03:03:01Z")
+    item = IntegrationController(tmp_path, controller_execution_id="EXEC-CONTROLLER-701").create(integration_id="IN-801", project_id="e4", attestation_ids=["AT-801", "AT-801"], intent_id="I-001", intent_version=1, graph_id="G-001", graph_version=1, timestamp="2026-09-20T03:03:02Z", event_prefix="e7-no-human")
+    assert item["status"] == "CREATED"
     with pytest.raises(IntegrationError, match="human approval"):
-        IntegrationController(tmp_path, controller_execution_id="EXEC-CONTROLLER-701").create(integration_id="IN-801", project_id="e4", attestation_ids=["AT-801", "AT-801"], intent_id="I-001", intent_version=1, graph_id="G-001", graph_version=1, timestamp="2026-09-20T03:03:02Z", event_prefix="e7-no-human")
+        IntegrationController(tmp_path, controller_execution_id="EXEC-CONTROLLER-701").create(integration_id="IN-802", project_id="e4", attestation_ids=["AT-801", "AT-801"], intent_id="I-001", intent_version=1, graph_id="G-001", graph_version=1, timestamp="2026-09-20T03:03:03Z", require_human=True, event_prefix="e7-explicit-human")
 
 
 def test_semantic_and_interrupted_integration_never_produce_candidate(tmp_path: Path):

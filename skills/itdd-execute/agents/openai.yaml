@@ -1,0 +1,3 @@
+interface:
+  display_name: "ITDD Execute"
+  short_description: "Separate fresh BUILD, TEST, and VERIFY Codex executions"
