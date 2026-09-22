@@ -1,0 +1,29 @@
+workflow ['wayfinder', 'to-spec', 'to-tickets', 'implement', 'tdd', 'code-review']
+accept {'decision': 'OBSERVED', 'authority': 'controller', 'lifecycle_effect': 'none', 'promotion_effect': 'none', 'execution_id': 'exec-16', 'candidate_sha': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'}
+wrong_role: rejected SkillRuntimeError: workflow acceptance request is invalid
+missing: rejected SkillRuntimeError: workflow acceptance request is invalid
+extra: rejected SkillRuntimeError: workflow acceptance request is invalid
+stale_sha: rejected SkillRuntimeError: workflow acceptance identity is invalid
+wrong_steps: rejected SkillRuntimeError: workflow acceptance steps mismatch
+wrong_project_accept: rejected SkillRuntimeError: workflow acceptance binding mismatch
+wrong_exec_accept: rejected SkillRuntimeError: workflow acceptance binding mismatch
+invoke PROPOSAL_ONLY none
+wrong_project: rejected SkillRuntimeError: project binding mismatch
+wrong_project_unchanged True
+wrong_execution: rejected SkillRuntimeError: execution binding mismatch
+wrong_execution_unchanged True
+worker_role: rejected SkillRuntimeError: role is not authorized for skill
+worker_role_unchanged True
+extra_input: rejected SkillRuntimeError: input contract mismatch
+extra_input_unchanged True
+bad_source_id: rejected SkillRuntimeError: source input contract mismatch
+bad_source_id_unchanged True
+stale_project_root: rejected SkillRuntimeError: project root binding mismatch
+stale_project_root_unchanged True
+capability_expand: rejected SkillRuntimeError: controller grant does not satisfy skill capability envelope
+capability_expand_unchanged True
+missing_workflow: rejected SkillRuntimeError: workflow registration is missing
+extra_workflow: rejected SkillRuntimeError: invalid workflow registration
+stale_skill_id: rejected SkillRuntimeError: skill identity mismatch
+tamper_contract: rejected SkillRuntimeError: skill identity mismatch
+fresh_process 0 ['wayfinder', 'to-spec', 'to-tickets', 'implement', 'tdd', 'code-review'] 

@@ -1,0 +1,6 @@
+COMMAND: cd /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-16-repair && env PYTHONPATH=. /Users/herbertfields/itdd-control-plane/.venv/bin/python /tmp/ticket16_probe.py
+Traceback (most recent call last):
+  File "/tmp/ticket16_probe.py", line 10, in <module>
+    print('workflow', [x['name'] for x in r.discover_workflow()['steps']])
+                                          ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'SkillRuntime' object has no attribute 'discover_workflow'

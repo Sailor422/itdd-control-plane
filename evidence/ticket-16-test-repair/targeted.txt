@@ -1,0 +1,3 @@
+COMMAND: env PYTHONPATH=. /Users/herbertfields/itdd-control-plane/.venv/bin/pytest -q tests/test_itdd_new_bootstrap.py tests/integration/test_grill_with_docs_contract.py tests/integration/test_itdd_new_skill.py
+..........................................                               [100%]
+42 passed in 5.07s

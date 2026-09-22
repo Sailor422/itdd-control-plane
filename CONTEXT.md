@@ -44,6 +44,29 @@ resolve terminology, assumptions, source inputs, and open questions before
 intent authority accepts it.
 _Avoid_: approved intent, authority decision, lifecycle command
 
+**Direct human workbench**:
+Prime interaction in which the human directs research, planning, design,
+documentation, and permitted systems work without granting Prime authority to
+change project code.
+_Avoid_: unrestricted agent mode, autonomous implementation
+
+**Governed execution**:
+ITDD-authorized work on project code or a candidate, using scoped execution
+identities and controller-owned lifecycle and evidence.
+_Avoid_: direct implementation, skill-owned authority
+
+**Project policy**:
+A project-owned declaration of its permitted workbench operations and proof
+obligations; it cannot weaken Prime-wide restrictions or grant ITDD authority
+by itself.
+_Avoid_: inferred permission, skill allowlist
+
+**Bootstrap lane**:
+Explicit, auditable human-directed work used to establish or repair ITDD when
+ordinary ITDD governance is unavailable; it does not claim normal governed
+acceptance.
+_Avoid_: bypass, untracked setup
+
 **Skill source**:
 The installed user-facing skill definition whose identity is recorded by the
 repository contract; the repository contract defines the ITDD boundary and
@@ -55,3 +78,29 @@ The rule that a skill may produce a clarification proposal but may not approve
 intent, grant capability, create human authority, mutate approved intent,
 advance lifecycle state, or promote a candidate.
 _Avoid_: skill-owned authority, trusted worker decision
+
+## Architectural program
+
+**Architectural vision completion**:
+All approved milestones in the full-vision proposal have independently passed their own governed BUILD → TEST → VERIFY cycle and dependency gates. It does not mean every optional capability is enabled by default.
+_Avoid_: one giant execution, broad completion claim
+
+**Promotion**:
+A controller-owned fast-forward of an independently verified candidate into the canonical branch, with exact commit and tree attestation.
+_Avoid_: worker merge, report approval, automatic publication
+
+**Earned autonomy**:
+A versioned project policy that explicitly enables bounded automation only after its required evidence gates pass. It is never inferred from successful runs.
+_Avoid_: inferred trust, permanent autonomy
+
+**First governed milestone**:
+Milestone 0, establishing the controller-owned Prime-native RLM execution route described by issues #27/#28 before later integration, recovery, knowledge, or parallel-execution work.
+_Avoid_: direct implementation, manual parent orchestration
+
+**Raw session evidence**:
+Complete retained runtime/session and telemetry records preserved for audit, replay, and later analysis. Raw session evidence is not an agent-facing QMD source.
+_Avoid_: unrestricted retrieval context, curated lesson
+
+**Curated QMD lesson**:
+A provenance-linked best-practice or operational lesson derived by analyzing the complete retained telemetry/session dataset, then reviewed before agent-facing use. It is advisory and cannot grant authority.
+_Avoid_: raw transcript, automatic policy

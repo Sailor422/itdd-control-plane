@@ -1,0 +1,36 @@
+.....F..                                                                 [100%]
+=================================== FAILURES ===================================
+_______ test_repair_identity_missing_deleted_replaced_nongit_failclosed ________
+
+tmp_path = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-530/test_repair_identity_missing_d0')
+
+    def test_repair_identity_missing_deleted_replaced_nongit_failclosed(tmp_path):
+     for mode in ("missing","replaced","nongit"):
+>     c,m,q,sha=setup(tmp_path/mode); before=(len(c.events.verify()),c.status())
+                ^^^^^^^^^^^^^^^^^^^^
+
+/tmp/ticket20_scope_test.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/tmp/ticket20_scope_test.py:9: in setup
+    r=proj(tmp); c=MaintenanceController(r); m=c.enter_maintenance(project_id="p",actor_type="human",actor_id="h",reason="repair",timestamp=TS,event_prefix="m"); q=Path(m["repair_environment"]); (q/"fix").write_text("fix"); subprocess.run(["git","add","."],cwd=q,check=True); subprocess.run(["git","commit","-qm","fix"],cwd=q,check=True); sha=subprocess.check_output(["git","rev-parse","HEAD"],cwd=q,text=True).strip(); return c,m,q,sha
+      ^^^^^^^^^
+/tmp/ticket20_scope_test.py:7: in proj
+    r=tmp/"p"; r.mkdir(); subprocess.run(["git","init","-q"],cwd=r,check=True); subprocess.run(["git","config","user.email","x@y"],cwd=r,check=True); subprocess.run(["git","config","user.name","x"],cwd=r,check=True); (r/"x").write_text("x"); subprocess.run(["git","add","."],cwd=r,check=True); subprocess.run(["git","commit","-qm","base"],cwd=r,check=True); return r
+               ^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-530/test_repair_identity_missing_d0/missing/p')
+mode = 511, parents = False, exist_ok = False
+
+    def mkdir(self, mode=0o777, parents=False, exist_ok=False):
+        """
+        Create a new directory at this given path.
+        """
+        try:
+>           os.mkdir(self, mode)
+E           FileNotFoundError: [Errno 2] No such file or directory: '/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-530/test_repair_identity_missing_d0/missing/p'
+
+/Users/herbertfields/.local/share/uv/python/cpython-3.13.12-macos-aarch64-none/lib/python3.13/pathlib/_local.py:722: FileNotFoundError
+=========================== short test summary info ============================
+FAILED ../../../tmp/ticket20_scope_test.py::test_repair_identity_missing_deleted_replaced_nongit_failclosed
+1 failed, 7 passed in 2.18s

@@ -1,0 +1,7 @@
+# SPEC/TICKET DECOMPOSITION report
+
+Execution identity: fresh sub-agent `itdd21-contract-decomposition`, RLM child id `sub-37daf49e`; session artifacts `/Users/herbertfields/.prime/agent/session-artifacts/01a0c9a1-c6cf-7659-a446-ada53a2f1aee/sub-37daf49e`. Read-only.
+
+The full report was received in the parent session on this turn and is preserved verbatim in this file's companion `08-decomposition-full.md` (see original child message in conversation); summary: source #21 + parent #15; baseline `80284553d571d5d92e2a8f66b7b8c312f9c283ef`; exact code allowlist `control/integration.py` and `tests/integration/test_stage_e7_integration.py`; all other source/test/config/docs paths excluded. Include all historical TEST and VERIFY gaps; require actual merge conflict, rejection nonmutation, strict event/schema/chronology, Git attestation, fresh process reconstruction, distinct role provenance, independent Standards/Spec reviews bound to diff, telemetry, native documented install + plain `pytest -q` without shim, and fail-fast if path scope or test command fails. `/idd` routes to `/itdd-execute`; `/implement` and `/tdd` are BUILD-only helpers. No promotion before controller-owned VERIFY PASS. No typecheck command.
+
+Potential blockers flagged: normal no-shim test command not proven to pass; strict two-file scope may be insufficient; controller-supported exact evidence location must be established in drafting/review. No scope expansion is authorized.

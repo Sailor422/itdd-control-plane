@@ -1,0 +1,2 @@
+Command: PYTHONPATH=<archive> /Users/herbertfields/itdd-control-plane/.venv/bin/pytest -q
+Result: 200 passed in 22.47s

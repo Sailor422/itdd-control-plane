@@ -1,0 +1,5 @@
+A	evidence/ticket-16-build/BUILD.md
+M	skills/itdd_new/__init__.py
+M	skills/manifest.json
+M	skills/runtime.py
+A	tests/integration/test_workflow_runtime_registration.py

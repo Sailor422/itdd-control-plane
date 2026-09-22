@@ -1,0 +1,1 @@
+{"direct_root": "/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/independent-direct-_viqnka4", "proposal_id": "CLAR-b06ee4313df3a31b88a4", "result": "PASS", "runtime_root": "/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/independent-runtime-mtieuamq"}

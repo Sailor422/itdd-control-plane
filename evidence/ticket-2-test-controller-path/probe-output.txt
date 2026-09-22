@@ -1,0 +1,26 @@
+{"actual": "ACCEPT", "after_files": 4, "before_files": 3, "pass": true, "probe": "positive", "proposal": {"assumptions": [], "authority_effect": "NONE", "baseline_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "capability_id": "CAP-001", "execution_id": "EXEC-1", "intent_id": "I-001", "intent_version": 1, "open_questions": [], "project_id": "project-1", "proposal_id": "CLAR-b06ee4313df3a31b88a4", "proposal_type": "grill-with-docs.clarification", "skill_source": "grill-with-docs", "source_event_id": "evt-positive", "source_inputs": ["CONTEXT.md"], "status": "PROPOSED", "terms": [], "version": 1}, "state_unchanged": false}
+{"actual": "local reconstruct", "pass": true, "probe": "fresh-process reconstruction", "returncode": 0, "stderr": "", "stdout": "{\"CLAR-b06ee4313df3a31b88a4\": {\"assumptions\": [], \"authority_effect\": \"NONE\", \"baseline_sha\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"capability_id\": \"CAP-001\", \"execution_id\": \"EXEC-1\", \"intent_id\": \"I-001\", \"intent_version\": 1, \"open_questions\": [], \"project_id\": \"project-1\", \"proposal_id\": \"CLAR-b06ee4313df3a31b88a4\", \"proposal_type\": \"grill-with-docs.clarification\", \"skill_source\": \"grill-with-docs\", \"source_event_id\": \"evt-positive\", \"source_inputs\": [\"CONTEXT.md\"], \"status\": \"PROPOSED\", \"terms\": [], \"version\": 1}}\n"}
+{"actual": "REJECT SkillContractError: grill-with-docs requires a human actor", "after_files": 6, "before_files": 6, "pass": true, "probe": "unauthorized role", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: DENY_PROJECT_MISMATCH", "after_files": 6, "before_files": 6, "pass": true, "probe": "wrong project", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: DENY_EXECUTION_MISMATCH", "after_files": 6, "before_files": 6, "pass": true, "probe": "wrong execution", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: DENY_SCOPE_ESCAPE", "after_files": 6, "before_files": 6, "pass": true, "probe": "wrong intent", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: DENY_SCOPE_ESCAPE", "after_files": 6, "before_files": 6, "pass": true, "probe": "wrong intent version", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: DENY_BASELINE_MISMATCH", "after_files": 6, "before_files": 6, "pass": true, "probe": "stale baseline", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: parent traversal is not authorized: ../outside-secret", "after_files": 6, "before_files": 6, "pass": true, "probe": "path escape source", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: path escapes project root: /tmp/outside", "after_files": 6, "before_files": 6, "pass": true, "probe": "absolute source", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: clarification content must be lists", "after_files": 6, "before_files": 6, "pass": true, "probe": "missing input", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: clarification request has missing or unknown fields", "after_files": 6, "before_files": 6, "pass": true, "probe": "extra input", "state_unchanged": true}
+{"actual": "REJECT TypeError: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'int'", "after_files": 6, "before_files": 6, "pass": true, "probe": "malformed source type", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: capability expands beyond clarification", "after_files": 6, "before_files": 6, "pass": true, "probe": "capability expansion", "state_unchanged": true}
+{"actual": "REJECT SkillContractError: capability does not preserve authority boundary", "after_files": 6, "before_files": 6, "pass": true, "probe": "forbidden authority missing", "state_unchanged": true}
+{"probe": "tampered proposal", "actual": "REJECT SkillContractError: proposal must remain non-authoritative", "pass": true}
+{"actual": "ACCEPT", "pass": true, "probe": "runtime positive", "state_unchanged": false}
+{"actual": "REJECT SkillRuntimeError: role is not authorized for skill", "pass": true, "probe": "runtime unauthorized role", "state_unchanged": true}
+{"actual": "ACCEPT", "pass": false, "probe": "runtime wrong project", "state_unchanged": false}
+{"actual": "REJECT SkillRuntimeError: execution binding mismatch", "pass": true, "probe": "runtime wrong execution", "state_unchanged": true}
+{"actual": "REJECT SkillRuntimeError: source input contract mismatch", "pass": true, "probe": "runtime path traversal source id", "state_unchanged": true}
+{"actual": "REJECT SkillRuntimeError: input contract mismatch", "pass": true, "probe": "runtime malformed missing input", "state_unchanged": true}
+{"actual": "REJECT SkillRuntimeError: input contract mismatch", "pass": true, "probe": "runtime extra input", "state_unchanged": true}
+{"actual": "REJECT SkillRuntimeError: source input contract mismatch", "pass": true, "probe": "runtime malformed source", "state_unchanged": true}
+{"actual": "REJECT SkillRuntimeError: controller grant does not satisfy skill capability envelope", "pass": true, "probe": "runtime capability missing", "state_unchanged": true}
+{"roots": ["/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/ticket2-direct-ekt2osdg", "/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/ticket2-runtime-jnzwl8u4"], "result_count": 16}

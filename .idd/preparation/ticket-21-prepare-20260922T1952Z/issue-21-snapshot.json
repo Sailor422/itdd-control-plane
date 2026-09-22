@@ -1,0 +1,47 @@
+{
+  "body": "## Parent\n\n[Spec: complete the ITDD control plane as a recoverable system](https://github.com/Sailor422/itdd-control-plane/issues/15)\n\n## What to build\n\nComplete the verified integration and promotion path with fresh integration verification, Git-attested results, conflict/failure routing, durable evidence, and restart reconstruction.\n\n## Acceptance criteria\n\n- [ ] The end-to-end behavior is implemented through a fresh `/implement` execution using `/tdd` red-green-refactor slices.\n- [ ] Existing accepted evidence and historical failures remain preserved.\n- [ ] Positive and hostile behavior is covered by tests at the highest existing seam.\n- [ ] Independent Standards and Spec review evidence is recorded before completion.\n\n## Blocked by\n\n- Ticket to be published in this batch: #18\n- Ticket to be published in this batch: #19",
+  "comments": [
+    {
+      "author": {
+        "login": "Sailor422"
+      },
+      "authorAssociation": "OWNER",
+      "body": "Ticket #21 TEST failed; preserved evidence: `evidence/ticket-21-test-20260922T1917Z/TEST.md` (SHA256 `330c03f398b28d1653b558b697fbb0c6c39cd714ae60c871b57209be65036599`). Candidate `330e106bcb13eeeb6d7efa42cf941d37f6ee30ec`; baseline `bc2b53b6b989cac8ad9ad5948385fe2a65799669`. Targeted E7 4 passed; full suite 214 passed with documented import shim. Plain `uv run pytest` collection still has 16 import errors. Fail-fast acceptance gaps: rejection probes lack durable state/event unchanged assertions; no executed mechanical Git merge-conflict routing probe. Candidate unmodified; no VERIFY, promotion, or closure. Failure evidence remains historical.",
+      "createdAt": "2026-09-22T19:20:08Z",
+      "id": "IC_kwDOUhrnIM8AAAABWKqNaA",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/Sailor422/itdd-control-plane/issues/21#issuecomment-5782539624",
+      "viewerDidAuthor": true
+    },
+    {
+      "author": {
+        "login": "Sailor422"
+      },
+      "authorAssociation": "OWNER",
+      "body": "Ticket #21 full-scope VERIFY attempt FAIL/INCOMPLETE. Report and raw evidence preserved at `/tmp/ticket-21-verify-full-scope/VERIFY.md`. Candidate `b1a8184af79bdc3376e0c8b5c9b4c5ae47f0d91a`, tree `35307ed34c613d55497e6fae6a40267e9efb15c3`, baseline `bc2b53b6b989cac8ad9ad5948385fe2a65799669`. Fresh extracted archive full suite: 217 passed. Verifier did not independently reproduce required black-box criteria including real overlap conflict/abort/no result commit/tree, durable state/rejection non-mutation, strict schema/order and promotion chronology, fresh reconstruction, and execution role provenance. No candidate modifications, promotion, or close. Failure is preserved; diagnosis will map probes before a new independent verification attempt.",
+      "createdAt": "2026-09-22T19:35:50Z",
+      "id": "IC_kwDOUhrnIM8AAAABWK3VKw",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/Sailor422/itdd-control-plane/issues/21#issuecomment-5782754603",
+      "viewerDidAuthor": true
+    }
+  ],
+  "labels": [
+    {
+      "color": "1D76DB",
+      "description": "Fully specified, ready for an agent",
+      "id": "LA_kwDOUhrnIM8AAAAC281JUA",
+      "name": "ready-for-agent"
+    }
+  ],
+  "number": 21,
+  "state": "OPEN",
+  "title": "Complete clean integration and promotion",
+  "url": "https://github.com/Sailor422/itdd-control-plane/issues/21"
+}

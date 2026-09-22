@@ -1,0 +1,70 @@
+..F.F......................FFF                                           [100%]
+=================================== FAILURES ===================================
+____ test_runtime_rejects_wrong_project_without_state_or_artifact_mutation _____
+
+tmp_path = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-445/test_runtime_rejects_wrong_pro0')
+
+    def test_runtime_rejects_wrong_project_without_state_or_artifact_mutation(tmp_path: Path):
+        shutil.copytree(ROOT / "skills", tmp_path / "skills")
+        runtime = SkillRuntime(tmp_path)
+>       grant = CapabilityGrant("project-1", "EXEC-1", tmp_path, frozenset({"project.artifact.write"}))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: CapabilityGrant.__init__() takes 4 positional arguments but 5 were given
+
+tests/integration/test_workflow_runtime_registration.py:37: TypeError
+__________ test_runtime_rejects_capability_expansion_without_mutation __________
+
+tmp_path = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-445/test_runtime_rejects_capabilit0')
+
+    def test_runtime_rejects_capability_expansion_without_mutation(tmp_path: Path):
+        shutil.copytree(ROOT / "skills", tmp_path / "skills")
+        runtime = SkillRuntime(tmp_path)
+>       grant = CapabilityGrant("project-1", "EXEC-1", tmp_path, frozenset({"project.artifact.write", "lifecycle.advance"}))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: CapabilityGrant.__init__() takes 4 positional arguments but 5 were given
+
+tests/integration/test_workflow_runtime_registration.py:65: TypeError
+_____ test_direct_controller_rejects_escaped_source_input_without_artifact _____
+
+tmp_path = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-445/test_direct_controller_rejects0')
+
+    def test_direct_controller_rejects_escaped_source_input_without_artifact(tmp_path: Path):
+        capability = _capability(tmp_path)
+        before = {path.relative_to(tmp_path): path.read_bytes() for path in tmp_path.rglob("*") if path.is_file()}
+>       with pytest.raises(SkillContractError):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE SkillContractError
+
+tests/integration/test_grill_with_docs_contract.py:193: Failed
+_____ test_runtime_rejects_wrong_project_with_matching_root_and_execution ______
+
+tmp_path = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-445/test_runtime_rejects_wrong_pro1')
+
+    def test_runtime_rejects_wrong_project_with_matching_root_and_execution(tmp_path: Path):
+        shutil.copytree(Path(__file__).parents[2] / "skills", tmp_path / "skills")
+        runtime = SkillRuntime(tmp_path)
+>       grant = CapabilityGrant("project-1", "EXEC-1", tmp_path, frozenset({"project.artifact.write"}))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: CapabilityGrant.__init__() takes 4 positional arguments but 5 were given
+
+tests/integration/test_grill_with_docs_contract.py:205: TypeError
+___ test_runtime_proposal_bytes_are_stable_but_invocation_events_are_unique ____
+
+tmp_path = PosixPath('/private/var/folders/02/92fc_qyd2tg3mr_3wd9sfmfw0000gn/T/pytest-of-herbertfields/pytest-445/test_runtime_proposal_bytes_ar0')
+
+    def test_runtime_proposal_bytes_are_stable_but_invocation_events_are_unique(tmp_path: Path):
+        # Copy only the project-local contract surface needed by the runtime.
+        shutil.copytree(Path(__file__).parents[2] / "skills", tmp_path / "skills")
+        runtime = SkillRuntime(tmp_path)
+>       grant = CapabilityGrant("project-1", "EXEC-1", tmp_path, frozenset({"project.artifact.write"}))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: CapabilityGrant.__init__() takes 4 positional arguments but 5 were given
+
+tests/integration/test_grill_with_docs_contract.py:219: TypeError
+=========================== short test summary info ============================
+FAILED tests/integration/test_workflow_runtime_registration.py::test_runtime_rejects_wrong_project_without_state_or_artifact_mutation
+FAILED tests/integration/test_workflow_runtime_registration.py::test_runtime_rejects_capability_expansion_without_mutation
+FAILED tests/integration/test_grill_with_docs_contract.py::test_direct_controller_rejects_escaped_source_input_without_artifact
+FAILED tests/integration/test_grill_with_docs_contract.py::test_runtime_rejects_wrong_project_with_matching_root_and_execution
+FAILED tests/integration/test_grill_with_docs_contract.py::test_runtime_proposal_bytes_are_stable_but_invocation_events_are_unique
+5 failed, 25 passed in 2.10s

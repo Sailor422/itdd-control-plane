@@ -1,0 +1,3 @@
+POS ACCEPT
+UNAUTH ('REJECT', 'SkillRuntimeError: role is not authorized for skill')
+WRONG_PROJECT ('ACCEPT', proposal project_id=project-2, execution_id=EXEC-1)

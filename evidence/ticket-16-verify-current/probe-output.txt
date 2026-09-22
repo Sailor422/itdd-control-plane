@@ -1,0 +1,26 @@
+mapping PASS
+accept role: PASS SkillRuntimeError: workflow acceptance request is invalid
+accept missing: PASS SkillRuntimeError: workflow acceptance request is invalid
+accept extra: PASS SkillRuntimeError: workflow acceptance request is invalid
+accept sha: PASS SkillRuntimeError: workflow acceptance identity is invalid
+accept steps: PASS SkillRuntimeError: workflow acceptance steps mismatch
+workflow skill: PASS SkillRuntimeError: workflow steps are incomplete or out of order
+workflow extra: PASS SkillRuntimeError: workflow step grants non-controller authority
+manifest id: PASS SkillRuntimeError: skill identity mismatch
+workflow missing: PASS SkillRuntimeError: workflow registration is missing
+contract name: PASS SkillRuntimeError: skill identity mismatch
+contract skill_id: PASS SkillRuntimeError: skill identity mismatch
+fresh reconstruction PASS
+wrong project: PASS SkillRuntimeError: project binding mismatch
+wrong execution: PASS SkillRuntimeError: execution binding mismatch
+wrong root: PASS SkillRuntimeError: project root binding mismatch
+worker: PASS SkillRuntimeError: role is not authorized for skill
+extra input: PASS SkillRuntimeError: input contract mismatch
+missing cap: PASS SkillRuntimeError: controller grant does not satisfy skill capability envelope
+extra cap: PASS SkillRuntimeError: controller grant does not satisfy skill capability envelope
+source ..: PASS SkillRuntimeError: source input contract mismatch
+source foo/../bar: PASS SkillRuntimeError: source input contract mismatch
+source /etc/passwd: PASS SkillRuntimeError: source input contract mismatch
+source ../outside-secret: PASS SkillRuntimeError: source input contract mismatch
+source foo\bar: PASS SkillRuntimeError: source input contract mismatch
+ALL INDEPENDENT CHECKS PASS

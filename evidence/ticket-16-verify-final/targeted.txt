@@ -1,0 +1,2 @@
+Command: PYTHONPATH=/tmp/ticket16-verify-archive /Users/herbertfields/itdd-control-plane/.venv/bin/pytest -q tests/integration/test_workflow_runtime_registration.py tests/test_itdd_new_bootstrap.py tests/integration/test_grill_with_docs_contract.py
+Result: 31 passed in 1.91s

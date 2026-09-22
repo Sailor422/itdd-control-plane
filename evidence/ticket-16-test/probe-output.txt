@@ -1,0 +1,22 @@
+workflow ['wayfinder', 'to-spec', 'to-tickets', 'implement', 'tdd', 'code-review']
+accept {'decision': 'OBSERVED', 'authority': 'controller', 'lifecycle_effect': 'none', 'promotion_effect': 'none', 'execution_id': 'exec-16', 'candidate_sha': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'}
+wrong_role: rejected SkillRuntimeError: workflow acceptance is controller-only
+missing: rejected SkillRuntimeError: workflow acceptance request shape mismatch
+extra: rejected SkillRuntimeError: workflow acceptance request shape mismatch
+stale_sha: rejected SkillRuntimeError: workflow acceptance identity is invalid
+wrong_steps: rejected SkillRuntimeError: workflow acceptance steps mismatch
+invoke PROPOSAL_ONLY none clarification-proposal
+wrong_project: UNEXPECTED_PASS
+wrong_project_unchanged True
+wrong_execution: rejected SkillRuntimeError: execution binding mismatch
+wrong_execution_unchanged True
+worker_role: rejected SkillRuntimeError: role is not authorized for skill
+worker_role_unchanged True
+extra_input: rejected SkillRuntimeError: input contract mismatch
+extra_input_unchanged True
+bad_source_id: rejected SkillRuntimeError: source input contract mismatch
+bad_source_id_unchanged True
+missing_workflow: rejected SkillRuntimeError: workflow registration is missing
+extra_workflow: rejected SkillRuntimeError: invalid workflow registration
+stale_skill_id: rejected SkillRuntimeError: skill identity mismatch
+fresh_process 0 ['wayfinder', 'to-spec', 'to-tickets', 'implement', 'tdd', 'code-review'] 

@@ -1,0 +1,4 @@
+controller ../outside-secret rejected SkillContractError
+unchanged True
+controller /etc/passwd rejected SkillContractError
+unchanged True

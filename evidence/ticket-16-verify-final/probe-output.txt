@@ -1,0 +1,24 @@
+accept_wrong_role: SkillRuntimeError: workflow acceptance request is invalid
+accept_missing: SkillRuntimeError: workflow acceptance request is invalid
+accept_extra: SkillRuntimeError: workflow acceptance request is invalid
+accept_bad_sha: SkillRuntimeError: workflow acceptance identity is invalid
+accept_wrong_steps: SkillRuntimeError: workflow acceptance steps mismatch
+accept_wrong_project: SkillRuntimeError: workflow acceptance binding mismatch
+workflow_skill_tamper: UNEXPECTED_PASS
+workflow_skill_tamper_rejected=False
+workflow_step_extra: SkillRuntimeError: workflow step grants non-controller authority
+workflow_step_extra_rejected=True
+registered_id_tamper: UNEXPECTED_PASS
+registered_id_tamper_rejected=False
+contract_name_tamper: SkillRuntimeError: skill identity mismatch
+contract_skillid_tamper: SkillRuntimeError: skill identity mismatch
+wrong_project: SkillRuntimeError: project binding mismatch
+wrong_execution: SkillRuntimeError: execution binding mismatch
+wrong_root: SkillRuntimeError: project root binding mismatch
+worker: SkillRuntimeError: role is not authorized for skill
+extra_input: SkillRuntimeError: input contract mismatch
+dotdot_source: UNEXPECTED_PASS
+Traceback (most recent call last):
+  File "/tmp/verify16.py", line 25, in <module>
+    before=snap(p); ok=reject(label,lambda i=i,gr=gr:rt.invoke("itdd.grill-with-docs",i,gr)); assert ok and before==snap(p),label
+AssertionError: dotdot_source

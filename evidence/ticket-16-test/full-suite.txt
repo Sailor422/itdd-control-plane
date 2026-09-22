@@ -1,0 +1,1253 @@
+
+==================================== ERRORS ====================================
+_ ERROR collecting .worktrees/build-ticket-2-combined/examples/human-demo/tests/test_temperature.py _
+import file mismatch:
+imported module 'test_temperature' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/examples/human-demo/tests/test_temperature.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/examples/human-demo/tests/test_temperature.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/end_to_end/test_operational_single_eu.py _
+import file mismatch:
+imported module 'test_operational_single_eu' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_operational_single_eu.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/end_to_end/test_operational_single_eu.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/end_to_end/test_restart_reconstruction.py _
+import file mismatch:
+imported module 'test_restart_reconstruction' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_restart_reconstruction.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/end_to_end/test_restart_reconstruction.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_c_restart.py _
+import file mismatch:
+imported module 'test_stage_c_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_c_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_c_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_e1_restart.py _
+import file mismatch:
+imported module 'test_stage_e1_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e1_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_e1_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_e2_restart.py _
+import file mismatch:
+imported module 'test_stage_e2_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e2_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_e2_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/fixtures/e5_candidate_test.py _
+import file mismatch:
+imported module 'e5_candidate_test' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/fixtures/e5_candidate_test.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/fixtures/e5_candidate_test.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_builder_self_certification.py _
+import file mismatch:
+imported module 'test_builder_self_certification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_builder_self_certification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_builder_self_certification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_events.py _
+import file mismatch:
+imported module 'test_events' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_events.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_events.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_grill_with_docs_contract.py _
+import file mismatch:
+imported module 'test_grill_with_docs_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_grill_with_docs_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_grill_with_docs_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_human_decisions.py _
+import file mismatch:
+imported module 'test_human_decisions' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_human_decisions.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_human_decisions.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_intent_amendments.py _
+import file mismatch:
+imported module 'test_intent_amendments' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_intent_amendments.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_intent_amendments.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_itdd_new_skill.py _
+import file mismatch:
+imported module 'test_itdd_new_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_itdd_new_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_itdd_new_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_operational_builder_boundary.py _
+import file mismatch:
+imported module 'test_operational_builder_boundary' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_builder_boundary.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_operational_builder_boundary.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_operational_graph_policy.py _
+import file mismatch:
+imported module 'test_operational_graph_policy' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_graph_policy.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_operational_graph_policy.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_prime_builder_adapter.py _
+import file mismatch:
+imported module 'test_prime_builder_adapter' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_prime_builder_adapter.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_prime_builder_adapter.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_c_store.py _
+import file mismatch:
+imported module 'test_stage_c_store' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_c_store.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_c_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_d_authorization.py _
+import file mismatch:
+imported module 'test_stage_d_authorization' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_d_authorization.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_d_authorization.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e1_context.py _
+import file mismatch:
+imported module 'test_stage_e1_context' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e1_context.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e1_context.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e2_resolver.py _
+import file mismatch:
+imported module 'test_stage_e2_resolver' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e2_resolver.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e2_resolver.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e3_project_map.py _
+import file mismatch:
+imported module 'test_stage_e3_project_map' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e3_project_map.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e3_project_map.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e4_verification.py _
+import file mismatch:
+imported module 'test_stage_e4_verification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e4_verification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e4_verification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e5_verifiers.py _
+import file mismatch:
+imported module 'test_stage_e5_verifiers' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e5_verifiers.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e5_verifiers.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e6_human.py _
+import file mismatch:
+imported module 'test_stage_e6_human' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e6_human.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e6_human.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e7_integration.py _
+import file mismatch:
+imported module 'test_stage_e7_integration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e7_integration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e7_integration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/integration/test_stage_e8_view.py _
+import file mismatch:
+imported module 'test_stage_e8_view' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e8_view.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/integration/test_stage_e8_view.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/negative/test_integrity.py _
+import file mismatch:
+imported module 'test_integrity' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_integrity.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/negative/test_integrity.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/negative/test_isolation.py _
+import file mismatch:
+imported module 'test_isolation' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/negative/test_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/negative/test_stage_c_negative.py _
+import file mismatch:
+imported module 'test_stage_c_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_c_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/negative/test_stage_c_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/negative/test_stage_d_negative.py _
+import file mismatch:
+imported module 'test_stage_d_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_d_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/negative/test_stage_d_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/negative/test_stage_e1_negative.py _
+import file mismatch:
+imported module 'test_stage_e1_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e1_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/negative/test_stage_e1_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/negative/test_stage_e2_negative.py _
+import file mismatch:
+imported module 'test_stage_e2_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e2_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/negative/test_stage_e2_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/test_idd_skill_contract.py _
+import file mismatch:
+imported module 'test_idd_skill_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_idd_skill_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/test_idd_skill_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/test_itdd_control_plane_contract_docs.py _
+import file mismatch:
+imported module 'test_itdd_control_plane_contract_docs' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_control_plane_contract_docs.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/test_itdd_control_plane_contract_docs.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/test_itdd_execute_orchestration.py _
+import file mismatch:
+imported module 'test_itdd_execute_orchestration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_execute_orchestration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/test_itdd_execute_orchestration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/test_itdd_new_bootstrap.py _
+import file mismatch:
+imported module 'test_itdd_new_bootstrap' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_new_bootstrap.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/test_itdd_new_bootstrap.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/test_itdd_prepare_skill.py _
+import file mismatch:
+imported module 'test_itdd_prepare_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_prepare_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/test_itdd_prepare_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/unit/test_paths.py _
+import file mismatch:
+imported module 'test_paths' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_paths.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/unit/test_paths.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-combined/tests/unit/test_stage_c_models.py _
+import file mismatch:
+imported module 'test_stage_c_models' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_stage_c_models.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-combined/tests/unit/test_stage_c_models.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/examples/human-demo/tests/test_temperature.py _
+import file mismatch:
+imported module 'test_temperature' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/examples/human-demo/tests/test_temperature.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/examples/human-demo/tests/test_temperature.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_operational_single_eu.py _
+import file mismatch:
+imported module 'test_operational_single_eu' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_operational_single_eu.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/end_to_end/test_operational_single_eu.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_restart_reconstruction.py _
+import file mismatch:
+imported module 'test_restart_reconstruction' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_restart_reconstruction.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/end_to_end/test_restart_reconstruction.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_c_restart.py _
+import file mismatch:
+imported module 'test_stage_c_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_c_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_c_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_e1_restart.py _
+import file mismatch:
+imported module 'test_stage_e1_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e1_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_e1_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_e2_restart.py _
+import file mismatch:
+imported module 'test_stage_e2_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e2_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_e2_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/fixtures/e5_candidate_test.py _
+import file mismatch:
+imported module 'e5_candidate_test' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/fixtures/e5_candidate_test.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/fixtures/e5_candidate_test.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_builder_self_certification.py _
+import file mismatch:
+imported module 'test_builder_self_certification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_builder_self_certification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_builder_self_certification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_events.py _
+import file mismatch:
+imported module 'test_events' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_events.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_events.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_grill_with_docs_contract.py _
+import file mismatch:
+imported module 'test_grill_with_docs_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_grill_with_docs_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_grill_with_docs_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_human_decisions.py _
+import file mismatch:
+imported module 'test_human_decisions' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_human_decisions.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_human_decisions.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_intent_amendments.py _
+import file mismatch:
+imported module 'test_intent_amendments' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_intent_amendments.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_intent_amendments.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_itdd_new_skill.py _
+import file mismatch:
+imported module 'test_itdd_new_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_itdd_new_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_itdd_new_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_operational_builder_boundary.py _
+import file mismatch:
+imported module 'test_operational_builder_boundary' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_builder_boundary.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_operational_builder_boundary.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_operational_graph_policy.py _
+import file mismatch:
+imported module 'test_operational_graph_policy' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_graph_policy.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_operational_graph_policy.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_prime_builder_adapter.py _
+import file mismatch:
+imported module 'test_prime_builder_adapter' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_prime_builder_adapter.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_prime_builder_adapter.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_c_store.py _
+import file mismatch:
+imported module 'test_stage_c_store' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_c_store.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_c_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_d_authorization.py _
+import file mismatch:
+imported module 'test_stage_d_authorization' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_d_authorization.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_d_authorization.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e1_context.py _
+import file mismatch:
+imported module 'test_stage_e1_context' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e1_context.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e1_context.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e2_resolver.py _
+import file mismatch:
+imported module 'test_stage_e2_resolver' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e2_resolver.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e2_resolver.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e3_project_map.py _
+import file mismatch:
+imported module 'test_stage_e3_project_map' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e3_project_map.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e3_project_map.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e4_verification.py _
+import file mismatch:
+imported module 'test_stage_e4_verification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e4_verification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e4_verification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e5_verifiers.py _
+import file mismatch:
+imported module 'test_stage_e5_verifiers' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e5_verifiers.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e5_verifiers.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e6_human.py _
+import file mismatch:
+imported module 'test_stage_e6_human' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e6_human.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e6_human.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e7_integration.py _
+import file mismatch:
+imported module 'test_stage_e7_integration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e7_integration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e7_integration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e8_view.py _
+import file mismatch:
+imported module 'test_stage_e8_view' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e8_view.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e8_view.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/negative/test_integrity.py _
+import file mismatch:
+imported module 'test_integrity' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_integrity.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/negative/test_integrity.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/negative/test_isolation.py _
+import file mismatch:
+imported module 'test_isolation' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/negative/test_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_c_negative.py _
+import file mismatch:
+imported module 'test_stage_c_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_c_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/negative/test_stage_c_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_d_negative.py _
+import file mismatch:
+imported module 'test_stage_d_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_d_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/negative/test_stage_d_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_e1_negative.py _
+import file mismatch:
+imported module 'test_stage_e1_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e1_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/negative/test_stage_e1_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_e2_negative.py _
+import file mismatch:
+imported module 'test_stage_e2_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e2_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/negative/test_stage_e2_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/test_idd_skill_contract.py _
+import file mismatch:
+imported module 'test_idd_skill_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_idd_skill_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/test_idd_skill_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/test_itdd_control_plane_contract_docs.py _
+import file mismatch:
+imported module 'test_itdd_control_plane_contract_docs' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_control_plane_contract_docs.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/test_itdd_control_plane_contract_docs.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/test_itdd_execute_orchestration.py _
+import file mismatch:
+imported module 'test_itdd_execute_orchestration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_execute_orchestration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/test_itdd_execute_orchestration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/test_itdd_new_bootstrap.py _
+import file mismatch:
+imported module 'test_itdd_new_bootstrap' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_new_bootstrap.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/test_itdd_new_bootstrap.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/test_itdd_prepare_skill.py _
+import file mismatch:
+imported module 'test_itdd_prepare_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_prepare_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/test_itdd_prepare_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/unit/test_paths.py _
+import file mismatch:
+imported module 'test_paths' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_paths.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/unit/test_paths.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-controller-path/tests/unit/test_stage_c_models.py _
+import file mismatch:
+imported module 'test_stage_c_models' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_stage_c_models.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-controller-path/tests/unit/test_stage_c_models.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/examples/human-demo/tests/test_temperature.py _
+import file mismatch:
+imported module 'test_temperature' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/examples/human-demo/tests/test_temperature.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/examples/human-demo/tests/test_temperature.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/end_to_end/test_operational_single_eu.py _
+import file mismatch:
+imported module 'test_operational_single_eu' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_operational_single_eu.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/end_to_end/test_operational_single_eu.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/end_to_end/test_restart_reconstruction.py _
+import file mismatch:
+imported module 'test_restart_reconstruction' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_restart_reconstruction.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/end_to_end/test_restart_reconstruction.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_c_restart.py _
+import file mismatch:
+imported module 'test_stage_c_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_c_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_c_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_e1_restart.py _
+import file mismatch:
+imported module 'test_stage_e1_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e1_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_e1_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_e2_restart.py _
+import file mismatch:
+imported module 'test_stage_e2_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e2_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_e2_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/fixtures/e5_candidate_test.py _
+import file mismatch:
+imported module 'e5_candidate_test' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/fixtures/e5_candidate_test.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/fixtures/e5_candidate_test.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_builder_self_certification.py _
+import file mismatch:
+imported module 'test_builder_self_certification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_builder_self_certification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_builder_self_certification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_events.py _
+import file mismatch:
+imported module 'test_events' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_events.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_events.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_grill_with_docs_contract.py _
+import file mismatch:
+imported module 'test_grill_with_docs_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_grill_with_docs_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_grill_with_docs_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_human_decisions.py _
+import file mismatch:
+imported module 'test_human_decisions' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_human_decisions.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_human_decisions.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_intent_amendments.py _
+import file mismatch:
+imported module 'test_intent_amendments' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_intent_amendments.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_intent_amendments.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_itdd_new_skill.py _
+import file mismatch:
+imported module 'test_itdd_new_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_itdd_new_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_itdd_new_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_operational_builder_boundary.py _
+import file mismatch:
+imported module 'test_operational_builder_boundary' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_builder_boundary.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_operational_builder_boundary.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_operational_graph_policy.py _
+import file mismatch:
+imported module 'test_operational_graph_policy' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_graph_policy.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_operational_graph_policy.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_prime_builder_adapter.py _
+import file mismatch:
+imported module 'test_prime_builder_adapter' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_prime_builder_adapter.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_prime_builder_adapter.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_c_store.py _
+import file mismatch:
+imported module 'test_stage_c_store' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_c_store.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_c_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_d_authorization.py _
+import file mismatch:
+imported module 'test_stage_d_authorization' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_d_authorization.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_d_authorization.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e1_context.py _
+import file mismatch:
+imported module 'test_stage_e1_context' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e1_context.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e1_context.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e2_resolver.py _
+import file mismatch:
+imported module 'test_stage_e2_resolver' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e2_resolver.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e2_resolver.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e3_project_map.py _
+import file mismatch:
+imported module 'test_stage_e3_project_map' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e3_project_map.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e3_project_map.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e4_verification.py _
+import file mismatch:
+imported module 'test_stage_e4_verification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e4_verification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e4_verification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e5_verifiers.py _
+import file mismatch:
+imported module 'test_stage_e5_verifiers' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e5_verifiers.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e5_verifiers.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e6_human.py _
+import file mismatch:
+imported module 'test_stage_e6_human' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e6_human.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e6_human.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e7_integration.py _
+import file mismatch:
+imported module 'test_stage_e7_integration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e7_integration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e7_integration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/integration/test_stage_e8_view.py _
+import file mismatch:
+imported module 'test_stage_e8_view' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e8_view.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/integration/test_stage_e8_view.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/negative/test_integrity.py _
+import file mismatch:
+imported module 'test_integrity' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_integrity.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/negative/test_integrity.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/negative/test_isolation.py _
+import file mismatch:
+imported module 'test_isolation' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/negative/test_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/negative/test_stage_c_negative.py _
+import file mismatch:
+imported module 'test_stage_c_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_c_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/negative/test_stage_c_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/negative/test_stage_d_negative.py _
+import file mismatch:
+imported module 'test_stage_d_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_d_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/negative/test_stage_d_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/negative/test_stage_e1_negative.py _
+import file mismatch:
+imported module 'test_stage_e1_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e1_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/negative/test_stage_e1_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/negative/test_stage_e2_negative.py _
+import file mismatch:
+imported module 'test_stage_e2_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e2_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/negative/test_stage_e2_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/test_idd_skill_contract.py _
+import file mismatch:
+imported module 'test_idd_skill_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_idd_skill_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/test_idd_skill_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/test_itdd_control_plane_contract_docs.py _
+import file mismatch:
+imported module 'test_itdd_control_plane_contract_docs' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_control_plane_contract_docs.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/test_itdd_control_plane_contract_docs.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/test_itdd_execute_orchestration.py _
+import file mismatch:
+imported module 'test_itdd_execute_orchestration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_execute_orchestration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/test_itdd_execute_orchestration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/test_itdd_new_bootstrap.py _
+import file mismatch:
+imported module 'test_itdd_new_bootstrap' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_new_bootstrap.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/test_itdd_new_bootstrap.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/test_itdd_prepare_skill.py _
+import file mismatch:
+imported module 'test_itdd_prepare_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_prepare_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/test_itdd_prepare_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__ ERROR collecting .worktrees/build-ticket-2-repair/tests/unit/test_paths.py __
+import file mismatch:
+imported module 'test_paths' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_paths.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/unit/test_paths.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting .worktrees/build-ticket-2-repair/tests/unit/test_stage_c_models.py _
+import file mismatch:
+imported module 'test_stage_c_models' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_stage_c_models.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2-repair/tests/unit/test_stage_c_models.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+________ ERROR collecting examples/human-demo/tests/test_temperature.py ________
+import file mismatch:
+imported module 'test_temperature' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/examples/human-demo/tests/test_temperature.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/examples/human-demo/tests/test_temperature.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/end_to_end/test_operational_single_eu.py ________
+import file mismatch:
+imported module 'test_operational_single_eu' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_operational_single_eu.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/end_to_end/test_operational_single_eu.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/end_to_end/test_restart_reconstruction.py _______
+import file mismatch:
+imported module 'test_restart_reconstruction' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_restart_reconstruction.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/end_to_end/test_restart_reconstruction.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/end_to_end/test_stage_c_restart.py ___________
+import file mismatch:
+imported module 'test_stage_c_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_c_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/end_to_end/test_stage_c_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/end_to_end/test_stage_e1_restart.py __________
+import file mismatch:
+imported module 'test_stage_e1_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e1_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/end_to_end/test_stage_e1_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/end_to_end/test_stage_e2_restart.py __________
+import file mismatch:
+imported module 'test_stage_e2_restart' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/end_to_end/test_stage_e2_restart.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/end_to_end/test_stage_e2_restart.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_____________ ERROR collecting tests/fixtures/e5_candidate_test.py _____________
+import file mismatch:
+imported module 'e5_candidate_test' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/fixtures/e5_candidate_test.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/fixtures/e5_candidate_test.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+____ ERROR collecting tests/integration/test_builder_self_certification.py _____
+import file mismatch:
+imported module 'test_builder_self_certification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_builder_self_certification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_builder_self_certification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/integration/test_events.py _______________
+import file mismatch:
+imported module 'test_events' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_events.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_events.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_____ ERROR collecting tests/integration/test_grill_with_docs_contract.py ______
+import file mismatch:
+imported module 'test_grill_with_docs_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_grill_with_docs_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_grill_with_docs_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/integration/test_human_decisions.py __________
+import file mismatch:
+imported module 'test_human_decisions' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_human_decisions.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_human_decisions.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_________ ERROR collecting tests/integration/test_intent_amendments.py _________
+import file mismatch:
+imported module 'test_intent_amendments' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_intent_amendments.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_intent_amendments.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/integration/test_itdd_new_skill.py ___________
+import file mismatch:
+imported module 'test_itdd_new_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_itdd_new_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_itdd_new_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___ ERROR collecting tests/integration/test_operational_builder_boundary.py ____
+import file mismatch:
+imported module 'test_operational_builder_boundary' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_builder_boundary.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_operational_builder_boundary.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_____ ERROR collecting tests/integration/test_operational_graph_policy.py ______
+import file mismatch:
+imported module 'test_operational_graph_policy' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_operational_graph_policy.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_operational_graph_policy.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/integration/test_prime_builder_adapter.py _______
+import file mismatch:
+imported module 'test_prime_builder_adapter' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_prime_builder_adapter.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_prime_builder_adapter.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___________ ERROR collecting tests/integration/test_stage_c_store.py ___________
+import file mismatch:
+imported module 'test_stage_c_store' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_c_store.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_c_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/integration/test_stage_d_authorization.py _______
+import file mismatch:
+imported module 'test_stage_d_authorization' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_d_authorization.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_d_authorization.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_________ ERROR collecting tests/integration/test_stage_e1_context.py __________
+import file mismatch:
+imported module 'test_stage_e1_context' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e1_context.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e1_context.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_________ ERROR collecting tests/integration/test_stage_e2_resolver.py _________
+import file mismatch:
+imported module 'test_stage_e2_resolver' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e2_resolver.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e2_resolver.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/integration/test_stage_e3_project_map.py ________
+import file mismatch:
+imported module 'test_stage_e3_project_map' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e3_project_map.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e3_project_map.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/integration/test_stage_e4_verification.py _______
+import file mismatch:
+imported module 'test_stage_e4_verification' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e4_verification.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e4_verification.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+________ ERROR collecting tests/integration/test_stage_e5_verifiers.py _________
+import file mismatch:
+imported module 'test_stage_e5_verifiers' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e5_verifiers.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e5_verifiers.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/integration/test_stage_e6_human.py ___________
+import file mismatch:
+imported module 'test_stage_e6_human' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e6_human.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e6_human.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/integration/test_stage_e7_integration.py ________
+import file mismatch:
+imported module 'test_stage_e7_integration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e7_integration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e7_integration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___________ ERROR collecting tests/integration/test_stage_e8_view.py ___________
+import file mismatch:
+imported module 'test_stage_e8_view' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/integration/test_stage_e8_view.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/integration/test_stage_e8_view.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/negative/test_integrity.py _______________
+import file mismatch:
+imported module 'test_integrity' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_integrity.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/negative/test_integrity.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/negative/test_isolation.py _______________
+import file mismatch:
+imported module 'test_isolation' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/negative/test_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___________ ERROR collecting tests/negative/test_stage_c_negative.py ___________
+import file mismatch:
+imported module 'test_stage_c_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_c_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/negative/test_stage_c_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+___________ ERROR collecting tests/negative/test_stage_d_negative.py ___________
+import file mismatch:
+imported module 'test_stage_d_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_d_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/negative/test_stage_d_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/negative/test_stage_e1_negative.py ___________
+import file mismatch:
+imported module 'test_stage_e1_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e1_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/negative/test_stage_e1_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/negative/test_stage_e2_negative.py ___________
+import file mismatch:
+imported module 'test_stage_e2_negative' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/negative/test_stage_e2_negative.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/negative/test_stage_e2_negative.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/test_idd_skill_contract.py _______________
+import file mismatch:
+imported module 'test_idd_skill_contract' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_idd_skill_contract.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/test_idd_skill_contract.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_______ ERROR collecting tests/test_itdd_control_plane_contract_docs.py ________
+import file mismatch:
+imported module 'test_itdd_control_plane_contract_docs' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_control_plane_contract_docs.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/test_itdd_control_plane_contract_docs.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________ ERROR collecting tests/test_itdd_execute_orchestration.py ___________
+import file mismatch:
+imported module 'test_itdd_execute_orchestration' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_execute_orchestration.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/test_itdd_execute_orchestration.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/test_itdd_new_bootstrap.py _______________
+import file mismatch:
+imported module 'test_itdd_new_bootstrap' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_new_bootstrap.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/test_itdd_new_bootstrap.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/test_itdd_prepare_skill.py _______________
+import file mismatch:
+imported module 'test_itdd_prepare_skill' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/test_itdd_prepare_skill.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/test_itdd_prepare_skill.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+__________________ ERROR collecting tests/unit/test_paths.py ___________________
+import file mismatch:
+imported module 'test_paths' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_paths.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/unit/test_paths.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+______________ ERROR collecting tests/unit/test_stage_c_models.py ______________
+import file mismatch:
+imported module 'test_stage_c_models' has this __file__ attribute:
+  /Users/herbertfields/itdd-control-plane/.worktrees/build-ticket-2/tests/unit/test_stage_c_models.py
+which is not the same as the test file we want to collect:
+  /Users/herbertfields/itdd-control-plane/tests/unit/test_stage_c_models.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+=========================== short test summary info ============================
+ERROR .worktrees/build-ticket-2-combined/examples/human-demo/tests/test_temperature.py
+ERROR .worktrees/build-ticket-2-combined/tests/end_to_end/test_operational_single_eu.py
+ERROR .worktrees/build-ticket-2-combined/tests/end_to_end/test_restart_reconstruction.py
+ERROR .worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_c_restart.py
+ERROR .worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_e1_restart.py
+ERROR .worktrees/build-ticket-2-combined/tests/end_to_end/test_stage_e2_restart.py
+ERROR .worktrees/build-ticket-2-combined/tests/fixtures/e5_candidate_test.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_builder_self_certification.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_events.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_grill_with_docs_contract.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_human_decisions.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_intent_amendments.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_itdd_new_skill.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_operational_builder_boundary.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_operational_graph_policy.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_prime_builder_adapter.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_c_store.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_d_authorization.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e1_context.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e2_resolver.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e3_project_map.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e4_verification.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e5_verifiers.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e6_human.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e7_integration.py
+ERROR .worktrees/build-ticket-2-combined/tests/integration/test_stage_e8_view.py
+ERROR .worktrees/build-ticket-2-combined/tests/negative/test_integrity.py
+ERROR .worktrees/build-ticket-2-combined/tests/negative/test_isolation.py
+ERROR .worktrees/build-ticket-2-combined/tests/negative/test_stage_c_negative.py
+ERROR .worktrees/build-ticket-2-combined/tests/negative/test_stage_d_negative.py
+ERROR .worktrees/build-ticket-2-combined/tests/negative/test_stage_e1_negative.py
+ERROR .worktrees/build-ticket-2-combined/tests/negative/test_stage_e2_negative.py
+ERROR .worktrees/build-ticket-2-combined/tests/test_idd_skill_contract.py
+ERROR .worktrees/build-ticket-2-combined/tests/test_itdd_control_plane_contract_docs.py
+ERROR .worktrees/build-ticket-2-combined/tests/test_itdd_execute_orchestration.py
+ERROR .worktrees/build-ticket-2-combined/tests/test_itdd_new_bootstrap.py
+ERROR .worktrees/build-ticket-2-combined/tests/test_itdd_prepare_skill.py
+ERROR .worktrees/build-ticket-2-combined/tests/unit/test_paths.py
+ERROR .worktrees/build-ticket-2-combined/tests/unit/test_stage_c_models.py
+ERROR .worktrees/build-ticket-2-controller-path/examples/human-demo/tests/test_temperature.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_operational_single_eu.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_restart_reconstruction.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_c_restart.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_e1_restart.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/end_to_end/test_stage_e2_restart.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/fixtures/e5_candidate_test.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_builder_self_certification.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_events.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_grill_with_docs_contract.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_human_decisions.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_intent_amendments.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_itdd_new_skill.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_operational_builder_boundary.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_operational_graph_policy.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_prime_builder_adapter.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_c_store.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_d_authorization.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e1_context.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e2_resolver.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e3_project_map.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e4_verification.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e5_verifiers.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e6_human.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e7_integration.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/integration/test_stage_e8_view.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/negative/test_integrity.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/negative/test_isolation.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_c_negative.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_d_negative.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_e1_negative.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/negative/test_stage_e2_negative.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/test_idd_skill_contract.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/test_itdd_control_plane_contract_docs.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/test_itdd_execute_orchestration.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/test_itdd_new_bootstrap.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/test_itdd_prepare_skill.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/unit/test_paths.py
+ERROR .worktrees/build-ticket-2-controller-path/tests/unit/test_stage_c_models.py
+ERROR .worktrees/build-ticket-2-repair/examples/human-demo/tests/test_temperature.py
+ERROR .worktrees/build-ticket-2-repair/tests/end_to_end/test_operational_single_eu.py
+ERROR .worktrees/build-ticket-2-repair/tests/end_to_end/test_restart_reconstruction.py
+ERROR .worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_c_restart.py
+ERROR .worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_e1_restart.py
+ERROR .worktrees/build-ticket-2-repair/tests/end_to_end/test_stage_e2_restart.py
+ERROR .worktrees/build-ticket-2-repair/tests/fixtures/e5_candidate_test.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_builder_self_certification.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_events.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_grill_with_docs_contract.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_human_decisions.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_intent_amendments.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_itdd_new_skill.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_operational_builder_boundary.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_operational_graph_policy.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_prime_builder_adapter.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_c_store.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_d_authorization.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e1_context.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e2_resolver.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e3_project_map.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e4_verification.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e5_verifiers.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e6_human.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e7_integration.py
+ERROR .worktrees/build-ticket-2-repair/tests/integration/test_stage_e8_view.py
+ERROR .worktrees/build-ticket-2-repair/tests/negative/test_integrity.py
+ERROR .worktrees/build-ticket-2-repair/tests/negative/test_isolation.py
+ERROR .worktrees/build-ticket-2-repair/tests/negative/test_stage_c_negative.py
+ERROR .worktrees/build-ticket-2-repair/tests/negative/test_stage_d_negative.py
+ERROR .worktrees/build-ticket-2-repair/tests/negative/test_stage_e1_negative.py
+ERROR .worktrees/build-ticket-2-repair/tests/negative/test_stage_e2_negative.py
+ERROR .worktrees/build-ticket-2-repair/tests/test_idd_skill_contract.py
+ERROR .worktrees/build-ticket-2-repair/tests/test_itdd_control_plane_contract_docs.py
+ERROR .worktrees/build-ticket-2-repair/tests/test_itdd_execute_orchestration.py
+ERROR .worktrees/build-ticket-2-repair/tests/test_itdd_new_bootstrap.py
+ERROR .worktrees/build-ticket-2-repair/tests/test_itdd_prepare_skill.py
+ERROR .worktrees/build-ticket-2-repair/tests/unit/test_paths.py
+ERROR .worktrees/build-ticket-2-repair/tests/unit/test_stage_c_models.py
+ERROR examples/human-demo/tests/test_temperature.py
+ERROR tests/end_to_end/test_operational_single_eu.py
+ERROR tests/end_to_end/test_restart_reconstruction.py
+ERROR tests/end_to_end/test_stage_c_restart.py
+ERROR tests/end_to_end/test_stage_e1_restart.py
+ERROR tests/end_to_end/test_stage_e2_restart.py
+ERROR tests/fixtures/e5_candidate_test.py
+ERROR tests/integration/test_builder_self_certification.py
+ERROR tests/integration/test_events.py
+ERROR tests/integration/test_grill_with_docs_contract.py
+ERROR tests/integration/test_human_decisions.py
+ERROR tests/integration/test_intent_amendments.py
+ERROR tests/integration/test_itdd_new_skill.py
+ERROR tests/integration/test_operational_builder_boundary.py
+ERROR tests/integration/test_operational_graph_policy.py
+ERROR tests/integration/test_prime_builder_adapter.py
+ERROR tests/integration/test_stage_c_store.py
+ERROR tests/integration/test_stage_d_authorization.py
+ERROR tests/integration/test_stage_e1_context.py
+ERROR tests/integration/test_stage_e2_resolver.py
+ERROR tests/integration/test_stage_e3_project_map.py
+ERROR tests/integration/test_stage_e4_verification.py
+ERROR tests/integration/test_stage_e5_verifiers.py
+ERROR tests/integration/test_stage_e6_human.py
+ERROR tests/integration/test_stage_e7_integration.py
+ERROR tests/integration/test_stage_e8_view.py
+ERROR tests/negative/test_integrity.py
+ERROR tests/negative/test_isolation.py
+ERROR tests/negative/test_stage_c_negative.py
+ERROR tests/negative/test_stage_d_negative.py
+ERROR tests/negative/test_stage_e1_negative.py
+ERROR tests/negative/test_stage_e2_negative.py
+ERROR tests/test_idd_skill_contract.py
+ERROR tests/test_itdd_control_plane_contract_docs.py
+ERROR tests/test_itdd_execute_orchestration.py
+ERROR tests/test_itdd_new_bootstrap.py
+ERROR tests/test_itdd_prepare_skill.py
+ERROR tests/unit/test_paths.py
+ERROR tests/unit/test_stage_c_models.py
+!!!!!!!!!!!!!!!!!! Interrupted: 156 errors during collection !!!!!!!!!!!!!!!!!!!
+156 errors in 0.24s
