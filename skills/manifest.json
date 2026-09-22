@@ -8,5 +8,65 @@
       "disposition": "ADOPT",
       "source_rationale": "docs/research/pocock-skills-analysis.md"
     }
-  ]
+  ],
+  "workflows": {
+    "workflow_id": "wayfinder-to-review",
+    "version": "1.0",
+    "steps": [
+      {
+        "name": "wayfinder",
+        "skill": "wayfinder",
+        "mode": "controller-routed",
+        "authority": "controller"
+      },
+      {
+        "name": "to-spec",
+        "skill": "to-spec",
+        "mode": "controller-routed",
+        "authority": "controller"
+      },
+      {
+        "name": "to-tickets",
+        "skill": "to-tickets",
+        "mode": "controller-routed",
+        "authority": "controller"
+      },
+      {
+        "name": "implement",
+        "skill": "implement",
+        "mode": "controller-routed",
+        "authority": "controller"
+      },
+      {
+        "name": "tdd",
+        "skill": "tdd",
+        "mode": "controller-routed",
+        "authority": "controller"
+      },
+      {
+        "name": "code-review",
+        "skill": "code-review",
+        "mode": "controller-routed",
+        "authority": "controller"
+      }
+    ],
+    "controller_boundary": {
+      "accepts": "approved-contract",
+      "owns": [
+        "routing",
+        "evidence",
+        "lifecycle",
+        "promotion"
+      ]
+    },
+    "worker_boundary": {
+      "roles": [
+        "BUILD",
+        "TEST",
+        "VERIFY"
+      ],
+      "isolated": true,
+      "skills_authority": false
+    }
+  }
 }

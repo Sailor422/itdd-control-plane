@@ -130,6 +130,7 @@ def install_itdd_bundle(root: Path, result: dict) -> bool:
             "disposition": "ADOPT",
             "source_rationale": "bundled ITDD contract",
         }],
+        "workflows": json.loads((bundle / "skills" / "manifest.json").read_text(encoding="utf-8")).get("workflows", {}),
     }
     if not manifest_path.exists():
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")

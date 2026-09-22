@@ -239,6 +239,61 @@ class SkillRuntime:
         if effective != set(contract["required_capabilities"]):
             raise SkillRuntimeError("controller grant does not satisfy skill capability envelope")
 
+    def discover_workflow(self) -> dict[str, Any]:
+        """Return the controller-owned registration for the supported flow.
+
+        Workflow registration is deliberately data-only.  It describes routing
+        and authority; it does not execute a skill or grant lifecycle power.
+        """
+        if self.manifest_path.is_symlink() or not self.manifest_path.is_file():
+            raise SkillRuntimeError("workflow registration manifest is missing or symlinked")
+        manifest = _read_json(self.manifest_path)
+        workflow = manifest.get("workflows")
+        if not isinstance(workflow, dict):
+            raise SkillRuntimeError("workflow registration is missing")
+        required = {"workflow_id", "version", "steps", "controller_boundary", "worker_boundary"}
+        if set(workflow) != required or workflow["workflow_id"] != "wayfinder-to-review" or workflow["version"] != "1.0":
+            raise SkillRuntimeError("invalid workflow registration")
+        expected = ["wayfinder", "to-spec", "to-tickets", "implement", "tdd", "code-review"]
+        steps = workflow["steps"]
+        if not isinstance(steps, list) or [s.get("name") for s in steps] != expected:
+            raise SkillRuntimeError("workflow steps are incomplete or out of order")
+        for step in steps:
+            if set(step) != {"name", "skill", "mode", "authority"} or step["mode"] != "controller-routed" or step["authority"] != "controller":
+                raise SkillRuntimeError("workflow step grants non-controller authority")
+            skill_path = self.skills_root / step["skill"] / "SKILL.md"
+            if not skill_path.is_file() or skill_path.is_symlink():
+                raise SkillRuntimeError("workflow skill is not project-local")
+        if workflow["controller_boundary"] != {"accepts": "approved-contract", "owns": ["routing", "evidence", "lifecycle", "promotion"]}:
+            raise SkillRuntimeError("controller boundary is invalid")
+        if workflow["worker_boundary"] != {"roles": ["BUILD", "TEST", "VERIFY"], "isolated": True, "skills_authority": False}:
+            raise SkillRuntimeError("worker boundary is invalid")
+        return workflow
+
+    def validate_workflow_acceptance(self, request: Mapping[str, Any]) -> dict[str, Any]:
+        """Validate an observation at the controller acceptance seam.
+
+        This method only returns a decision.  It cannot advance lifecycle state,
+        promote a candidate, or turn worker output into authority.
+        """
+        self.discover_workflow()
+        required = {"project_id", "execution_id", "role", "baseline_sha", "candidate_sha", "steps", "approved_contract"}
+        if set(request) != required:
+            raise SkillRuntimeError("workflow acceptance request shape mismatch")
+        if request["role"] != "controller":
+            raise SkillRuntimeError("workflow acceptance is controller-only")
+        if request["project_id"] != self.project_root.name or not _ID.fullmatch(str(request["execution_id"])):
+            raise SkillRuntimeError("workflow acceptance binding mismatch")
+        if not request["approved_contract"] or not isinstance(request["approved_contract"], str):
+            raise SkillRuntimeError("approved execution contract is required")
+        expected = ["wayfinder", "to-spec", "to-tickets", "implement", "tdd", "code-review"]
+        if request["steps"] != expected:
+            raise SkillRuntimeError("workflow acceptance steps mismatch")
+        for field in ("baseline_sha", "candidate_sha"):
+            if not isinstance(request[field], str) or not re.fullmatch(r"[0-9a-f]{40}", request[field]):
+                raise SkillRuntimeError("workflow acceptance identity is invalid")
+        return {"decision": "OBSERVED", "authority": "controller", "lifecycle_effect": "none", "promotion_effect": "none", "execution_id": request["execution_id"], "candidate_sha": request["candidate_sha"]}
+
     @staticmethod
     def _append_telemetry(path: Path, event: Mapping[str, Any]) -> None:
         with path.open("a", encoding="utf-8") as handle:
