@@ -79,12 +79,15 @@ class CapabilityStore:
 
     def reconstruct(self) -> dict[str, dict[str, Any]]:
         result: dict[str, dict[str, Any]] = {}
+        revoked = {event["payload"].get("capability_id") for event in self.event_log.verify()
+                   if event["event_type"] == "capability.revoked"}
         for event in self.event_log.verify():
             if event["event_type"] == "capability.issued":
                 envelope = event["payload"]["capability"]
                 validate_capability(envelope)
                 if envelope["capability_id"] != event["payload"]["capability"]["capability_id"]: raise EventLogIntegrityError("capability identity mismatch")
-                result[envelope["capability_id"]] = envelope
+                if envelope["capability_id"] not in revoked:
+                    result[envelope["capability_id"]] = envelope
         return result
 
     def verify_materialized(self) -> None:

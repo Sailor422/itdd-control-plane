@@ -238,7 +238,7 @@ class OperationalStore:
     EVENT_TYPES = {
         "plan.proposed", "graph.evaluated", "eu.building", "eu.built",
         "eu.verification_failed", "eu.build_failed", "eu.verified", "promotion.completed",
-        "worker.execution.completed",
+        "worker.execution.completed", "eu.abandoned", "eu.recovery_ready",
     }
 
     def __init__(self, root: str | Path) -> None:
@@ -284,6 +284,26 @@ class OperationalStore:
             if self.read(operation_id) != item:
                 raise EventLogIntegrityError("operational state diverges from event history")
 
+    def write_recovery(self, item: dict[str, Any], *, event_id: str, event_type: str,
+                       timestamp: str, actor_id: str) -> dict[str, Any]:
+        """Append recovery authority before updating its materialized projection."""
+        existing = next((event for event in self.events.verify()
+                         if event["event_id"] == event_id), None)
+        if existing is not None:
+            if existing["event_type"] != event_type or existing["payload"].get("operation") != item:
+                raise OperationalError("recovery event identity is bound to different state")
+        else:
+            event = self.events.new_event(
+                event_id=event_id, event_type=event_type, timestamp=timestamp,
+                project_id=item["project_id"], actor_type="human", actor_id=actor_id,
+                execution_id=item.get("execution_id"), payload={"operation": item},
+            )
+            self.events.append(event)
+        path = self.path(item["operation_id"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(canonical_json(item) + "\n", encoding="utf-8")
+        return item
+
 
 class OperationalController:
     """The minimum controller-owned path from approved intent to promotion."""
@@ -300,6 +320,96 @@ class OperationalController:
         self.verifiers = VerifierOrchestrator(self.root, controller_execution_id=controller_execution_id)
         self.human = HumanGateController(self.root, controller_execution_id=controller_execution_id)
         self.attestations = CandidateAttestationStore(self.root)
+
+    def recover_building_run(self, *, operation_id: str, eu_id: str, recovery_id: str,
+                             old_execution_id: str, fresh_execution_id: str,
+                             workspace: str | Path, confirm_worker_stopped: bool,
+                             timestamp: str) -> dict[str, Any]:
+        """Recover an explicitly confirmed stranded Builder execution."""
+        if not confirm_worker_stopped:
+            raise OperationalError("worker STOPPED confirmation is required")
+        from getpass import getuser
+        records = self.operations.events.verify()
+        reconstructed = self.operations.reconstruct()
+        item = self.operations.read(operation_id)
+        durable = reconstructed.get(operation_id)
+        if durable is not None and item != durable:
+            if durable.get("recovery_id") != recovery_id or durable.get("status") not in {"ABANDONED", "READY"}:
+                raise EventLogIntegrityError("operational state diverges from event history")
+            path = self.operations.path(operation_id)
+            path.write_text(canonical_json(durable) + "\n", encoding="utf-8")
+            item = durable
+        self.operations.verify_materialized()
+        if not re.fullmatch(r"REC-[A-Za-z0-9._-]+", recovery_id):
+            raise OperationalError("invalid recovery identity")
+        if not re.fullmatch(r"EXEC-[A-Za-z0-9._-]+", old_execution_id) or not re.fullmatch(r"EXEC-[A-Za-z0-9._-]+", fresh_execution_id) or old_execution_id == fresh_execution_id:
+            raise OperationalError("invalid recovery execution identities")
+        binding_path = self.root / ".idd/recoveries" / f"{recovery_id}.json"
+        known_event_ids = {event["event_id"] for event in records}
+        expected_ids = {f"{recovery_id}-abandoned", f"{recovery_id}-ready"}
+        stale_capability = item.get("builder_capability_id")
+        if stale_capability and not any(e["event_type"] == "capability.revoked" and e["payload"].get("capability_id") == stale_capability for e in records):
+            expected_ids.add(f"{recovery_id}-revoke")
+        if not binding_path.exists() and known_event_ids.intersection(expected_ids):
+            raise OperationalError("recovery event identity is already in use")
+        path = Path(workspace)
+        root = (self.root / ".idd/build_workspaces").resolve()
+        if path.is_symlink() or not path.resolve().is_relative_to(root):
+            raise OperationalError("workspace is outside disposable root")
+        binding = {"recovery_id": recovery_id, "operation_id": operation_id, "eu_id": eu_id,
+                   "old_execution_id": old_execution_id, "fresh_execution_id": fresh_execution_id,
+                   "workspace": str(path.resolve()), "actor": getuser()}
+        if item.get("status") == "READY" and item.get("recovery_id") == recovery_id and item.get("recovered_from_execution_id") == old_execution_id and item.get("execution_id") == fresh_execution_id:
+            if binding_path.exists() and json.loads(binding_path.read_text()) == binding:
+                return item
+            raise OperationalError("recovery ID binding mismatch")
+        if item.get("status") not in {"BUILDING", "ABANDONED"}:
+            raise OperationalError("only a BUILDING operation can be recovered")
+        if item.get("status") == "BUILDING" and (item.get("execution_id") != old_execution_id or eu_id not in item.get("eu_paths", {})):
+            raise OperationalError("recovery identity does not match BUILDING operation")
+        if item.get("status") == "ABANDONED" and (
+            item.get("recovery_id") != recovery_id
+            or item.get("abandoned_execution_id") != old_execution_id
+            or item.get("execution_id") != old_execution_id
+        ):
+            raise OperationalError("recovery identity does not match abandoned operation")
+        quarantine_root = self.root / ".idd/quarantine"
+        quarantined = quarantine_root / recovery_id
+        if binding_path.exists():
+            if json.loads(binding_path.read_text()) != binding:
+                raise OperationalError("recovery ID is bound to a different request")
+            if item.get("status") == "BUILDING" and path.exists() and quarantined.exists():
+                raise OperationalError("both source workspace and quarantine exist; refusing uncertain data")
+        else:
+            if item.get("status") != "BUILDING" or not path.exists():
+                raise OperationalError("recovery workspace is missing")
+            if quarantined.exists():
+                raise OperationalError("quarantine destination already exists; refusing uncertain data")
+            binding_path.parent.mkdir(parents=True, exist_ok=True)
+            binding_path.write_text(canonical_json(binding) + "\n", encoding="utf-8")
+        quarantine_root.mkdir(parents=True, exist_ok=True)
+        if item.get("status") == "BUILDING":
+            if path.exists() and not quarantined.exists(): path.rename(quarantined)
+            elif not quarantined.exists(): raise OperationalError("workspace and quarantine are missing")
+        # Capability revocation is durable and consumed by the public authorizer.
+        stale_capability = item.get("builder_capability_id")
+        if stale_capability and not any(e["event_type"] == "capability.revoked" and e["payload"].get("capability_id") == stale_capability for e in records):
+            revocation = self.operations.events.new_event(event_id=f"{recovery_id}-revoke", event_type="capability.revoked", timestamp=timestamp, project_id=item["project_id"], actor_type="human", actor_id=getuser(), execution_id=old_execution_id, payload={"capability_id":stale_capability, "recovery_id":recovery_id})
+            self.operations.events.append(revocation)
+
+        abandoned = deepcopy(item)
+        if item.get("status") == "BUILDING":
+            abandoned.update({"status":"ABANDONED", "abandoned_execution_id":old_execution_id,
+                              "recovery_id":recovery_id, "worktree":str(quarantined)})
+            self.operations.write_recovery(abandoned, event_id=f"{recovery_id}-abandoned",
+                                           event_type="eu.abandoned", timestamp=timestamp,
+                                           actor_id=getuser())
+        ready = deepcopy(abandoned)
+        ready.update({"status":"READY", "execution_id":fresh_execution_id,
+                      "worktree":None, "recovered_from_execution_id":old_execution_id})
+        return self.operations.write_recovery(ready, event_id=f"{recovery_id}-ready",
+                                              event_type="eu.recovery_ready", timestamp=timestamp,
+                                              actor_id=getuser())
 
     def propose_plan(self, *, operation_id: str, project_id: str, graph: dict[str, Any],
                      eu_paths: dict[str, list[str]], timestamp: str,
