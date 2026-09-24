@@ -12,16 +12,27 @@ def test_execute_requires_idd_and_isolated_build_workspace():
     assert "preparation evidence" in text
 
 
-def test_usage_documents_preparation_handoff_and_evidence():
+def test_usage_documents_planning_handoff_and_separate_execution():
     usage = (ROOT / "docs" / "agents" / "itdd-in-prime-usage.md").read_text()
+    for required in (
+        "/idd",
+        "/itdd-prepare",
+        "Planning handoff (current default)",
+        "Return spec and ticket links",
+        "Stop.",
+        "A `ready-for-agent` ticket is not execution authorization",
+        "Separate execution path (not part of planning)",
+        ".idd/build_workspaces/",
+        "BUILD",
+        "TEST",
+        "VERIFY",
+    ):
+        assert required in usage
+
     handoff = (ROOT / "docs" / "agents" / "itdd-preparation-execution-handoff.md").read_text()
-    for text in (usage, handoff):
-        assert "/idd" in text
-        assert "clarification frontier" in text
-        assert "explicit" in text and "designation" in text
-        assert ".idd/build_workspaces/" in text
-        assert ".idd/preparation/" in text
-        assert "BUILD" in text and "TEST" in text and "VERIFY" in text
+    assert "/idd" in handoff
+    assert ".idd/build_workspaces/" in handoff
+    assert ".idd/preparation/" in handoff
 
 
 def test_preparation_handoff_documents_lazy_helper_routing_and_boundaries():

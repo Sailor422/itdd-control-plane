@@ -27,12 +27,23 @@ never launches `/itdd-execute`, BUILD, TEST, or VERIFY.
    the configured tracker. Agreement to a breakdown is an ordinary planning
    decision, not an `/approved` gate unless an active process explicitly
    requires formal approval.
+
+   For this `/itdd-prepare` invocation, tell `to-tickets` this is planning only:
+   publish the agreed tickets and stop. Apply `ready-for-human` to each ticket
+   (use `Status: ready-for-human` in local ticket files); do not add
+   `ready-for-agent`. Before publishing, verify that the configured tracker
+   supports `ready-for-human`. If it does not, stop without creating tickets
+   and ask the human how to proceed. After publishing, do not follow
+   `/to-tickets`'s separate "Work the frontier" instruction. This override
+   applies only through `/itdd-prepare`; direct `/to-tickets` invocations keep
+   that skill's own instructions.
 4. **Check and hand back.** Compare the published spec and tickets with the
    agreed scope and acceptance criteria. Report their links, unresolved
    questions, exclusions, and a suggested next move using
    [planning-handoff](references/execution-contract-template.md) and the
-   [checklist](references/preparation-checklist.md). Stop here. A `ready-for-agent`
-   label is a tracker state, not authorization to start an agent.
+   [checklist](references/preparation-checklist.md). Stop here. A
+   `ready-for-human` label is a tracker status, not formal approval or
+   authorization to start execution.
 
 Use `domain-modeling`, `tdd`, and `writing-for-agents` where their own triggers
 apply. Leave the engineering skills unchanged and follow their instructions.
