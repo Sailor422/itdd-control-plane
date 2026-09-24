@@ -54,3 +54,25 @@ def test_archive_explains_research_and_evidence_status():
     assert "private session metadata" in archive
     assert "not a complete activity log" in history
     assert "does not certify the source set as sanitized" in inventory.lower()
+
+
+def test_archive_catalog_distinguishes_public_summaries_from_raw_sources():
+    catalog = (ROOT / "docs" / "archive" / "RESEARCH-CATALOG.md").read_text()
+    assert "not a complete activity log" in catalog
+    assert "Stage E5 result" in catalog
+    assert "not proof of present-day behavior" in catalog
+    assert "detailed operational forensic reports" in catalog.lower()
+    assert "not copied here" in catalog
+    assert "machine-specific environment metadata" in catalog
+    assert "not an approved design" in catalog
+
+
+def test_host_specific_source_notes_are_summarized_not_reproduced():
+    audit = (ROOT / "docs" / "research" / "stage-a-codex-audit.md").read_text()
+    bootstrap = (ROOT / "docs" / "specs" / "CODEX-BOOTSTRAP-SPEC.md").read_text()
+    for text in (audit, bootstrap):
+        assert "historical" in text.lower()
+        assert "/Users/" not in text
+        assert "CODEX_VAULT_DIR" not in text
+    assert "older revisions may retain" in audit
+    assert "older revisions may retain" in bootstrap

@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-This is the stable architecture derived from the complete bootstrap handoff in `CODEX-BOOTSTRAP-SPEC.md`. It is a proposed architecture, not a claim that the repository already implements it. The initial authorized scope ends at bootstrap, Stage A audit, research analysis, and a proposed Stage B plan.
+This is the proposed architecture derived from a historical bootstrap handoff, summarized in `CODEX-BOOTSTRAP-SPEC.md`. It is not a claim that the repository already implements it. The initial authorized scope ends at bootstrap, Stage A audit, research analysis, and a proposed Stage B plan.
 
 ## 1. Authority model
 

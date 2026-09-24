@@ -18,9 +18,9 @@ The checkout contained pre-existing edits and untracked or ignored artifacts, in
 
 ## Research and engineering-history sources
 
-- `docs/research/` contains research notes on Pocock skills, staged execution experiments, and Prime Agent lifecycle investigations. These are historical research, not current product policy.
+- `docs/research/` contains research notes on Pocock skills, staged execution experiments, and Prime Agent lifecycle investigations. These are historical research, not current product policy. A curated index now distinguishes shareable stage summaries from host-specific lifecycle notes and detailed reports that were not copied.
 - `docs/reports/` contains forensic work reports. They include private session context and local references; they are not included in the public contributor archive.
-- `docs/specs/` includes draft material. Drafts must remain labeled as drafts unless separately approved.
+- `docs/specs/` includes draft material. Drafts must remain labeled as drafts unless separately approved. The Codex bootstrap brief was replaced in the current tree with a sanitized historical summary; older Git revisions may still contain host-specific details.
 - `docs/architecture/` and `docs/adr/` describe broader control-plane design. Distinguish that research/later-stage work from the current planning workflow.
 - `evidence/` mixes historical acceptance records with logs and scripts. Keep evidence distinct from contributor narrative. Historical verdicts do not establish product release or production use. Review any raw evidence individually before public reuse.
 - `.idd/` contains authority, audit, telemetry, workspace, and raw execution records. It is not a bulk-public-archive source. Preserve it in place unless separately reviewed and explicitly selected.

@@ -14,10 +14,12 @@ Start with the current [README](../../README.md), [Getting Started](../GETTING-S
 ## Research and engineering history
 
 - [Curated engineering history](ENGINEERING-HISTORY.md) summarizes what older research and operational reports say, with limitations.
+- [Research and engineering notes catalog](RESEARCH-CATALOG.md) indexes shareable summaries, historical stage records, and sources excluded pending review.
 - [Matt Pocock skills analysis](../research/pocock-skills-analysis.md) is research context, not normative policy.
 - [Stage plans and results](../research/) are dated research records. Their local milestone status is not product release, current acceptance, or independently verified public evidence.
 - [Architecture notes](../architecture/) and [ADRs](../adr/) describe broader experimental design, not the current planning-only user path.
 - [Discussion draft: context budget and session handoff](../specs/CONTEXT-BUDGET-AND-SESSION-HANDOFF-DISCUSSION-DRAFT.md) is unapproved research, not an implementation commitment.
+- Prime Agent lifecycle findings are summarized in the research catalog; local source notes are not included.
 - Historical test and execution records remain under [`evidence/`](../../evidence/). They are preserved as source records, not copied here. Inspect each record's scope and provenance; some raw outputs contain machine-specific paths and are not proof of product release.
 
 ## Not included as public archive material

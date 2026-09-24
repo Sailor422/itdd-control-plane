@@ -1,37 +1,20 @@
-# Stage A Codex Environment and Contamination Audit
+# Stage A Codex environment audit — curated summary
 
-Date: 2026-09-19  
-Mode: read-only  
-Scope: Codex environment and legacy knowledge locations on the local Mac
+> **Historical, host-specific audit.** This public summary preserves the scope and lessons without reproducing local paths, configuration values, inventories, or private history. It does not establish a product security guarantee.
 
-## Result
+## Scope and result
 
-Codex remains operational and was not modified. No Codex, Claude, Hermes, Prime, or vault state was deleted, moved, renamed, normalized, reset, or migrated. Private contents and credentials were not copied into this repository.
+A read-only review examined one development environment for global instructions, skills, trust settings, runtime hooks, project configuration, and legacy knowledge sources. The audit record states that these sources were not changed or migrated during that review. Findings apply only to the inspected environment and date.
 
-## Findings
+## Reusable findings
 
-| Location or mechanism | Observed function | Classification | Contamination risk |
-|---|---|---|---|
-| `/Users/herbertfields/.codex/config.toml` | Codex configuration | GLOBAL-INFLUENCE | High: can affect all Codex sessions; retained read-only. |
-| `/Users/herbertfields/.codex/skills/` | Local Codex skills, including system and user skills | GLOBAL-INFLUENCE | High: skills can alter agent behavior; inspect before any future adoption. |
-| `/Users/herbertfields/.codex/history.jsonl` and `state_5.sqlite` | Conversation/history and durable app state | LEGACY-KNOWLEDGE | High privacy and stale-context risk; never default project context. |
-| `/Users/herbertfields/.codex/attachments/` | Imported task material | LEGACY-KNOWLEDGE | Medium/high: may contain private or project-specific material. |
-| `/Users/herbertfields/.codex/workspace Codex CODEX_VAULT_DIR/` | Codex workspace/vault-like documents | LEGACY-KNOWLEDGE | High: hidden durable knowledge can contaminate project context. |
-| `/Users/herbertfields/.codex/computer-use/`, process manager, IPC, temp/plugin caches | Runtime integrations and helper processes | GLOBAL-INFLUENCE | Medium/high: can affect execution or tool behavior. |
-| `/Users/herbertfields/.codex/hooks.json`, `/Users/herbertfields/.codex/hooks/`, and hook backups | Session/lifecycle hook configuration and hook code | GLOBAL-INFLUENCE | High: hooks can silently change behavior before or after actions. Preserve and review separately. |
-| `/Users/herbertfields/.codex/workspace/plugins/lpvm-guard/` | Local guard, binding, freeze, gate, and reconciliation tooling | CONTAMINATION-RISK | High: materially influences authorization and execution; not part of this repository and not assumed to be authoritative. |
-| `/Users/herbertfields/.codex/agents/*.toml` and workspace agent configs | Agent role/runtime configuration | GLOBAL-INFLUENCE | High: may change role behavior and delegation boundaries. |
-| Codex project trust entries, including a trust entry for `/` | Per-project trust configuration | CONTAMINATION-RISK | Critical: broad trust can defeat project isolation assumptions unless independently constrained. |
-| Shell aliases such as `codex-vault`, `claude-vault`, and `claude-ollama` | Human shell shortcuts | GLOBAL-INFLUENCE | Medium: can select alternate runtimes or vaults; values withheld. |
-| `/Users/herbertfields/.claude/` | Historical Claude configuration, projects, workspace, sessions | LEGACY-KNOWLEDGE | High: private historical material; do not modify or import. |
-| `/Users/herbertfields/.hermes/` and `/Users/herbertfields/hermes/` | Historical Hermes runtime, pastes, evaluations, projects | LEGACY-KNOWLEDGE | High: private/stale runtime and knowledge material. |
-| `/Users/herbertfields/.agent-vault/` and `/Users/herbertfields/agent-vault/` | Agent knowledge, runtime, tests, migrations, and project material | CONTAMINATION-RISK | High: mixed scope and private data; curate only through a future import workflow. |
-| Environment variable names containing `CODEX_*` | Current Codex app/runtime integration markers | GLOBAL-INFLUENCE | Medium: values intentionally withheld; do not persist secrets. |
+- Global instructions, skills, trust settings, and hooks can affect behavior outside a single repository; treat them as environment-level influences.
+- Conversation history, imported task material, and knowledge stores can contain private or stale context. Do not load them as project authority by default.
+- Preserve legacy stores as read-only sources until a separate, deliberate curation process approves specific material for import.
+- Keep project work grounded in project-local sources and record provenance for any imported facts.
 
-## Safety conclusions
+These are risk categories from a bounded audit, not proof that a host or project is isolated from external state.
 
-The principal contamination risks are hidden global instructions/skills, project-agnostic conversation history, mixed-scope vaults, and runtime integrations that make behavior differ between sessions. The public repository therefore records only paths, mechanisms, classifications, and recommendations. Detailed inventories, values, transcripts, and credentials remain outside Git.
+## Provenance and limits
 
-## Future handling
-
-Treat all legacy stores as read-only source archives. A later migration stage may inventory, deduplicate, classify, detect staleness/conflict, validate, and curate explicit imports. Until then, workers must operate from project-local artifacts and compiled context only.
+The source was a detailed, local-environment audit. This summary omits host-specific inventories and values. The repository history was not rewritten; older revisions may retain details that are not reproduced here.
