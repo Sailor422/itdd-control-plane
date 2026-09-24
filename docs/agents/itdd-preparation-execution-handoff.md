@@ -1,6 +1,8 @@
-# ITDD Preparation-to-Execution Handoff
+# ITDD Preparation-to-Execution Handoff (historical)
 
-This guide defines the control-plane handoff for one bounded milestone.
+> **Historical execution design, not the current Stage 1 planning path.** The mandatory six fresh preparation phases and direct execution handoff below describe the earlier design; they do not override the current [`/itdd-prepare` skill](../../skills/itdd-prepare/SKILL.md). For current work, follow the [planning handoff](itdd-in-prime-usage.md#planning-handoff-current-default): clarify, publish a spec, agree and publish tickets, return links and a suggested next move, then stop. A separate request and the applicable execution gates are needed before any BUILD, TEST, or VERIFY. A `ready-for-agent` label or ordinary planning agreement is not that authority.
+
+The historical design below is retained for reference only. Its approval and execution statements are not current operating instructions.
 
 ## Prepare
 

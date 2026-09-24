@@ -1,83 +1,52 @@
 ---
 name: itdd-prepare
-description: "Prepare a bounded ITDD execution contract through isolated discovery, grilling, research, decomposition, drafting, and independent review before itdd-execute."
+description: "Use the existing engineering skills to clarify work, publish an agreed spec and tickets, and hand planning back to the human without starting execution."
 disable-model-invocation: true
 ---
 
 # ITDD Prepare
 
-Prepare, but do not execute, one bounded ITDD milestone. This skill ends with a reviewable execution contract for `/itdd-execute`; it never implements code and never invokes BUILD, TEST, or VERIFY.
+Prepare the work with the existing engineering skills. The normal endpoint is a
+published spec and agreed tickets, followed by a human handoff. Preparation
+never launches `/itdd-execute`, BUILD, TEST, or VERIFY.
 
-## Non-negotiable boundaries
+## Prepare and hand back
 
-- Use a **new, fresh sub-agent execution for each phase**. Do not reuse a conversation, callback, or role-labelled subroutine. Record each execution identity and provenance.
-- Run the phases in order: **DISCOVERY**, **GRILLING**, **RESEARCH**, **SPEC/TICKET DECOMPOSITION**, **EXECUTION-CONTRACT DRAFTING**, and **INDEPENDENT REVIEW**.
-- Agents may inspect files, issues, history, and documentation and may write preparation artifacts only. They must not modify product/source/test code, commit, merge, promote, or change authoritative lifecycle state.
-- Do not call `/itdd-execute`, BUILD, TEST, or VERIFY. Preparation is not approval and does not grant execution authority.
-- Preserve prompts, outputs, source identities, decisions, and failures as durable evidence under a preparation directory (for example `.idd/preparation/<preparation-id>/`). Never replace a failed attempt with a later success.
-- Stop if a required input, baseline SHA, path boundary, acceptance criterion, or evidence obligation is unknown. Ask the human instead of guessing.
+1. **Understand.** Read the request, `CONTEXT.md`, relevant ADRs, issue-tracker
+   configuration, and existing issues. Identify what is known and what the
+   human must decide. Use `wayfinder` for work too large or uncertain for a
+   single spec; use `grill-with-docs` when the request needs an interview.
+   Consult `research`, `codebase-design`, or `diagnosing-bugs` only when their
+   specific question arises. Stop and ask rather than inventing requirements.
+2. **Specify.** Once the relevant decisions are settled, use `to-spec` to
+   synthesize and publish the spec through the configured tracker. Follow that
+   skill's own seam check with the human. Do not bypass its process or create a
+   second, competing spec format.
+3. **Break down.** Use `to-tickets` on the spec. Present its proposed slices
+   and blocking edges; iterate until the human agrees, then publish through
+   the configured tracker. Agreement to a breakdown is an ordinary planning
+   decision, not an `/approved` gate unless an active process explicitly
+   requires formal approval.
+4. **Check and hand back.** Compare the published spec and tickets with the
+   agreed scope and acceptance criteria. Report their links, unresolved
+   questions, exclusions, and a suggested next move using
+   [planning-handoff](references/execution-contract-template.md) and the
+   [checklist](references/preparation-checklist.md). Stop here. A `ready-for-agent`
+   label is a tracker state, not authorization to start an agent.
 
-## Lazy Pocock-skill routing
+Use `domain-modeling`, `tdd`, and `writing-for-agents` where their own triggers
+apply. Leave the engineering skills unchanged and follow their instructions.
+No helper grants authority or changes the execution lifecycle.
 
-Consult a helper skill only when its trigger applies; do not preload or run the
-whole Pocock skill set. The router selects the smallest applicable helper and
-records that consultation in phase evidence:
+## Approval and execution boundary
 
-| Trigger | Consult | Preparation-only output |
-| --- | --- | --- |
-| Ambiguity, contested assumptions, or an unresolved decision frontier | `grilling` | Questions, recommended answers, and the human decision frontier |
-| An external or repository fact is needed | `research` | Cited facts with source revision or URL |
-| Glossary terminology conflicts, or a glossary/ADR decision is needed | `domain-modeling` | Clarification proposal for terms or an ADR decision proposal |
-| A public seam or module boundary is unclear | `codebase-design` | Interface/seam options and trade-offs |
-| Acceptance seams or positive/negative tests need shaping | `tdd` | Testable seam and acceptance-test proposal |
-| A skill or handoff contract needs clearer agent-facing wording | `writing-for-agents` | Wording/pointer proposal |
-| An independent standards/spec review is required | `code-review` | Separate standards and spec findings |
-| A reproducible failure is reported and needs diagnosis | `diagnosing-bugs` | Reproduction loop and diagnosis evidence |
+Use the human-only `/approved` skill only when the active process requires a
+formal human approval. Follow its artifact-match and trusted-invocation rules;
+do not treat discussion, ticket agreement, or a label as formal approval. If
+there is no supported controller interface to record a required approval,
+report the blocker rather than claiming approval.
 
-These skills are consulted only when their trigger applies. A fresh phase-agent identity and ITDD role separation remain mandatory even when a helper is used.
-No helper skill may approve intent, grant authority, or execute BUILD, TEST, or VERIFY; each can produce only a clarification proposal or preparation evidence.
-
-For a future Kanban/UI consumer, grilling evidence should preserve structured
-`question`, `recommendation`, `human answer`, `blocker`, `phase`, and `execution identity` fields. This is future-facing evidence guidance only; Kanban/UI work is
-out of current implementation scope.
-
-## Phase protocol
-
-1. **DISCOVERY** — map the request to its source spec/ticket/intent, repository state, current baseline SHA, relevant paths, constraints, and open questions. No solution design or edits. If no immutable source is found, record that fact as a blocker; do not infer or invent intent.
-2. **GRILLING** — a fresh agent challenges ambiguity, assumptions, edge cases, success/failure meaning, and exclusions. When DISCOVERY found no immutable source, GRILLING must explicitly form a **clarification frontier**: list the smallest set of decisions and unknowns that only the human can settle. Ask the human those questions, record the answers and their provenance in the durable preparation evidence, and request an explicit designation of the resulting immutable spec/ticket/intent source. The skill may create or designate an immutable spec/ticket only after that explicit human designation is recorded. Without the designation, stop as `BLOCKED`; never self-approve intent or treat a clarification proposal as authority.
-3. **RESEARCH** — a fresh agent gathers only evidence needed to resolve the questions, citing authoritative repository or external sources and recording source revisions/URLs. Research does not change code.
-4. **SPEC/TICKET DECOMPOSITION** — a fresh agent turns the approved source material into one bounded milestone: behavior, dependencies, allowed paths, acceptance criteria, positive tests, negative/hostile tests, artifacts, and exclusions. Do not invent requirements.
-5. **EXECUTION-CONTRACT DRAFTING** — a fresh agent fills `references/execution-contract-template.md`, binds the exact baseline SHA, and links all preparation evidence. The result must be executable by `itdd-execute` without expanding scope.
-6. **INDEPENDENT REVIEW** — a fresh agent, not involved in drafting, tries to disprove completeness, scope safety, testability, identity binding, and role separation. It must issue PASS only when every required field is concrete; otherwise issue FAIL with blockers.
-
-A human must review the independent-review result and explicitly approve the exact contract (identity, baseline, paths, criteria, tests, artifacts, and exclusions). Record the approval identity, timestamp, contract hash, and decision. Without approval, stop and return `READY FOR HUMAN APPROVAL`, never `READY FOR EXECUTION`.
-
-## Required final output
-
-Return exactly these headings, in this order. Values must be concrete; use `UNKNOWN` only to report a blocker and then stop:
-
-```text
-PREPARATION: <preparation-id>
-STATUS: READY FOR HUMAN APPROVAL | BLOCKED
-SPEC IDENTITY: <issue/spec/intent ID, version, and immutable source location>
-BASELINE SHA: <full Git SHA>
-ALLOWED PATHS/SCOPE: <exact paths and bounded operations>
-ACCEPTANCE CRITERIA:
-- <observable criterion>
-POSITIVE TESTS:
-- <command/probe and expected result>
-NEGATIVE/HOSTILE TESTS:
-- <operation, enforcement boundary, expected rejection, and no-state-change assertion>
-ARTIFACTS/EVIDENCE:
-- <artifact path or identity, owner, and hash/provenance>
-EXCLUSIONS:
-- <explicitly out-of-scope item>
-PHASE EVIDENCE: <durable directory and six fresh execution identities>
-INDEPENDENT REVIEW: <PASS/FAIL, execution identity, evidence path>
-HUMAN APPROVAL: <PENDING or approver, timestamp, contract hash>
-NEXT AUTHORIZED ACTION: <itdd-execute only after explicit approval, or STOP>
-```
-
-Do not append an execution verdict. A `READY FOR HUMAN APPROVAL` contract is still unapproved; only the controlling workflow may hand an approved contract to `/itdd-execute`.
-
-See [execution-contract-template.md](references/execution-contract-template.md) and [preparation-checklist.md](references/preparation-checklist.md).
+A separate human request is required to consider execution. At that time `/idd`
+must check the exact bounded execution contract, baseline, scope, tests,
+evidence, exclusions, and any required recorded approval. A planning handoff
+alone is never an execution contract or permission to run work.

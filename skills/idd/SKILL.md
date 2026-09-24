@@ -1,66 +1,40 @@
 ---
 name: idd
-description: "Route intent-driven work to preparation or approved execution."
+description: "Route intent-driven planning to a spec-and-ticket handoff; gate a separately requested execution on an exact approved contract."
 disable-model-invocation: true
 ---
 
 # IDD Router
 
-`/idd` is the top-level entry point for intent-driven work. This skill is a
-router and authority gate. It does not implement code, run tests, create
-lifecycle state, or approve its own work.
+`/idd` routes work and checks authority. It does not implement code, run tests,
+approve proposals, or advance lifecycle state.
 
 ## Route first
 
-1. **Unapproved or unbounded work** — route to `/itdd-prepare`. This includes
-   missing, incomplete, or unclear scope, acceptance criteria, baseline,
-   allowed paths, evidence obligations, or immutable spec/ticket/intent.
-   Preparation must complete all six phases with a **fresh agent execution for
-   each**: DISCOVERY, GRILLING, RESEARCH, SPEC/TICKET DECOMPOSITION,
-   EXECUTION-CONTRACT DRAFTING, and INDEPENDENT REVIEW. Preparation is not
-   approval and cannot invoke `/itdd-execute`.
-2. **Approved, bounded work** — route to `/itdd-execute` only when a human has
-   explicitly approved the exact execution contract (spec identity, baseline,
-   scope/paths, criteria, tests, artifacts, exclusions, and evidence
-   obligations). The approval identity, time, decision, and contract hash must
-   be recorded. A preparation `READY FOR HUMAN APPROVAL` result is still
-   unapproved.
+1. **Planning or unbounded work:** route to `/itdd-prepare`. Follow the
+   engineering skills through a published spec and agreed tickets. Return the
+   links and suggested next move to the human, then stop. Ticket publication,
+   a `ready-for-agent` label, and a planning handoff do not trigger execution.
+2. **Separately requested execution:** consider `/itdd-execute` only when the
+   human explicitly asks to proceed with implementation and the exact bounded
+   execution contract has a source identity, baseline SHA, allowed paths and
+   operations, acceptance criteria, positive and negative tests, artifacts,
+   evidence obligations, and exclusions. Check any formal approval required
+   by the active process using the human-only `/approved` mechanism and its
+   controller-confirmed record. Approval of planning does not grant execution
+   authority. If the active process requires approval but no supported
+   controller recording interface exists, stop.
 
-If the contract, its immutable baseline, required fields, evidence, or explicit
-human approval is missing, malformed, stale, or unverifiable, **fail closed**:
-stop and route back to `/itdd-prepare` or request the missing human decision.
-Never infer approval or expand scope.
+If a required field, baseline, approval, or evidence is missing, malformed,
+stale, or unverifiable, **fail closed**: stop and request the missing human
+input or bounded contract. Never infer approval or enlarge scope.
 
-## Approved execution handoff
+## Execution boundary
 
-When and only when the approval gate passes, hand the exact approved contract
-to `/itdd-execute`. It must launch exactly three separate fresh agent
-executions, in order:
-
-1. **BUILD** — implement only the approved bounded change.
-2. **TEST** — independently run all required positive and negative/hostile
-   probes against the Builder output.
-3. **VERIFY** — independently try to disprove the implementation and TEST
-   evidence.
-
-Distinct labels, callbacks, prompts, or subroutines in one session do not make
-fresh executions. Stop at the first material failure, preserve that failed
-attempt, and start any repair as a new BUILD/TEST/VERIFY cycle. Only the
-controlling workflow may accept results or advance lifecycle state after
-VERIFY passes.
-
-## Workspace and evidence guardrails
-
-All BUILD, TEST, and VERIFY work must run in isolated workspaces below
-`.idd/build_workspaces/`. Never use the ordinary working tree or
-`.idd/preparation/` as an execution workspace. Preserve prompts, outputs,
-identities, baseline/candidate hashes, commands, results, artifacts, approval,
-and failures as durable evidence. Do not replace failed evidence with a later
-success.
-
-## Completion rule
-
-This router is complete only when it has selected the correct route and either
-returned control to `/itdd-prepare` or handed an explicitly approved exact
-contract to `/itdd-execute`. It must not write product code, self-approve, issue
-an acceptance verdict, or perform promotion.
+Only after the separate request and all gates pass, hand the exact execution
+contract to `/itdd-execute`. Its BUILD, TEST, and independent VERIFY roles must
+run as three separate fresh agent executions in that order. Work belongs in
+isolated `.idd/build_workspaces/`, not the ordinary working tree or preparation
+artifacts. Preserve identities, hashes, commands, results, failures, and
+approval evidence. Stop at the first material failure; any repair is a new
+attempt. Only the controlling workflow may accept or promote verified work.

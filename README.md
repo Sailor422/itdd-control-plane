@@ -76,13 +76,11 @@ This creates:
 
 1. **Review generated config**: Check `docs/agents/*.md` and `AGENTS.md`
 2. **Edit CONTEXT.md**: Add your domain glossary and project identity
-3. **Prepare a bounded contract**: `/itdd-prepare` runs six separate preparation agents and stops at a human approval gate
-4. **Create and approve intent**: Human decision (immutable)
-5. **Propose execution graph**: Planner agent
-6. **Execute the approved contract**: `/itdd-execute` runs fresh BUILD, TEST, and VERIFY agents
-7. **Review and promote**: Human gate
+3. **Prepare a spec and tickets**: `/itdd-prepare` uses the existing engineering skills (`wayfinder` when needed, `grill-with-docs`, `to-spec`, and `to-tickets`). Agree on the ticket breakdown before publication.
+4. **Stop and hand back**: Return links, unresolved questions, and a suggested next move. Published `ready-for-agent` tickets do not launch implementation.
+5. **Later, on a separate request**: Prepare an exact bounded execution contract and satisfy any required human approval through `/approved` and a supported controller record before `/idd` can consider `/itdd-execute`. Execution and promotion remain separate stages.
 
-See [Usage Guide](docs/agents/itdd-in-prime-usage.md) for complete workflow.
+See the [current planning path](docs/agents/itdd-in-prime-usage.md#planning-handoff-current-default) for the complete handoff. The machine-readable [`skills/manifest.json`](skills/manifest.json) still describes the broader `wayfinder-to-review` execution workflow. It is retained for later-stage use, not the current planning entry point; its `implement`, `tdd`, and `code-review` steps do not run when tickets are published.
 
 ## Architecture
 
@@ -94,7 +92,7 @@ See [Usage Guide](docs/agents/itdd-in-prime-usage.md) for complete workflow.
 4. **Evidence-backed**: Every operation produces immutable, auditable records
 5. **Framework-neutral**: Works with Prime today; other harnesses can implement the ITDD contract
 
-**Note**: Once an intent is approved, the controller can execute graphs and EUs without requiring human approval for each step. Human gates are for intent approval and promotion decisions, not routine EU execution.
+**Architecture note**: The controller supports graph/EU execution after its required authority gates; this does not make planning publication an execution request. The current user workflow stops after the spec-and-ticket handoff. A later execution request must meet `/idd`'s bounded-contract and applicable approval checks. `/approved` is reserved for formal gates, not routine planning decisions or every EU step.
 
 ### Components
 
@@ -116,7 +114,9 @@ itdd-control-plane/
 └── examples/          # Reference implementations
 ```
 
-### Operational Lifecycle
+### Operational Lifecycle (later-stage execution)
+
+This architecture diagram is not the current planning workflow. The [planning handoff](docs/agents/itdd-in-prime-usage.md#planning-handoff-current-default) stops after agreed tickets; it does not enter the lifecycle below.
 
 ```
 Human Intent Discussion

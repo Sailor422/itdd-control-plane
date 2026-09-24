@@ -1,22 +1,15 @@
-# ITDD Execution Contract (prepared, not approved)
+# Planning handoff (not an execution contract)
 
-- **Preparation ID:**
-- **Spec/ticket/intent identity and version:**
-- **Immutable source location(s):**
-- **Baseline SHA (full):**
-- **Allowed paths:**
-- **Allowed operations:**
-- **Acceptance criteria:**
-  1.
-- **Positive tests** (command, expected result):
-  1.
-- **Negative/hostile tests** (operation, intended boundary, rejection, state assertion):
-  1.
-- **Artifacts and evidence** (path, owner, hash/provenance):
-  1.
-- **Explicit exclusions:**
-  1.
-- **Preparation phase evidence directory:**
-- **Fresh execution IDs (discovery, grilling, research, decomposition, drafting, review):**
-- **Independent review:** PASS/FAIL, identity, evidence path
-- **Human approval:** PENDING until explicit approval; record approver, timestamp, and contract hash
+- **Requested outcome:**
+- **Published spec** (title and link):
+- **Published tickets** (titles, links, and blocking edges):
+- **Agreed scope and acceptance criteria:**
+- **Exclusions:**
+- **Open questions or risks:**
+- **Formal approval required by the active process?** If yes, identify the exact proposal and confirmed approval record; otherwise, "No" or "Pending".
+- **Suggested next move for the human:**
+- **Execution status:** Not started. A separate request and bounded execution contract are required before `/idd` may consider `/itdd-execute`.
+
+Record a baseline SHA, exact allowed paths, commands, and evidence obligations
+when preparing a later implementation-bound execution contract. Do not mistake
+this planning handoff for that contract.

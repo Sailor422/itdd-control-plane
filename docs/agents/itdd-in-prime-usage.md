@@ -81,17 +81,27 @@ This adds the engineering skills configuration without recreating ITDD infrastru
 
 ## Post-Initialization Workflow
 
-### Preparation to execution handoff
+### Planning handoff (current default)
 
-Preparation and execution are separate control-plane stages:
+1. `/itdd-prepare` uses the configured engineering skills to clarify work. Use `wayfinder` for large uncertain efforts and `grill-with-docs` for an interview when needed; use `to-spec` to publish the spec.
+2. `to-tickets` presents the breakdown and blocking edges for human agreement, then publishes the agreed tickets to the configured tracker.
+3. Return spec and ticket links, exclusions, open questions, and a suggested next move. Stop. A `ready-for-agent` ticket is not execution authorization; no BUILD, TEST, or VERIFY starts from this handoff.
+4. If a process explicitly requires formal approval, use the human-only `/approved` skill and require a controller-confirmed record. Ordinary planning decisions do not require `/approved`.
 
-1. `/itdd-prepare` runs DISCOVERY and GRILLING first. If no immutable source exists, GRILLING forms a clarification frontier, asks the human, records the answers, and waits for the human to explicitly designate the immutable spec/ticket/intent. It stops when that designation is missing; it never self-approves intent.
-2. After research, decomposition, drafting, and independent review, the human explicitly approves the exact execution contract. Preparation evidence is retained under `.idd/preparation/<preparation-id>/`.
-3. Enter the approved contract through the `/idd` top-level directive. `/idd` starts the formal execution workflow; do not invoke BUILD, TEST, or VERIFY as an ordinary working-tree task.
-4. `/idd` runs BUILD, TEST, and VERIFY in separate fresh executions in the project `.idd/build_workspaces/` boundary. Preparation evidence is read-only input, not an execution workspace. The ordinary working tree is never used for these roles.
-5. Preserve role identities, commands, outputs, and acceptance evidence. Only the controlling workflow may advance lifecycle state after independent VERIFY passes.
+### Separate execution path (not part of planning)
 
-See [itdd-preparation-execution-handoff.md](itdd-preparation-execution-handoff.md) for the compact handoff and evidence checklist.
+The machine-readable [`skills/manifest.json`](../../skills/manifest.json) retains the broader `wayfinder-to-review` execution workflow. It is **not** the current planning route: ticket publication does not run its `implement`, `tdd`, or `code-review` steps. This Stage 1 documentation work does not change the manifest or runtime.
+
+Only after a separate human request and an exact bounded execution contract may `/idd` consider `/itdd-execute`. Check any required recorded approval first. The `/approved` skill currently has no confirmed controller recording interface for planning or execution proposals; if formal approval is required and cannot be recorded, stop rather than claim approval or begin execution. BUILD, TEST, and VERIFY remain separate fresh executions in `.idd/build_workspaces/`; the ordinary working tree is not an execution workspace. The controlling workflow owns acceptance and promotion.
+
+The older [preparation-to-execution handoff guide](itdd-preparation-execution-handoff.md) describes the earlier mandatory six-phase contract path. It is historical guidance, not the current planning entry point. Its execution assertions are not proof that a planning handoff authorizes execution.
+
+### Legacy control-plane example (not the current planning path)
+
+The numbered example below illustrates existing controller APIs. It is not a
+shortcut from a published ticket to execution. In particular, a code sample
+that sets `actor_type="human"` is **not** a human `/approved` invocation or a
+confirmed approval record. Follow the separate `/idd` execution gate instead.
 
 ### 1. Domain Clarification
 
