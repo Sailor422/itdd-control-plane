@@ -42,6 +42,26 @@ def test_recovery_decline_and_confirmed_retry_preserve_workspace_and_history(tmp
     assert c.recover_building_run(**args,confirm_worker_stopped=True)==result
 
 
+def test_invalid_retry_identity_does_not_repair_corrupt_projection(tmp_path):
+    c, workspace, ts = setup_building(tmp_path)
+    args=dict(operation_id="OP-001",eu_id="EU-001",recovery_id="REC-ZERO-DELTA",
+        old_execution_id="EXEC-OLD",fresh_execution_id="EXEC-NEW",workspace=workspace,
+        confirm_worker_stopped=True,timestamp=ts)
+    c.recover_building_run(**args)
+    projection = c.operations.path("OP-001")
+    projection.write_text("{}\n", encoding="utf-8")
+    before_projection = projection.read_bytes()
+    event_path = c.operations.events.events_path
+    before_events = event_path.read_bytes()
+    before_head = c.operations.events.head_path.read_bytes()
+    invalid = dict(args, fresh_execution_id="bad id")
+    with pytest.raises(OperationalError):
+        c.recover_building_run(**invalid)
+    assert projection.read_bytes() == before_projection
+    assert event_path.read_bytes() == before_events
+    assert c.operations.events.head_path.read_bytes() == before_head
+
+
 def test_recovery_rejects_workspace_escape_without_side_effects(tmp_path):
     c,workspace,ts=setup_building(tmp_path)
     outside=tmp_path/"outside"; outside.mkdir()

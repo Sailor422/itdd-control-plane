@@ -328,6 +328,10 @@ class OperationalController:
         """Recover an explicitly confirmed stranded Builder execution."""
         if not confirm_worker_stopped:
             raise OperationalError("worker STOPPED confirmation is required")
+        if not re.fullmatch(r"REC-[A-Za-z0-9._-]+", recovery_id):
+            raise OperationalError("invalid recovery identity")
+        if not re.fullmatch(r"EXEC-[A-Za-z0-9._-]+", old_execution_id) or not re.fullmatch(r"EXEC-[A-Za-z0-9._-]+", fresh_execution_id) or old_execution_id == fresh_execution_id:
+            raise OperationalError("invalid recovery execution identities")
         from getpass import getuser
         records = self.operations.events.verify()
         reconstructed = self.operations.reconstruct()
@@ -340,10 +344,6 @@ class OperationalController:
             path.write_text(canonical_json(durable) + "\n", encoding="utf-8")
             item = durable
         self.operations.verify_materialized()
-        if not re.fullmatch(r"REC-[A-Za-z0-9._-]+", recovery_id):
-            raise OperationalError("invalid recovery identity")
-        if not re.fullmatch(r"EXEC-[A-Za-z0-9._-]+", old_execution_id) or not re.fullmatch(r"EXEC-[A-Za-z0-9._-]+", fresh_execution_id) or old_execution_id == fresh_execution_id:
-            raise OperationalError("invalid recovery execution identities")
         binding_path = self.root / ".idd/recoveries" / f"{recovery_id}.json"
         known_event_ids = {event["event_id"] for event in records}
         expected_ids = {f"{recovery_id}-abandoned", f"{recovery_id}-ready"}
