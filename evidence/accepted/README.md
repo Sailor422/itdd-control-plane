@@ -1,36 +1,33 @@
-# Accepted Evidence
+# Historical Milestone Evidence
 
-This directory contains canonical, immutable evidence artifacts that are **committed to the repository**.
+> These records describe a specific historical candidate and milestone. Their PASS/accepted status is not a product release, production-readiness claim, or claim that the product is currently in use. The repository is in development and unreleased.
+
+
+This directory contains committed evidence artifacts for named historical milestones. Review each artifact’s provenance and scope before relying on it.
 
 ## Purpose
 
-Unlike the working proof artifacts in `work/proofs/` (which are gitignored and may be large or numerous), this directory contains only the essential evidence files for **accepted milestones**.
+This directory stores selected evidence files for historical milestones. Its presence does not certify that the artifacts are complete, independently re-verified, or free of machine-specific data. Review each source before relying on or republishing it.
 
-## Current Accepted Proofs
+## Historical Milestone Records
 
-### prime-single-eu-v1/
+### `prime-single-eu-v1/` (historical candidate)
 
 **Date:** 2026-09-21  
-**Milestone:** Clean single-EU Prime execution proof  
+**Milestone:** Single-EU Prime execution experiment
 **Status:** ✅ PASS
 
 **Evidence files:**
-- `PASS.md` - All verification checks passed
-- `candidate-identity.json` - Controller-owned commit identity
-- `controller-result.json` - Execution status: VERIFIED
-- `independent-verification.json` - Spec + standards checks (exit 0)
-- `runtime-provenance.json` - Prime CLI invocation with SHA-256 hashes
-- `candidate-identity.json` - Deterministic proposal identity
-- `events.json` - Complete event log
+- `PASS.md` - Historical report recording a PASS result
+- `candidate-identity.json` - Candidate identity recorded in the historical artifacts
+- `controller-result.json` - Historical report of execution status: VERIFIED
+- `independent-verification.json` - Historical spec/standards check report
+- `runtime-provenance.json` - Historical invocation and hash record
+- `events.json` - Historical event record
 - `reconstructed.json` - Reconstructed state from events
-- `final-status.txt` - Clean worktree (empty git status)
+- `final-status.txt` - Historical final-status output
 
-**What this proves:**
-- Real `prime-agent` binary execution via `PrimeBuilderAdapter`
-- Controller-owned candidate commit (not agent-authored)
-- Independent verification (fresh spec + standards checks)
-- Clean worktree (no contamination)
-- Deterministic proposal identity (separate from event identity)
+The artifact files contain the detailed historical claims and results. This index does not independently re-run or verify those checks. Treat them as candidate-specific research evidence, not proof of release, production readiness, or current product behavior.
 
 ## Adding New Evidence
 
@@ -50,9 +47,9 @@ To add a new accepted proof:
 ## Relationship to work/proofs/
 
 - `work/proofs/` - Working artifacts, gitignored, may be large, development-only
-- `evidence/accepted/` - Canonical proofs, committed, sanitized, public-facing
+- `evidence/accepted/` - Historical candidate evidence committed to this repository; not a product-release status or a guarantee that every artifact is free of machine-specific data
 
-When a proof is "accepted" (passes independent verification and is approved for inclusion), copy only the essential files here.
+When a specific candidate is accepted for evidence storage, copy only the essential files here after scope and public-safety review. This does not mean the product has been released.
 
 ---
 

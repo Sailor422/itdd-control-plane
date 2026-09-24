@@ -1,6 +1,10 @@
+> **Historical execution roadmap — not the current product roadmap.** This document records earlier controller milestones and local status claims. They are not a release statement or authorization for new execution work. The current product direction is the unreleased planning-first handoff in [README.md](README.md). Check issues for current decisions and collect source data before proposing follow-up work.
+
 # Roadmap
 
 The staged order is deliberate. Each stage requires a written plan, exact baseline, implementation, positive and negative tests, independent verification, preserved evidence, human review where required, and a known-good Git state.
+
+**Historical status note:** “Accepted” below refers only to status recorded for local historical milestones at the time. It is not current product acceptance, release evidence, or authorization to execute new work.
 
 1. Bootstrap and Stage A Codex contamination audit — accepted.
 2. Stage B: project isolation foundations and durable append-only state/audit — accepted.

@@ -1,88 +1,41 @@
 # Contributing to ITDD Control Plane
 
-Thank you for contributing to ITDD Control Plane! This document provides guidelines for contributing.
+Thank you for considering a contribution. This repository is public, but the product is in development, unreleased, and not currently in use. The active product direction is the planning-first handoff described in the [README](README.md); controller execution material is experimental research.
 
-## Getting Started
+## First step: collect source data
 
-1. Fork the repository
-2. Clone your fork: `git clone https://github.com/YOUR_USERNAME/itdd-control-plane.git`
-3. Create a virtual environment: `python -m venv .venv && source .venv/bin/activate`
-4. Install dependencies: `pip install -e ".[dev]"`
-5. Create a branch: `git checkout -b feature/your-feature`
+Before proposing a change, inspect the relevant code, tests, documentation, issue-tracker decisions, and existing research/evidence. Record the baseline, source links, and unknowns. Do not infer current behavior from an old report or treat a historical PASS as product acceptance. The [archive source inventory](docs/archive/SOURCE-INVENTORY.md) describes known research, reports, logs, and review limits.
 
-## Development Workflow
+Preserve existing worktrees, evidence, failed attempts, and uncommitted user files. Do not bulk-add `.idd` runtime data, raw logs, or scratch outputs. The repository is public, so anything committed is public.
 
-### ITDD Principles
+## Planning and changes
 
-This project uses ITDD itself:
+1. Read the [planning-first Getting Started guide](docs/GETTING-STARTED.md).
+2. For uncertain or multi-step work, discuss the scope and publish a spec and human-agreed tickets through the configured tracker.
+3. Keep planning separate from implementation. A ticket label or planning agreement is not execution authorization.
+4. For a code change, add or update focused tests and preserve the exact test result. For documentation changes, check links and project-specific contract tests.
+5. Clearly label research, drafts, local observations, and historical evidence. Do not claim a release, production use, or formal approval unless it has actually happened and is supported by evidence.
 
-- **Intents**: Major changes start with an approved intent (`.idd/intent/`)
-- **Graphs**: Execution plans are explicit and approved
-- **Independent verification**: All code must pass tests (not self-certification)
-- **Evidence**: PRs should reference test results and proofs
-
-### Testing
+## Development setup
 
 ```bash
-# Run all tests
-pytest -q
-
-# Run with coverage
-pytest -q --cov=control --cov=skills
-
-# Run specific test file
-pytest -q tests/integration/test_prime_builder_adapter.py
-
-# Run end-to-end tests
-pytest -q tests/end_to_end/
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+python -m pytest -q
 ```
 
-### Code Style
+## Pull requests
 
-```bash
-# Format code
-black .
+- Link the issue or decision that motivated the change.
+- Summarize the source facts collected and any unresolved uncertainty.
+- List changed paths and the checks actually run.
+- Keep unrelated user changes, evidence, and worktrees untouched.
 
-# Lint
-ruff check .
+## Research and design
 
-# Type checking (if using mypy)
-mypy control/ skills/
-```
+See the [contributor archive](docs/archive/README.md), [research notes](docs/research/README.md), [architecture notes](docs/architecture/README.md), and [ADRs](docs/adr/). These may describe broader prototype work and are not automatically current product behavior.
 
-## Pull Request Process
+## Community
 
-1. **Ensure tests pass**: `pytest -q` must show all green
-2. **Update documentation**: If behavior changes, update relevant docs
-3. **Add tests**: New features need test coverage
-4. **Reference issues**: Link to related GitHub issues
-5. **Describe changes**: Clear PR description with before/after
-
-## Architecture Decisions
-
-Major architectural changes require an ADR:
-
-1. Copy `docs/adr/0000-template.md`
-2. Fill in context, decision, consequences
-3. Submit as part of your PR
-4. Number sequentially (0001, 0002, etc.)
-
-## Harness Integration
-
-Adding support for a new agent harness:
-
-1. Read [Executable Skills Baseline V1](docs/specs/EXECUTABLE-SKILLS-BASELINE-V1.md)
-2. Implement the builder interface in `control/operational.py`
-3. Add tests in `tests/integration/`
-4. Document in `docs/agents/`
-5. Create a proof in `work/proofs/`
-
-## Questions?
-
-- Open an issue for bugs or feature requests
-- Use GitHub Discussions for questions
-- Check existing [documentation](docs/)
-
-## Code of Conduct
-
-Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
+Open an issue for questions or proposed work. Read the [Code of Conduct](CODE_OF_CONDUCT.md) before participating.

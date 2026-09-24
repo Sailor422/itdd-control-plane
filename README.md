@@ -1,320 +1,55 @@
 # ITDD Control Plane
 
-> **⚠️ Work in Progress — Research Prototype**
-> 
-> This is an active research implementation focused on Prime Agent integration.
-> The architecture is stable for experimentation, but APIs and workflows may change.
-> Use for learning, evaluation, and contribution — not for production systems.
+> **In development · Unreleased · Not currently in use**
+>
+> This is a research prototype. It has not been released for use. APIs, skills, and workflows may change. Do not treat historical test evidence as proof that the product is production-ready.
 
-**Intent-Driven Development with Independent Verification**
+ITDD Control Plane explores a small, human-invoked planning workflow: clarify a request, collect and verify relevant project data, publish a spec and human-agreed tickets through the configured issue tracker, then stop with links and a suggested next move.
 
-ITDD Control Plane implements an architecture for reliable AI-assisted software engineering. It enforces role separation between human authority, agent reasoning, and controller-owned lifecycle operations.
+## Current path
 
-## Attribution
+For a new or existing repository:
 
-This project implements:
+1. **Collect facts first.** Inspect the current code, docs, tracker, prior decisions, and relevant research or evidence. Record sources and unknowns. Do not turn unverified history into current requirements.
+2. If the repository lacks project-specific Matt Pocock skill configuration, run `/setup-matt-pocock-skills` to configure the tracker, triage labels, and domain docs.
+3. Run `/itdd-prepare` to clarify the request and prepare the planning handoff.
+4. Agree on the spec and ticket breakdown. Publish them through the configured tracker.
+5. Stop with the links, unresolved questions, and suggested next move. A `ready-for-agent` label or planning agreement does not authorize execution.
 
-- **Prof Matt Pocock's AI-Assisted Engineering methodology** — Engineering skills, issue tracking workflow, and domain documentation patterns. See [`@total-typescript`](https://github.com/total-typescript) and his AI engineering talks.
+See [Getting Started](docs/GETTING-STARTED.md) and the [Prime planning guide](docs/agents/itdd-in-prime-usage.md).
 
-- **Intent-Driven Development (IDD) research** — Human-intent-first development with AI execution, controller-owned lifecycle, and independent verification.
+`/itdd-new` is optional later-stage execution setup. It is not required for planning. The current planning path does not invoke BUILD, TEST, VERIFY, or the controller runtime.
 
-- **Prime Agent** — Current implementation is tightly integrated with Prime Agent as the execution harness. The architecture is designed to be harness-neutral, but Prime is the only supported backend at this time.
+## Project status and limits
 
-## Quick Start
+- The product is in development, unreleased, and not in use.
+- The planning-first workflow is the current product direction. The controller, schemas, broader skill manifest, and execution architecture are research/prototype material, not a supported production service.
+- This repository contains historical reports, experiments, and evidence. Their status applies only to the specific dated work they describe; it does not establish a product release or current acceptance.
+- No formal approval record should be claimed unless a supported controller interface actually records it.
 
-### Prerequisites
+## Development
 
-- Python 3.10+
-- [prime-agent](https://github.com/prime-agent/prime-agent) v0.9.5+ (or compatible harness)
-- Git
-
-### Initialize a New Project
-
-**Important:** Matt Pocock engineering skills require per-repo setup. Run `/setup-matt-pocock-skills` **before** `/itdd-new`.
-
-```bash
-# Create your project directory
-cd ~/Projects
-mkdir oak-harbor-marina
-cd oak-harbor-marina
-
-# Start Prime
-prime-agent
-
-# Step 1: Configure Matt Pocock engineering skills (REQUIRED FIRST)
-/setup-matt-pocock-skills
-
-# Step 2: Initialize ITDD infrastructure
-/itdd-new
-```
-
-The setup skill configures:
-- Issue tracker (GitHub/GitLab/local markdown)
-- Triage label vocabulary
-- Domain docs layout
-- `AGENTS.md` or `CLAUDE.md` with agent skills block
-
-Then `/itdd-new` creates:
-- A self-contained local runtime and bundled skill contract under `control/`, `schemas/`, and `skills/`
-- Complete ITDD infrastructure (`.idd/`)
-- Project scaffolding (`src/`, `tests/`, `CONTEXT.md`, `docs/adr/`)
-- Initial git commit
-
-### Bootstrap safety and packaged payload
-
-`/itdd-new` validates the bundled runtime and any existing `skills/manifest.json` before it changes the project. An invalid, empty, or unrelated manifest is rejected without creating `.idd/`, initializing Git, or copying files. Existing manifests are accepted only when every listed contract is a safe relative path to a contract bundled by this package. The installer never follows symlinks, and skips `__pycache__` and `.pyc` files. Wheel package data applies the same artifact exclusions.
-
-The generated manifest points to the local `grill_with_docs/skill.json` contract, so runtime discovery does not depend on the source checkout or network after installation.
-
-This creates:
-- Complete ITDD infrastructure (`.idd/`)
-- Matt Pocock engineering skills configuration
-- Project scaffolding (`src/`, `tests/`, `CONTEXT.md`, `docs/adr/`)
-- Initial git commit
-
-### Workflow
-
-1. **Review generated config**: Check `docs/agents/*.md` and `AGENTS.md`
-2. **Edit CONTEXT.md**: Add your domain glossary and project identity
-3. **Prepare a spec and tickets**: `/itdd-prepare` uses the existing engineering skills (`wayfinder` when needed, `grill-with-docs`, `to-spec`, and `to-tickets`). Agree on the ticket breakdown before publication.
-4. **Stop and hand back**: Return links, unresolved questions, and a suggested next move. Published `ready-for-agent` tickets do not launch implementation.
-5. **Later, on a separate request**: Prepare an exact bounded execution contract and satisfy any required human approval through `/approved` and a supported controller record before `/idd` can consider `/itdd-execute`. Execution and promotion remain separate stages.
-
-See the [current planning path](docs/agents/itdd-in-prime-usage.md#planning-handoff-current-default) for the complete handoff. The machine-readable [`skills/manifest.json`](skills/manifest.json) still describes the broader `wayfinder-to-review` execution workflow. It is retained for later-stage use, not the current planning entry point; its `implement`, `tdd`, and `code-review` steps do not run when tickets are published.
-
-## Architecture
-
-### Core Principles
-
-1. **Human authority**: Humans approve intents (the authoritative starting point)
-2. **Controller-owned lifecycle**: Agents reason; controller owns lifecycle operations
-3. **Independent verification**: Fresh spec/standards checks per EU (not self-certification)
-4. **Evidence-backed**: Every operation produces immutable, auditable records
-5. **Framework-neutral**: Works with Prime today; other harnesses can implement the ITDD contract
-
-**Architecture note**: The controller supports graph/EU execution after its required authority gates; this does not make planning publication an execution request. The current user workflow stops after the spec-and-ticket handoff. A later execution request must meet `/idd`'s bounded-contract and applicable approval checks. `/approved` is reserved for formal gates, not routine planning decisions or every EU step.
-
-### Components
-
-```
-itdd-control-plane/
-├── control/           # Controller implementation
-│   ├── operational.py # OperationalController, PrimeBuilderAdapter
-│   ├── models/        # Stage-C store, event log
-│   ├── verifier.py    # Independent verification orchestrator
-│   └── human.py       # Human gate controller
-├── skills/            # ITDD skills (grill-with-docs, etc.)
-├── schemas/           # JSON schemas for events and state
-├── docs/
-│   ├── agents/        # Usage guides (Prime integration)
-│   ├── architecture/  # System design
-│   ├── specs/         # Formal specifications
-│   └── adr/           # Architectural decisions
-├── tests/             # Integration and end-to-end tests
-└── examples/          # Reference implementations
-```
-
-### Operational Lifecycle (later-stage execution)
-
-This architecture diagram is not the current planning workflow. The [planning handoff](docs/agents/itdd-in-prime-usage.md#planning-handoff-current-default) stops after agreed tickets; it does not enter the lifecycle below.
-
-```
-Human Intent Discussion
-         ↓
-   /grill-with-docs (clarification proposal)
-         ↓
-   Human approves intent (immutable, I-001) [HUMAN GATE]
-         ↓
-   Planner proposes graph (G-001)
-         ↓
-   Graph Evaluator validates
-         ↓
-   Controller spawns EU with PrimeBuilderAdapter
-         ↓
-   Prime worker implements in isolated worktree
-         ↓
-   Controller validates diff, creates candidate commit
-         ↓
-   Fresh Spec Verifier + Standards Reviewer (independent)
-         ↓
-   Both PASS → status VERIFIED
-         ↓
-   [Optional: Human promotion gate if configured]
-```
-
-See [Operational Lifecycle](docs/architecture/operational-lifecycle.md) for details.
-
-## Proof of Correctness
-
-The single-EU lifecycle is **proven** with immutable evidence:
+This checkout is for contributors and research. It is not a published package installation guide.
+The commands below install this source checkout for local development and tests; they do not indicate a published distribution or supported end-user installation.
 
 ```bash
-evidence/accepted/prime-single-eu-v1/
-├── PASS.md                      # All checks passed
-├── candidate-identity.json      # Controller-owned commit
-├── controller-result.json       # Status: VERIFIED
-├── independent-verification.json # All probes exit 0
-├── runtime-provenance.json      # Prime CLI with SHA-256 hashes
-└── final-status.txt             # Clean candidate (empty git status)
-```
-
-**Key invariants verified:**
-- Real `prime-agent` binary via `PrimeBuilderAdapter`
-- Controller-owned candidate commit (not Prime)
-- Independent spec/standards checks (not self-certification)
-- Clean worktree (no contamination)
-- Immutable evidence preserved
-
-## Harness Integration
-
-### Prime Agent (Implemented)
-
-```python
-from control.operational import OperationalController, PrimeBuilderAdapter
-
-controller = OperationalController("/path/to/project")
-adapter = PrimeBuilderAdapter(model="openai-codex/gpt-5.6-luna", timeout_seconds=1800)
-
-result = controller.run_eu(
-    "OP-001",
-    eu_id="EU-001",
-    builder=adapter,
-    spec_command="python -m pytest tests/test_feature.py",
-    standards_command="python -m pytest tests/test_feature.py",
-    timestamp="2026-09-21T00:00:00Z",
-    event_prefix="op"
-)
-```
-
-### Building Your Own Harness
-
-ITDD is harness-neutral. To integrate a different agent runtime:
-
-1. Implement the builder interface:
-   ```python
-   class MyBuilderAdapter:
-       def run(self, *, project_root, worktree, execution_id, 
-               context_packet, capability):
-           # Launch your agent in worktree
-           # Return: {candidate_commit, stdout, stderr, runtime_provenance}
-           pass
-   ```
-
-2. Use with controller:
-   ```python
-   result = controller.run_eu("OP-001", "EU-001", MyBuilderAdapter(), ...)
-   ```
-
-See [Executable Skills Baseline V1](docs/specs/EXECUTABLE-SKILLS-BASELINE-V1.md) for the full contract.
-
-## Installation
-
-### From Source
-
-```bash
-git clone https://github.com/<your-org>/itdd-control-plane.git
+git clone https://github.com/Sailor422/itdd-control-plane.git
 cd itdd-control-plane
-pip install -e .
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e ".[dev]"
+python -m pytest -q
 ```
 
-### Dependencies
+See [Contributing](CONTRIBUTING.md) for the development workflow. **Collect source data before proposing changes**; keep evidence and failed attempts intact, and clearly label drafts, historical reports, and unverified claims.
 
-- Python 3.10+
-- pytest (for verification)
-- Git
+## Research and design
 
-### Prime Agent Installation
-
-```bash
-# macOS
-brew install prime-agent
-
-# Or from source
-pip install prime-agent
-```
-
-Verify:
-```bash
-prime-agent --version
-# Expected: 0.9.5+
-```
-
-## Testing
-
-```bash
-# Run all tests
-pytest -q
-
-# Integration tests only
-pytest -q tests/integration/
-
-# End-to-end tests
-pytest -q tests/end_to_end/
-
-# Specific test
-pytest -q tests/integration/test_prime_builder_adapter.py
-```
-
-Current status: **156 tests passed**
-
-## Documentation
-
-- **[Usage Guide](docs/agents/itdd-in-prime-usage.md)** - Complete workflow for Prime users
-- **[Operational Lifecycle](docs/architecture/operational-lifecycle.md)** - How EUs execute
-- **[Control Plane Spec](docs/specs/CONTROL-PLANE-SPEC.md)** - Formal specification
-- **[Bootstrap Handoff](docs/specs/CODEX-BOOTSTRAP-SPEC.md)** - Initial implementation plan
-- **[Architectural Decisions](docs/adr/)** - Design rationale
-
-## Repository Map
-
-| Directory | Purpose |
-|-----------|---------|
-| `control/` | Controller implementation (operational, verifier, human gates) |
-| `skills/` | ITDD skills (grill-with-docs, runtime execution) |
-| `schemas/` | JSON schemas for events, state, and contracts |
-| `tests/` | Unit, integration, and end-to-end tests |
-| `examples/` | Reference implementations and demos |
-| `docs/agents/` | Prime integration guides |
-| `docs/architecture/` | System design documents |
-| `docs/specs/` | Formal specifications |
-| `docs/adr/` | Architectural decision records |
-| `work/proofs/` | Immutable evidence from lifecycle executions |
-
-## Safety Boundaries
-
-- **No direct commits from agents**: Controller owns all git operations
-- **No self-certification**: Independent verification required per EU
-- **No lifecycle authority for agents**: Humans approve intents, graphs, promotions
-- **No filesystem escape**: Work confined to project boundaries
-- **Immutable evidence**: Failed attempts preserved with `FAILURE.md`
+- [Contributor archive and source inventory](docs/archive/README.md) — curated research, historical guides, and evidence pointers.
+- [Research notes](docs/research/README.md) — dated research, not normative policy.
+- [Architecture notes](docs/architecture/README.md) and [ADRs](docs/adr/) — broader prototype design; not the current planning quick start.
+- [Planning-first Wayfinder map](https://github.com/Sailor422/itdd-control-plane/issues/34) — product decisions and follow-up work.
 
 ## License
 
-MIT License - See [LICENSE](LICENSE) for details.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Run tests: `pytest -q`
-4. Submit a pull request
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## Status
-
-- ✅ Single-EU lifecycle (proven)
-- ✅ Independent verification
-- ✅ Human gate controller
-- ✅ Evidence preservation
-- ✅ Prime integration
-- 🚧 Multi-EU parallel execution (planned)
-- 🚧 Additional harness integrations (planned)
-
-See [ROADMAP.md](ROADMAP.md) for upcoming work.
-
-## Contact
-
-- Issues: Use GitHub Issues (configured via `/setup-matt-pocock-skills`)
-- Discussions: GitHub Discussions
-- Security: See [SECURITY.md](SECURITY.md)
+MIT. See [LICENSE](LICENSE).

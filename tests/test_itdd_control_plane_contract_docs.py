@@ -12,42 +12,45 @@ def test_execute_requires_idd_and_isolated_build_workspace():
     assert "preparation evidence" in text
 
 
-def test_usage_documents_planning_handoff_and_separate_execution():
+def test_current_onboarding_is_unreleased_and_data_first():
+    readme = (ROOT / "README.md").read_text()
+    getting_started = (ROOT / "docs" / "GETTING-STARTED.md").read_text()
     usage = (ROOT / "docs" / "agents" / "itdd-in-prime-usage.md").read_text()
-    for required in (
-        "/idd",
-        "/itdd-prepare",
-        "Planning handoff (current default)",
-        "Return spec and ticket links",
-        "Stop.",
-        "A `ready-for-agent` ticket is not execution authorization",
-        "Separate execution path (not part of planning)",
-        ".idd/build_workspaces/",
-        "BUILD",
-        "TEST",
-        "VERIFY",
-    ):
-        assert required in usage
 
-    handoff = (ROOT / "docs" / "agents" / "itdd-preparation-execution-handoff.md").read_text()
-    assert "/idd" in handoff
-    assert ".idd/build_workspaces/" in handoff
-    assert ".idd/preparation/" in handoff
+    for text in (readme, getting_started, usage):
+        assert "Unreleased" in text
+        assert "collect" in text.lower()
+        assert "/itdd-prepare" in text
+        assert "ready-for-agent" in text
+        assert "BUILD" in text
+        assert "TEST" in text
+        assert "VERIFY" in text
+
+    assert "not currently in use" in readme.lower()
+    assert "/itdd-new` is optional" in readme
+    assert "A separate explicit request" in usage
+    assert "Return the links" in getting_started
 
 
-def test_preparation_handoff_documents_lazy_helper_routing_and_boundaries():
-    text = (ROOT / "docs" / "agents" / "itdd-preparation-execution-handoff.md").read_text()
-    assert "## Lazy helper-skill routing" in text
-    assert "/itdd-prepare` is an explicit router" in text
-    for phrase in (
-        "`grilling` for", "`research` for", "`domain-modeling` only",
-        "`codebase-design` when", "`tdd` for", "`writing-for-agents` for",
-        "`code-review` for", "`diagnosing-bugs` only",
-        "fresh phase-agent", "ITDD role separation",
-        "No helper can approve intent", "execute BUILD, TEST, or VERIFY",
-        "future Kanban/UI consumer", "out of current implementation scope",
-    ):
-        assert phrase in text
-    for field in ("question", "recommendation", "human answer", "blocker", "phase", "execution identity"):
-        assert f"`{field}`" in text
-    assert "no UI is added" in text
+def test_legacy_guides_are_archived_and_linked_from_archive_index():
+    archive = (ROOT / "docs" / "archive" / "README.md").read_text()
+    old_getting_started = (ROOT / "docs" / "archive" / "guides" / "GETTING-STARTED-LEGACY.md").read_text()
+    old_handoff = (ROOT / "docs" / "archive" / "guides" / "itdd-preparation-execution-handoff.md").read_text()
+    legacy_examples = (ROOT / "docs" / "archive" / "guides" / "legacy-controller-examples.md").read_text()
+
+    assert "superseded" in old_getting_started
+    assert "not current onboarding or authorization to execute" in old_handoff
+    assert "not current onboarding" in legacy_examples
+    for title in ("Legacy Getting Started guide", "Preparation-to-execution handoff", "Legacy controller examples"):
+        assert title in archive
+
+
+def test_archive_explains_research_and_evidence_status():
+    archive = (ROOT / "docs" / "archive" / "README.md").read_text()
+    inventory = (ROOT / "docs" / "archive" / "SOURCE-INVENTORY.md").read_text()
+    history = (ROOT / "docs" / "archive" / "ENGINEERING-HISTORY.md").read_text()
+    assert "source inventory" in archive.lower()
+    assert "Historical acceptance" in archive
+    assert "private session metadata" in archive
+    assert "not a complete activity log" in history
+    assert "does not certify the source set as sanitized" in inventory.lower()

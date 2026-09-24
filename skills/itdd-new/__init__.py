@@ -65,7 +65,7 @@ def initialize_itdd_project(root: Path) -> dict:
         error_msg += "Missing or invalid components:\n"
         for err in pocock_errors:
             error_msg += f"  - {err}\n"
-        error_msg += "\nSee docs/GETTING-STARTED.md for the complete workflow."
+        error_msg += "\nSee docs/GETTING-STARTED.md for the current planning path; /itdd-new is optional later-stage setup."
         result["errors"].append(error_msg)
         return result
     

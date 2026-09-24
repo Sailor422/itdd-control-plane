@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a research thesis on **reliable autonomous software engineering**. The core argument is that AI agents should be treated as powerful but disposable reasoning workers, while durable authority over intent, lifecycle, state, and verification must live outside the probabilistic reasoning process.
+This project explores and prototypes a research thesis on **reliable autonomous software engineering**. The ideas below are research direction, not a claim that the proposed architecture is fully implemented or in production use. The core argument is that AI agents should be treated as powerful but disposable reasoning workers, while durable authority over intent, lifecycle, state, and verification must live outside the probabilistic reasoning process.
 
 ## The Central Proposition
 
@@ -20,9 +20,9 @@ AI coding agents have shifted software engineering from a primarily code-product
 - **False-positive acceptance** - Work is marked complete when it isn't
 - **Unrecoverable state** - Interruptions leave the system in limbo
 
-## Key Innovations
+## Design Concepts Explored
 
-This thesis combines several research strands into a unified architecture:
+This thesis proposes combining several research strands into a unified architecture:
 
 1. **Intent-Driven Development (IDD)** - Human intent as durable authority, separate from mutable execution plans
 2. **Test-Driven Development (TDD)** - Evidence-bound verification before acceptance
@@ -76,30 +76,21 @@ The thesis document covers:
 9. **Evaluation Plan** - Metrics, milestones, empirical validation
 10. **Limitations & Future Work** - What this thesis does not yet prove
 
-## Current Implementation Status
+## Current Project Status
 
-This repo implements the thesis architecture with **Prime Agent** as the execution harness:
+This repository is in development. The product has not been released and is not currently in use. The central thesis and much of the architecture describe research direction and experimental controller work, not the current planning-first product path.
 
-- ✅ Single-EU execution verified (see [`work/proofs/`](work/proofs/))
-- ✅ Controller-owned lifecycle (`control/operational.py`)
-- ✅ Prime integration via `PrimeBuilderAdapter`
-- ✅ Independent verification (spec + standards)
-- ✅ Evidence-backed operations
-- ⏳ Multi-EU orchestration (roadmap)
-- ⏳ Additional harness support (Codex, Claude, custom)
-
-> **⚠️ Work in Progress** — This is a research prototype, not production-ready.
-> APIs and workflows may change as the project evolves.
+Historical reports may record a local PASS or accepted milestone. Such a status applies only to the named candidate, baseline, and test; it does not establish product release, production readiness, or current reproducibility. See the [contributor archive](archive/README.md) for source notes and limitations.
 
 ## For Researchers
 
-If you're evaluating this work:
+If you are evaluating this work:
 
-1. **Read the thesis first** - Understand the research proposition
-2. **Examine the proof** - See `work/proofs/prime-single-eu-20260921T034058Z-clean4/`
-3. **Review the architecture** - See `docs/architecture/` for component details
-4. **Check the evidence** - Each stage has independent verification reports
-5. **Test the implementation** - Run `PYTHONPATH=. pytest -q` (156 tests pass)
+1. Read the thesis as a research proposition, not a product specification.
+2. Read the current [planning-first Getting Started guide](GETTING-STARTED.md).
+3. Review the [architecture notes](architecture/) and [archive source inventory](archive/SOURCE-INVENTORY.md).
+4. Check individual evidence files for scope, baseline, and provenance before relying on them.
+5. Collect current source data before forming conclusions; do not assume older test counts or status snapshots still apply.
 
 ## Citation
 

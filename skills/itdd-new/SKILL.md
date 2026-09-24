@@ -109,5 +109,6 @@ Then:
 ## See Also
 
 - `/setup-matt-pocock-skills` - Configure Matt Pocock engineering skills
-- `docs/GETTING-STARTED.md` - Complete setup guide
-- `docs/agents/itdd-in-prime-usage.md` - Full ITDD workflow
+- `docs/GETTING-STARTED.md` - Current planning-first guide; `/itdd-new` is optional later-stage setup
+- `docs/archive/guides/GETTING-STARTED-LEGACY.md` - Archived execution-era setup guide (historical only)
+- `docs/agents/itdd-in-prime-usage.md` - Current planning handoff in Prime
