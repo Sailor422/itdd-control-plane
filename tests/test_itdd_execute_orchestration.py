@@ -255,3 +255,53 @@ def test_mutation_during_test_is_recorded_and_fails_closed(tmp_path: Path):
     assert record["candidate_git_clean"] is False
     assert record["candidate_unchanged"] is False
     assert verify_gate_decision(record, identity)["allowed"] is False
+
+
+def admission_fixture(tmp_path):
+    from tools.itdd_execute import admit_task
+    packet = {
+        "objective": "Implement the #57 task-admission boundary: only a separately authorized, single-ticket request with the approved packet may reach the injected role runner.",
+        "allowed_paths": ["tools/itdd_execute.py", "tests/test_itdd_execute_orchestration.py"],
+        "forbidden_paths": ["all repository paths other than the two allowed paths", "BUILD→TEST→VERIFY sequencing", "candidate/evidence binding", "Prime-host integration or live-host proof", "model/provider/fallback selection or model-specific launcher", "issue-tracker changes, promotion, merge, or tagging"],
+        "starting_commit": "12119dc10509684be8b7cfd444bcca8f6ab2b720",
+        "acceptance_criteria": ["Missing request IDs, zero/multiple IDs, a mismatch with source_ticket_id, or invalid ticket identity fails before the injected runner is called.", "A modified objective, path, criterion, test list, invalid baseline, dirty checkout, or malformed packet fails before any role launches.", "A valid request and packet produce the exact six-field role packet; controller metadata stays separate.", "Tests prove every negative admission case results in zero runner calls, and the valid case accepts only the approved packet.", "No model/provider/fallback selector or model-specific launcher is introduced."],
+        "relevant_tests": ["tests/test_itdd_execute_orchestration.py"],
+    }
+    import subprocess
+    (tmp_path / "baseline.txt").write_text("baseline")
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.name", "test"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "add", "baseline.txt"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "commit", "-qm", "baseline"], cwd=tmp_path, check=True)
+    packet["starting_commit"] = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=tmp_path, text=True).strip()
+    return packet
+
+def test_admit_task_rejects_bad_requests_before_runner(tmp_path):
+    import subprocess
+    from tools.itdd_execute import admit_task
+    packet = admission_fixture(tmp_path)
+    calls = []
+    baseline = packet["starting_commit"]
+    cases = [([], "57", packet, baseline), (["57", "58"], "57", packet, baseline), (["58"], "57", packet, baseline), (["abc"], "abc", packet, baseline), (["57"], "57", {**packet, "objective": "altered"}, baseline), (["57"], "57", {**packet, "allowed_paths": ["tools/itdd_execute.py"]}, baseline), (["57"], "57", {**packet, "acceptance_criteria": []}, baseline), (["57"], "57", {**packet, "relevant_tests": []}, baseline), (["57"], "57", packet, "bad-baseline"), (["57"], "57", {"objective": "malformed"}, baseline)]
+    for ids, source, candidate, base in cases:
+        with pytest.raises((ValueError, RuntimeError)):
+            admit_task(request_ids=ids, source_ticket_id=source, packet=candidate, approved_packet=packet, baseline_sha=base, root=tmp_path, runner=lambda value: calls.append(value))
+    assert calls == []
+
+def test_admit_task_rejects_dirty_checkout_before_runner(tmp_path):
+    from tools.itdd_execute import admit_task
+    packet = admission_fixture(tmp_path)
+    (tmp_path / "dirty").write_text("x")
+    calls = []
+    with pytest.raises((ValueError, RuntimeError)):
+        admit_task(request_ids=["57"], source_ticket_id="57", packet=packet, approved_packet=packet, baseline_sha=packet["starting_commit"], root=tmp_path, runner=lambda value: calls.append(value))
+    assert calls == []
+
+def test_admit_task_dispatches_exact_six_fields_only(tmp_path):
+    from tools.itdd_execute import admit_task
+    packet = admission_fixture(tmp_path)
+    calls = []
+    result = admit_task(request_ids=["57"], source_ticket_id="57", packet=packet, approved_packet=packet, baseline_sha=packet["starting_commit"], root=tmp_path, runner=lambda value: calls.append(value))
+    assert calls == [packet]
+    assert result == packet

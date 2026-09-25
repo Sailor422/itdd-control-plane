@@ -27,6 +27,36 @@ ALLOWED_PATHS = {"tools/itdd_execute.py", "tests/test_itdd_execute_orchestration
 CONTROLLER_ASSIGNMENTS: dict[str, dict[str, object]] = {}
 
 
+ROLE_PACKET_FIELDS = ("objective", "allowed_paths", "forbidden_paths", "starting_commit", "acceptance_criteria", "relevant_tests")
+
+def admit_task(*, request_ids: list[str], source_ticket_id: str, packet: dict[str, object], approved_packet: dict[str, object], baseline_sha: str, root: Path, runner):
+    """Validate separately authorized single-ticket work before role dispatch."""
+    if not isinstance(request_ids, list) or len(request_ids) != 1:
+        raise ValueError("exactly one request ID is required")
+    ticket = request_ids[0]
+    if not isinstance(ticket, str) or not ticket.isdecimal() or ticket.startswith("0"):
+        raise ValueError("invalid ticket identity")
+    if source_ticket_id != ticket:
+        raise ValueError("request ID does not match source ticket")
+    for candidate in (packet, approved_packet):
+        if not isinstance(candidate, dict) or set(candidate) != set(ROLE_PACKET_FIELDS):
+            raise ValueError("malformed six-field task packet")
+    if packet != approved_packet:
+        raise ValueError("task packet differs from approved packet")
+    if not isinstance(baseline_sha, str) or len(baseline_sha) != 40 or any(c not in "0123456789abcdef" for c in baseline_sha):
+        raise ValueError("invalid baseline")
+    if packet["starting_commit"] != baseline_sha:
+        raise ValueError("baseline differs from approved packet")
+    state = candidate_git_state(root)
+    if not state["clean"]:
+        raise RuntimeError("dirty checkout")
+    if state["candidate_commit_sha"] != baseline_sha:
+        raise RuntimeError("checkout does not match approved baseline")
+    role_packet = {key: packet[key] for key in ROLE_PACKET_FIELDS}
+    runner(role_packet)
+    return role_packet
+
+
 def allowed_test_command_for(test_dir: Path) -> str:
     return f"cd {test_dir} && PYTHONPATH={test_dir} PYTHONDONTWRITEBYTECODE=1 pytest -q tests/test_itdd_execute_orchestration.py -p no:cacheprovider --basetemp=$TMPDIR/pytest"
 
