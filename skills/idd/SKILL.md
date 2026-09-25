@@ -9,6 +9,10 @@ disable-model-invocation: true
 `/idd` routes work and checks authority. It does not implement code, run tests,
 approve proposals, or advance lifecycle state.
 
+## Resume before clarifying
+
+When resuming, inspect the current conversation, approved source contract, project ledger when present, exact assigned worktree, and preserved BUILD/TEST/VERIFY evidence before declaring context missing or asking the human to repeat details. Reconstruct scope, baseline, last completed phase, and next authorized action from those records. For repair, use the failed candidate SHA as the new baseline and preserve prior reports. Ask only for genuinely missing facts or authority; never infer approval. A directive that covers the exact phase does not require repeated confirmation, but any controller-owned approval record required by the process remains mandatory.
+
 ## Route first
 
 1. **Planning or unbounded work:** route to `/itdd-prepare`. Follow the

@@ -7,6 +7,10 @@ description: "Orchestrate a bounded ITDD implementation milestone through three 
 
 Use this skill only after the work is bounded by an approved spec, ticket, or milestone. Do not use it to invent scope or replace intent development. Every BUILD, TEST, and VERIFY invocation must be entered through the `/idd` top-level directive. The three roles run in an isolated workspace below the project `.idd/build_workspaces/` boundary; never run them in the ordinary working tree or in preparation evidence directories.
 
+## Resume preflight
+
+Before launching or replacing a role, inspect the live agent roster, exact assigned worktree HEAD and status, and latest role report. Match each report and evidence to the controlling contract, role, and candidate. Reconcile any conflict from durable evidence before acting; fail closed if identity or state remains ambiguous. Do not spawn a replacement for a completed phase. This preflight selects the next authorized action; it does not waive any required role execution, controller-owned approval, or controller authority.
+
 ## Core contract
 
 Run exactly three acceptance roles in order:
